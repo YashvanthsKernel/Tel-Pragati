@@ -1,0 +1,20 @@
+{
+  "model": "failure_risk",
+  "horizons": {
+    "7d": {
+      "auc_raw": 0.5486,
+      "auc_cal": 0.4712,
+      "brier_cal": 0.0477,
+      "ece_cal": 0.244,
+      "passed": false
+    },
+    "30d": {
+      "auc_raw": 0.3913,
+      "auc_cal": 0.4728,
+      "brier_cal": 0.106,
+      "ece_cal": 0.6089,
+      "passed": false
+    }
+  },
+  "passed_promotion": false
+}

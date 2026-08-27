@@ -1,0 +1,32 @@
+{
+  "pipeline_start": "2026-08-27T09:38:52.676716+00:00",
+  "models": {
+    "forecaster": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid model name ('production_forecaster/1h/p10') provided. Model name must be a non-empty string and cannot contain the following characters: ('/', ':', '.', '%', '\"', \"'\")"
+    },
+    "viscosity": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid format specifier '.4f if isinstance(v, float) else v' for object of type 'bool'"
+    },
+    "dynamometer": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid format specifier '.4f if isinstance(v, float) else v' for object of type 'float'"
+    },
+    "failure": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid model name ('failure_risk/7d/model') provided. Model name must be a non-empty string and cannot contain the following characters: ('/', ':', '.', '%', '\"', \"'\")"
+    },
+    "anomaly": {
+      "passed": false,
+      "status": "error",
+      "error": "at least one array or dtype is required"
+    }
+  },
+  "pipeline_end": "2026-08-27T09:45:26.413438+00:00",
+  "all_passed": false
+}

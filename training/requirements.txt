@@ -1,0 +1,39 @@
+"""
+Baghewala Digital Twin — Training Pipeline Requirements
+Pinned for reproducibility. GPU-optional: LightGBM and XGBoost fall back to CPU automatically.
+"""
+# Core ML
+lightgbm>=4.3.0
+xgboost>=2.0.3
+scikit-learn>=1.5.0
+
+# Experiment tracking + model registry
+mlflow>=2.13.0
+
+# Hyperparameter optimization
+optuna>=3.6.0
+
+# Explainability
+shap>=0.45.0
+
+# Data processing
+pandas>=2.2.0
+numpy>=1.26.0
+pyarrow>=16.0.0        # for Parquet support
+
+# Calibration / stats
+scipy>=1.13.0
+
+# Data validation (lightweight in-pipeline check; full GE suite in CI)
+pandera>=0.19.0
+
+# Utilities
+tqdm>=4.66.0
+pyyaml>=6.0.1
+
+# Optional: Evidently drift monitoring (used by monitoring/ module)
+# evidently>=0.4.30
+
+# Optional: GPU builds (comment in if GPU available)
+# lightgbm==4.3.0+cuda  (requires separate install)
+# xgboost[cuda]>=2.0.3

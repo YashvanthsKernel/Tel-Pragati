@@ -1,0 +1,160 @@
+# Dataset: Baghewala Digital Twin - Maintenance & Failure Event Log
+# Version: 1.3.0
+# Generated: 2026-08-27T13:55:00Z
+# Description: 150 maintenance/failure events across 5 wells over 3 years
+# Schema: WellState Canonical v1.0 (Event Domain)
+# Label Source: weak (derived from workover logs, not direct observation)
+# Event Types: 8 categories | Severity Levels: critical/warning/info
+# Field: Baghewala, Jaisalmer, Rajasthan
+# Random Seed: 42
+event_id,well_id,cycle_id,ts,cycle_day,event_type,severity,failure_depth_m,description,downtime_hours,repair_cost_inr,root_cause,preceding_fmi,preceding_viscosity_cp,preceding_spm,preceding_motor_current_a,corrective_action,mtbf_days,label_source,source
+EVT-00076,BGW-15,CYC-014,2023-08-30T02:35:10Z,59.1,pump_unseating,warning,,Pump Unseating occurred on well BGW-15,165.9,272406.65,high_viscosity,0.381,177.6,4.1,47.6,pump_reset,,weak,synthetic
+EVT-00085,BGW-08,CYC-014,2023-09-02T16:36:24Z,12.9,pump_unseating,warning,,Pump Unseating occurred on well BGW-08,111.1,39444.78,unknown,0.182,2675.9,5.5,35.9,pump_reset,,weak,synthetic
+EVT-00011,BGW-15,CYC-014,2023-09-04T13:46:44Z,35.5,rod_failure,critical,1085.2,Rod Failure occurred on well BGW-15,19.2,439672.85,mechanical_fatigue,0.13,10196.9,4.6,29.9,rod_replacement,5.5,weak,synthetic
+EVT-00036,BGW-08,CYC-007,2023-09-09T20:48:07Z,50.2,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,19.5,480589.85,thermal_stress,0.302,3682.3,7.9,29.5,valve_swap,7.2,weak,synthetic
+EVT-00138,BGW-05,CYC-006,2023-09-16T18:07:42Z,28.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,70.6,105926.38,unknown,0.397,2617.5,6.2,54.9,parameter_adjustment,,weak,synthetic
+EVT-00073,BGW-08,CYC-006,2023-10-01T20:34:09Z,16.9,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,75.8,121875.76,unknown,0.493,1868.3,7.6,42.6,parameter_adjustment,22.0,weak,synthetic
+EVT-00058,BGW-11,CYC-012,2023-10-13T20:05:54Z,31.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,153.6,193709.42,unknown,0.488,674.9,7.9,31.6,parameter_adjustment,,weak,synthetic
+EVT-00088,BGW-08,CYC-007,2023-10-15T18:39:29Z,59.1,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,11.1,106189.45,corrosion,0.417,1482.8,4.5,37.4,valve_swap,13.9,weak,synthetic
+EVT-00007,BGW-15,CYC-006,2023-11-01T19:25:40Z,8.1,interlock_trip,warning,,Interlock Trip occurred on well BGW-15,99.0,253910.94,operator_error,0.486,446.6,4.7,40.8,parameter_adjustment,58.2,weak,synthetic
+EVT-00048,BGW-05,CYC-003,2023-11-13T06:21:51Z,48.6,rod_failure,critical,765.3,Rod Failure occurred on well BGW-05,138.8,460990.3,mechanical_fatigue,0.092,7128.6,5.6,29.5,rod_replacement,57.5,weak,synthetic
+EVT-00133,BGW-08,CYC-009,2023-11-15T14:10:44Z,29.8,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,93.3,413529.1,operator_error,0.491,1999.8,7.2,31.9,parameter_adjustment,30.8,weak,synthetic
+EVT-00101,BGW-05,CYC-014,2023-11-19T13:45:01Z,48.3,rod_failure,critical,682.3,Rod Failure occurred on well BGW-05,91.6,370628.78,thermal_stress,0.11,11134.7,6.5,40.9,rod_replacement,6.3,weak,synthetic
+EVT-00091,BGW-08,CYC-014,2023-12-01T14:10:06Z,10.8,rod_failure,critical,613.9,Rod Failure occurred on well BGW-08,68.5,43930.31,mechanical_fatigue,0.07,10453.8,4.3,42.2,rod_replacement,16.0,weak,synthetic
+EVT-00100,BGW-15,CYC-011,2023-12-07T10:11:12Z,28.3,interlock_trip,warning,,Interlock Trip occurred on well BGW-15,62.1,184485.85,operator_error,0.27,3842.5,4.8,55.0,parameter_adjustment,35.6,weak,synthetic
+EVT-00098,BGW-08,CYC-011,2023-12-08T13:53:03Z,26.3,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,43.8,426525.3,corrosion,0.179,3334.9,7.7,30.9,valve_swap,7.0,weak,synthetic
+EVT-00072,BGW-04,CYC-015,2023-12-11T12:32:17Z,34.6,interlock_trip,warning,,Interlock Trip occurred on well BGW-04,66.5,188650.7,unknown,0.46,3291.9,7.3,41.5,parameter_adjustment,,weak,synthetic
+EVT-00005,BGW-15,CYC-011,2023-12-12T07:23:28Z,60.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-15,140.8,484653.15,unknown,0.292,2432.7,7.5,51.6,parameter_adjustment,4.9,weak,synthetic
+EVT-00035,BGW-05,CYC-013,2023-12-16T16:24:42Z,21.6,pump_unseating,warning,,Pump Unseating occurred on well BGW-05,115.6,403736.34,unknown,0.272,2170.5,5.5,37.7,pump_reset,27.1,weak,synthetic
+EVT-00109,BGW-04,CYC-015,2023-12-26T12:00:21Z,32.5,tubing_split,critical,,Tubing Split occurred on well BGW-04,91.0,317817.7,corrosion,0.252,57.7,5.4,40.0,tubing_repair,15.0,weak,synthetic
+EVT-00018,BGW-04,CYC-005,2023-12-31T09:56:57Z,14.8,workover,critical,,Workover occurred on well BGW-04,161.8,136405.85,high_viscosity,0.271,3942.8,5.7,54.4,tubing_repair,4.9,weak,synthetic
+EVT-00099,BGW-11,CYC-012,2024-01-15T07:56:39Z,56.6,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,53.4,191456.26,unknown,0.385,4153.3,7.0,44.0,parameter_adjustment,93.5,weak,synthetic
+EVT-00009,BGW-11,CYC-011,2024-01-17T10:37:20Z,21.5,pump_unseating,warning,,Pump Unseating occurred on well BGW-11,54.5,377172.92,high_viscosity,0.31,4992.3,8.0,22.6,pump_reset,2.1,weak,synthetic
+EVT-00107,BGW-05,CYC-005,2024-01-24T19:25:10Z,55.5,rod_failure,critical,648.8,Rod Failure occurred on well BGW-05,140.0,380626.37,mechanical_fatigue,0.105,11341.0,4.1,27.5,rod_replacement,39.1,weak,synthetic
+EVT-00135,BGW-15,CYC-015,2024-01-27T04:47:56Z,38.7,rod_failure,critical,354.4,Rod Failure occurred on well BGW-15,166.4,370963.08,mechanical_fatigue,0.096,8568.0,6.0,39.7,rod_replacement,45.9,weak,synthetic
+EVT-00096,BGW-15,CYC-001,2024-02-08T08:14:59Z,29.8,pump_unseating,warning,,Pump Unseating occurred on well BGW-15,136.6,419501.7,unknown,0.327,904.2,5.0,35.3,pump_reset,12.1,weak,synthetic
+EVT-00126,BGW-15,CYC-011,2024-02-11T23:55:33Z,39.3,pump_unseating,warning,,Pump Unseating occurred on well BGW-15,151.7,172121.7,unknown,0.439,190.4,4.2,42.5,pump_reset,3.7,weak,synthetic
+EVT-00102,BGW-05,CYC-014,2024-02-20T19:45:02Z,43.1,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,105.7,451814.71,unknown,0.294,3398.0,5.0,35.5,parameter_adjustment,27.0,weak,synthetic
+EVT-00116,BGW-11,CYC-008,2024-02-25T15:25:26Z,24.3,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,9.0,435668.4,unknown,0.246,4901.1,7.8,22.6,parameter_adjustment,39.2,weak,synthetic
+EVT-00089,BGW-11,CYC-007,2024-03-06T13:28:33Z,34.3,rod_failure,critical,418.6,Rod Failure occurred on well BGW-11,94.7,335683.85,mechanical_fatigue,0.086,10194.3,5.7,36.1,rod_replacement,9.9,weak,synthetic
+EVT-00093,BGW-04,CYC-013,2024-03-08T03:39:06Z,39.5,routine_maintenance,info,,Routine Maintenance occurred on well BGW-04,79.0,284049.06,unknown,0.452,3154.7,4.6,22.4,parameter_adjustment,67.7,weak,synthetic
+EVT-00031,BGW-11,CYC-005,2024-03-13T04:12:01Z,25.9,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,37.1,166788.67,unknown,0.413,4168.0,5.0,22.9,parameter_adjustment,6.6,weak,synthetic
+EVT-00120,BGW-11,CYC-003,2024-04-02T09:29:27Z,51.9,rod_failure,critical,629.4,Rod Failure occurred on well BGW-11,151.2,225330.04,high_viscosity,0.11,9966.8,6.2,30.2,rod_replacement,20.2,weak,synthetic
+EVT-00078,BGW-15,CYC-010,2024-04-25T19:38:41Z,7.4,tubing_split,critical,,Tubing Split occurred on well BGW-15,132.0,434155.55,mechanical_fatigue,0.375,204.2,8.0,49.7,tubing_repair,73.8,weak,synthetic
+EVT-00017,BGW-05,CYC-011,2024-04-27T07:46:51Z,15.6,rod_failure,critical,511.8,Rod Failure occurred on well BGW-05,145.5,483610.11,mechanical_fatigue,0.108,7797.7,7.9,38.8,rod_replacement,66.5,weak,synthetic
+EVT-00143,BGW-15,CYC-004,2024-04-30T08:04:01Z,7.9,rod_failure,critical,592.6,Rod Failure occurred on well BGW-15,121.1,54769.73,high_viscosity,0.137,11845.4,4.6,42.9,rod_replacement,4.5,weak,synthetic
+EVT-00045,BGW-15,CYC-009,2024-04-30T08:28:28Z,25.9,rod_failure,critical,1063.1,Rod Failure occurred on well BGW-15,51.4,296319.94,mechanical_fatigue,0.101,5421.6,7.8,23.5,rod_replacement,0.0,weak,synthetic
+EVT-00025,BGW-15,CYC-014,2024-05-26T02:54:41Z,11.7,interlock_trip,warning,,Interlock Trip occurred on well BGW-15,24.1,234998.4,unknown,0.364,3610.4,6.0,49.1,parameter_adjustment,25.8,weak,synthetic
+EVT-00119,BGW-08,CYC-002,2024-05-26T13:47:05Z,6.4,workover,critical,,Workover occurred on well BGW-08,32.9,261283.91,high_viscosity,0.421,3535.0,4.9,41.4,tubing_repair,170.0,weak,synthetic
+EVT-00041,BGW-08,CYC-002,2024-05-28T12:55:20Z,44.7,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,54.4,372726.13,unknown,0.226,2446.8,6.9,54.2,parameter_adjustment,2.0,weak,synthetic
+EVT-00070,BGW-04,CYC-002,2024-06-11T20:19:06Z,30.0,rod_failure,critical,839.2,Rod Failure occurred on well BGW-04,113.6,294357.25,thermal_stress,0.06,6636.8,4.1,50.9,rod_replacement,95.7,weak,synthetic
+EVT-00127,BGW-15,CYC-004,2024-06-12T01:30:32Z,47.2,rod_failure,critical,595.8,Rod Failure occurred on well BGW-15,108.1,251528.84,thermal_stress,0.108,7114.7,5.0,48.3,rod_replacement,16.9,weak,synthetic
+EVT-00016,BGW-05,CYC-013,2024-06-14T10:03:26Z,43.6,valve_replacement,warning,,Valve Replacement occurred on well BGW-05,65.5,24168.68,thermal_stress,0.22,4596.3,5.4,48.7,valve_swap,48.1,weak,synthetic
+EVT-00056,BGW-04,CYC-013,2024-06-24T18:24:42Z,52.0,workover,critical,,Workover occurred on well BGW-04,58.4,394920.12,unknown,0.249,1527.9,6.3,55.0,parameter_adjustment,12.9,weak,synthetic
+EVT-00132,BGW-11,CYC-001,2024-07-05T04:19:31Z,51.6,rod_failure,critical,609.4,Rod Failure occurred on well BGW-11,148.5,365116.49,mechanical_fatigue,0.054,5358.1,6.2,32.7,rod_replacement,93.8,weak,synthetic
+EVT-00062,BGW-04,CYC-006,2024-07-13T12:44:45Z,28.7,workover,critical,,Workover occurred on well BGW-04,42.5,208965.62,high_viscosity,0.211,3067.0,5.5,43.9,parameter_adjustment,18.8,weak,synthetic
+EVT-00128,BGW-11,CYC-002,2024-07-17T23:42:01Z,42.9,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,28.2,210732.76,unknown,0.269,761.2,7.4,31.2,parameter_adjustment,12.8,weak,synthetic
+EVT-00029,BGW-08,CYC-007,2024-07-19T06:42:25Z,51.9,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,160.3,212415.53,unknown,0.227,2207.4,4.1,31.8,parameter_adjustment,51.7,weak,synthetic
+EVT-00071,BGW-15,CYC-010,2024-08-20T11:52:38Z,17.2,rod_failure,critical,260.1,Rod Failure occurred on well BGW-15,138.8,455146.88,mechanical_fatigue,0.061,5317.4,4.1,54.9,rod_replacement,69.4,weak,synthetic
+EVT-00147,BGW-04,CYC-012,2024-08-23T10:18:52Z,30.2,valve_replacement,warning,,Valve Replacement occurred on well BGW-04,44.7,97168.54,thermal_stress,0.349,3798.5,4.7,50.0,valve_swap,40.9,weak,synthetic
+EVT-00038,BGW-11,CYC-008,2024-08-29T16:34:36Z,51.8,workover,critical,,Workover occurred on well BGW-11,32.2,109999.33,unknown,0.248,3001.0,7.5,39.5,tubing_repair,42.7,weak,synthetic
+EVT-00111,BGW-04,CYC-002,2024-09-21T08:59:50Z,24.0,interlock_trip,warning,,Interlock Trip occurred on well BGW-04,123.7,315987.2,unknown,0.166,2752.8,7.3,26.1,parameter_adjustment,28.9,weak,synthetic
+EVT-00122,BGW-04,CYC-010,2024-09-25T13:01:19Z,25.3,valve_replacement,warning,,Valve Replacement occurred on well BGW-04,135.4,278065.23,corrosion,0.258,4998.0,6.9,38.4,valve_swap,4.2,weak,synthetic
+EVT-00117,BGW-11,CYC-013,2024-09-28T04:32:09Z,46.2,rod_failure,critical,352.0,Rod Failure occurred on well BGW-11,7.2,425091.31,thermal_stress,0.053,5470.6,7.1,32.8,rod_replacement,29.5,weak,synthetic
+EVT-00086,BGW-05,CYC-012,2024-10-05T13:52:35Z,22.8,rod_failure,critical,1094.3,Rod Failure occurred on well BGW-05,101.0,442254.38,high_viscosity,0.118,5348.3,4.3,35.5,rod_replacement,113.2,weak,synthetic
+EVT-00006,BGW-05,CYC-007,2024-10-15T08:30:32Z,19.6,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,132.2,230229.14,unknown,0.204,1518.7,7.9,40.3,parameter_adjustment,9.8,weak,synthetic
+EVT-00019,BGW-04,CYC-010,2024-10-22T04:10:50Z,15.5,routine_maintenance,info,,Routine Maintenance occurred on well BGW-04,9.4,220848.47,unknown,0.301,4746.9,7.7,41.8,parameter_adjustment,26.6,weak,synthetic
+EVT-00074,BGW-04,CYC-004,2024-11-05T08:39:54Z,58.3,pump_unseating,warning,,Pump Unseating occurred on well BGW-04,159.5,412974.59,high_viscosity,0.375,3005.9,4.1,47.5,pump_reset,14.2,weak,synthetic
+EVT-00044,BGW-04,CYC-002,2024-11-08T04:12:30Z,36.7,rod_failure,critical,852.1,Rod Failure occurred on well BGW-04,27.2,406515.33,mechanical_fatigue,0.139,5829.2,7.1,41.2,rod_replacement,2.8,weak,synthetic
+EVT-00008,BGW-05,CYC-015,2024-11-11T12:54:43Z,36.3,rod_failure,critical,750.0,Rod Failure occurred on well BGW-05,8.6,45581.79,thermal_stress,0.134,6429.8,6.9,28.4,rod_replacement,27.2,weak,synthetic
+EVT-00040,BGW-05,CYC-004,2024-11-12T05:22:02Z,21.8,valve_replacement,warning,,Valve Replacement occurred on well BGW-05,98.5,239263.94,thermal_stress,0.499,2774.4,5.4,35.9,valve_swap,0.7,weak,synthetic
+EVT-00106,BGW-04,CYC-007,2024-11-23T17:26:53Z,32.6,workover,critical,,Workover occurred on well BGW-04,41.1,497290.05,unknown,0.16,4657.6,7.4,42.7,parameter_adjustment,15.6,weak,synthetic
+EVT-00081,BGW-11,CYC-002,2024-11-24T22:11:30Z,22.2,valve_replacement,warning,,Valve Replacement occurred on well BGW-11,53.9,131170.45,corrosion,0.173,4167.3,4.4,23.4,valve_swap,57.7,weak,synthetic
+EVT-00124,BGW-05,CYC-015,2024-12-13T03:35:29Z,52.8,valve_replacement,warning,,Valve Replacement occurred on well BGW-05,140.0,261460.56,thermal_stress,0.207,4677.0,4.9,53.2,valve_swap,30.9,weak,synthetic
+EVT-00001,BGW-08,CYC-009,2024-12-19T03:47:04Z,29.8,workover,critical,,Workover occurred on well BGW-08,43.2,36692.82,high_viscosity,0.356,85.6,6.8,22.1,parameter_adjustment,152.9,weak,synthetic
+EVT-00026,BGW-15,CYC-003,2024-12-27T17:18:41Z,45.9,pump_unseating,warning,,Pump Unseating occurred on well BGW-15,80.8,133299.82,high_viscosity,0.418,2630.4,6.5,29.6,pump_reset,129.2,weak,synthetic
+EVT-00028,BGW-15,CYC-001,2025-01-18T15:40:22Z,16.4,rod_failure,critical,599.1,Rod Failure occurred on well BGW-15,152.2,294119.31,thermal_stress,0.127,10359.2,5.5,20.2,rod_replacement,21.9,weak,synthetic
+EVT-00033,BGW-05,CYC-002,2025-01-27T00:33:00Z,36.0,valve_replacement,warning,,Valve Replacement occurred on well BGW-05,38.2,351235.16,thermal_stress,0.362,4820.5,6.9,47.2,valve_swap,44.9,weak,synthetic
+EVT-00144,BGW-11,CYC-004,2025-01-31T06:48:21Z,46.6,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,49.7,146280.59,operator_error,0.378,1199.5,7.0,49.8,parameter_adjustment,67.4,weak,synthetic
+EVT-00087,BGW-11,CYC-008,2025-02-09T06:50:43Z,27.8,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,37.8,258611.42,unknown,0.189,3407.2,6.4,38.4,parameter_adjustment,9.0,weak,synthetic
+EVT-00049,BGW-15,CYC-002,2025-02-18T04:47:22Z,37.9,workover,critical,,Workover occurred on well BGW-15,149.6,368594.29,unknown,0.182,4811.5,7.3,40.1,parameter_adjustment,30.5,weak,synthetic
+EVT-00024,BGW-11,CYC-004,2025-02-18T20:05:49Z,13.1,rod_failure,critical,853.2,Rod Failure occurred on well BGW-11,150.2,430918.08,high_viscosity,0.07,10628.8,6.8,36.3,rod_replacement,9.6,weak,synthetic
+EVT-00131,BGW-08,CYC-002,2025-02-22T02:49:39Z,57.0,pump_unseating,warning,,Pump Unseating occurred on well BGW-08,85.9,483509.88,high_viscosity,0.167,1442.7,6.4,49.5,pump_reset,65.0,weak,synthetic
+EVT-00010,BGW-05,CYC-003,2025-03-03T10:47:27Z,56.3,rod_failure,critical,1036.8,Rod Failure occurred on well BGW-05,148.0,187915.91,high_viscosity,0.125,9924.8,6.4,54.6,rod_replacement,35.4,weak,synthetic
+EVT-00055,BGW-08,CYC-005,2025-03-06T17:22:10Z,27.9,workover,critical,,Workover occurred on well BGW-08,82.1,238748.79,unknown,0.284,4613.2,6.0,50.8,parameter_adjustment,12.6,weak,synthetic
+EVT-00092,BGW-15,CYC-015,2025-03-07T21:46:44Z,47.7,workover,critical,,Workover occurred on well BGW-15,60.3,479320.56,high_viscosity,0.186,1317.0,4.7,25.4,parameter_adjustment,17.7,weak,synthetic
+EVT-00022,BGW-05,CYC-013,2025-03-09T05:55:14Z,54.6,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,134.1,88997.24,unknown,0.33,3183.1,5.3,48.6,parameter_adjustment,5.8,weak,synthetic
+EVT-00113,BGW-08,CYC-014,2025-03-13T20:38:59Z,34.9,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,44.1,377879.0,corrosion,0.275,3915.2,7.5,31.6,valve_swap,7.1,weak,synthetic
+EVT-00097,BGW-11,CYC-010,2025-03-23T09:05:57Z,13.7,interlock_trip,warning,,Interlock Trip occurred on well BGW-11,63.9,145032.32,unknown,0.388,309.2,6.5,31.7,parameter_adjustment,32.5,weak,synthetic
+EVT-00139,BGW-11,CYC-006,2025-03-24T22:09:03Z,57.6,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,78.3,268897.9,unknown,0.364,1001.7,5.0,39.5,parameter_adjustment,1.5,weak,synthetic
+EVT-00108,BGW-05,CYC-012,2025-04-19T11:44:48Z,38.5,pump_unseating,warning,,Pump Unseating occurred on well BGW-05,72.3,389205.45,high_viscosity,0.193,1230.3,6.6,41.8,pump_reset,41.2,weak,synthetic
+EVT-00084,BGW-08,CYC-013,2025-05-17T05:07:35Z,28.6,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,95.1,384879.1,operator_error,0.16,1402.7,7.0,52.3,parameter_adjustment,64.4,weak,synthetic
+EVT-00065,BGW-08,CYC-012,2025-05-17T23:51:10Z,21.2,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,164.3,330823.76,unknown,0.348,3444.7,7.0,21.7,parameter_adjustment,0.8,weak,synthetic
+EVT-00137,BGW-15,CYC-012,2025-05-21T02:05:42Z,7.8,rod_failure,critical,656.4,Rod Failure occurred on well BGW-15,89.0,361985.5,mechanical_fatigue,0.124,6695.4,6.3,44.5,rod_replacement,74.2,weak,synthetic
+EVT-00014,BGW-08,CYC-003,2025-05-26T10:19:53Z,28.6,rod_failure,critical,239.7,Rod Failure occurred on well BGW-08,62.5,466878.57,high_viscosity,0.069,6746.7,4.4,47.3,rod_replacement,8.4,weak,synthetic
+EVT-00077,BGW-05,CYC-001,2025-06-02T09:11:14Z,14.6,interlock_trip,warning,,Interlock Trip occurred on well BGW-05,10.7,372150.44,operator_error,0.317,3901.2,6.1,23.8,parameter_adjustment,43.9,weak,synthetic
+EVT-00042,BGW-15,CYC-002,2025-06-11T01:59:01Z,50.8,rod_failure,critical,481.4,Rod Failure occurred on well BGW-15,61.9,154622.46,thermal_stress,0.075,11820.1,6.2,44.4,rod_replacement,21.0,weak,synthetic
+EVT-00095,BGW-04,CYC-009,2025-07-01T01:10:50Z,26.1,rod_failure,critical,751.3,Rod Failure occurred on well BGW-04,160.4,370765.92,high_viscosity,0.132,9001.6,4.8,41.2,rod_replacement,219.3,weak,synthetic
+EVT-00021,BGW-05,CYC-005,2025-07-01T14:30:15Z,27.3,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,140.4,155418.1,unknown,0.425,3053.0,5.3,35.5,parameter_adjustment,29.2,weak,synthetic
+EVT-00053,BGW-08,CYC-008,2025-07-09T09:45:40Z,39.4,rod_failure,critical,922.0,Rod Failure occurred on well BGW-08,35.8,276863.72,mechanical_fatigue,0.129,8393.0,4.1,42.1,rod_replacement,44.0,weak,synthetic
+EVT-00046,BGW-05,CYC-005,2025-07-12T13:32:50Z,41.3,rod_failure,critical,349.2,Rod Failure occurred on well BGW-05,30.9,42157.11,high_viscosity,0.091,9156.7,5.2,28.1,rod_replacement,11.0,weak,synthetic
+EVT-00067,BGW-05,CYC-015,2025-07-15T13:26:17Z,39.5,rod_failure,critical,237.5,Rod Failure occurred on well BGW-05,132.9,21515.44,mechanical_fatigue,0.058,7065.8,7.0,26.1,rod_replacement,3.0,weak,synthetic
+EVT-00094,BGW-11,CYC-013,2025-07-18T23:57:15Z,20.1,pump_unseating,warning,,Pump Unseating occurred on well BGW-11,11.3,256131.76,operator_error,0.308,331.6,7.3,22.7,pump_reset,116.1,weak,synthetic
+EVT-00051,BGW-11,CYC-008,2025-07-22T17:22:38Z,58.3,pump_unseating,warning,,Pump Unseating occurred on well BGW-11,80.0,207132.31,operator_error,0.45,1682.5,6.8,30.1,pump_reset,3.7,weak,synthetic
+EVT-00013,BGW-05,CYC-005,2025-07-25T06:37:48Z,13.9,rod_failure,critical,619.7,Rod Failure occurred on well BGW-05,119.1,282648.9,high_viscosity,0.135,9837.1,4.6,21.3,rod_replacement,9.7,weak,synthetic
+EVT-00043,BGW-05,CYC-013,2025-07-26T02:31:24Z,32.0,rod_failure,critical,1029.1,Rod Failure occurred on well BGW-05,97.3,237351.49,mechanical_fatigue,0.067,5359.6,7.8,36.7,rod_replacement,0.8,weak,synthetic
+EVT-00060,BGW-11,CYC-014,2025-08-08T05:18:11Z,23.1,pump_unseating,warning,,Pump Unseating occurred on well BGW-11,113.9,269143.04,operator_error,0.455,227.7,4.3,42.1,pump_reset,16.5,weak,synthetic
+EVT-00110,BGW-05,CYC-002,2025-08-24T03:37:21Z,33.8,interlock_trip,warning,,Interlock Trip occurred on well BGW-05,61.9,476934.82,operator_error,0.456,265.5,5.5,33.1,parameter_adjustment,29.0,weak,synthetic
+EVT-00023,BGW-05,CYC-004,2025-09-02T09:13:02Z,49.4,pump_unseating,warning,,Pump Unseating occurred on well BGW-05,26.5,27875.79,operator_error,0.309,4436.4,6.3,45.1,pump_reset,9.2,weak,synthetic
+EVT-00141,BGW-15,CYC-007,2025-09-06T13:52:17Z,54.3,tubing_split,critical,,Tubing Split occurred on well BGW-15,67.5,175841.66,corrosion,0.165,4778.8,4.3,52.3,tubing_repair,87.5,weak,synthetic
+EVT-00079,BGW-11,CYC-008,2025-09-16T23:06:30Z,44.2,rod_failure,critical,621.4,Rod Failure occurred on well BGW-11,151.3,164445.35,high_viscosity,0.061,9370.2,6.3,44.9,rod_replacement,39.7,weak,synthetic
+EVT-00150,BGW-08,CYC-011,2025-09-21T13:23:53Z,55.4,pump_unseating,warning,,Pump Unseating occurred on well BGW-08,51.0,309239.6,high_viscosity,0.317,2302.1,8.0,33.1,pump_reset,74.2,weak,synthetic
+EVT-00047,BGW-08,CYC-008,2025-10-05T11:23:05Z,8.9,rod_failure,critical,421.8,Rod Failure occurred on well BGW-08,45.9,396667.63,thermal_stress,0.088,8811.9,6.6,51.8,rod_replacement,13.9,weak,synthetic
+EVT-00054,BGW-05,CYC-005,2025-10-12T22:07:38Z,35.3,interlock_trip,warning,,Interlock Trip occurred on well BGW-05,93.7,51138.55,operator_error,0.481,3256.2,4.6,52.6,parameter_adjustment,40.5,weak,synthetic
+EVT-00027,BGW-04,CYC-004,2025-10-17T01:05:02Z,19.9,rod_failure,critical,503.7,Rod Failure occurred on well BGW-04,91.7,73495.16,high_viscosity,0.112,9944.9,4.3,34.3,rod_replacement,108.0,weak,synthetic
+EVT-00012,BGW-05,CYC-004,2025-10-21T12:04:15Z,42.8,valve_replacement,warning,,Valve Replacement occurred on well BGW-05,143.6,255177.48,thermal_stress,0.182,2146.7,5.1,20.1,valve_swap,8.6,weak,synthetic
+EVT-00020,BGW-04,CYC-005,2025-10-23T20:24:58Z,32.9,rod_failure,critical,833.5,Rod Failure occurred on well BGW-04,56.1,350118.17,thermal_stress,0.067,9654.5,5.5,46.2,rod_replacement,6.8,weak,synthetic
+EVT-00030,BGW-11,CYC-014,2025-10-28T16:52:01Z,30.7,workover,critical,,Workover occurred on well BGW-11,23.2,313017.2,high_viscosity,0.357,3331.8,4.3,35.0,tubing_repair,41.7,weak,synthetic
+EVT-00115,BGW-04,CYC-002,2025-10-31T21:08:49Z,28.7,interlock_trip,warning,,Interlock Trip occurred on well BGW-04,167.2,94325.96,unknown,0.186,1673.2,5.2,35.6,parameter_adjustment,8.0,weak,synthetic
+EVT-00066,BGW-15,CYC-014,2025-11-20T17:00:30Z,54.7,routine_maintenance,info,,Routine Maintenance occurred on well BGW-15,49.5,400435.76,unknown,0.373,3123.4,6.7,45.2,parameter_adjustment,75.1,weak,synthetic
+EVT-00142,BGW-08,CYC-004,2025-11-23T01:59:30Z,16.1,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,91.4,466846.85,thermal_stress,0.188,3717.4,5.0,21.8,valve_swap,48.6,weak,synthetic
+EVT-00032,BGW-04,CYC-001,2025-11-24T22:20:02Z,60.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-04,60.1,326821.33,unknown,0.482,1036.8,4.1,25.3,parameter_adjustment,24.0,weak,synthetic
+EVT-00103,BGW-08,CYC-013,2025-11-28T14:53:49Z,29.7,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,90.6,158186.61,unknown,0.279,4738.3,7.9,36.2,parameter_adjustment,5.5,weak,synthetic
+EVT-00134,BGW-08,CYC-004,2025-12-01T10:36:14Z,38.1,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,68.6,24926.18,operator_error,0.4,4029.6,6.1,25.2,parameter_adjustment,2.8,weak,synthetic
+EVT-00037,BGW-15,CYC-008,2025-12-23T00:10:07Z,29.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-15,123.4,137855.79,unknown,0.248,2281.5,7.0,39.9,parameter_adjustment,32.3,weak,synthetic
+EVT-00104,BGW-08,CYC-009,2025-12-26T19:46:28Z,34.0,valve_replacement,warning,,Valve Replacement occurred on well BGW-08,162.4,409361.16,corrosion,0.168,2428.9,5.5,52.7,valve_swap,25.4,weak,synthetic
+EVT-00068,BGW-05,CYC-015,2026-01-05T00:25:58Z,58.4,rod_failure,critical,704.3,Rod Failure occurred on well BGW-05,153.6,416083.95,mechanical_fatigue,0.137,7066.0,7.5,48.1,rod_replacement,75.5,weak,synthetic
+EVT-00114,BGW-04,CYC-007,2026-01-19T01:54:10Z,53.9,rod_failure,critical,906.1,Rod Failure occurred on well BGW-04,150.5,196389.16,high_viscosity,0.112,7571.4,7.2,29.3,rod_replacement,55.1,weak,synthetic
+EVT-00004,BGW-08,CYC-002,2026-01-20T10:47:07Z,18.7,rod_failure,critical,380.7,Rod Failure occurred on well BGW-08,76.5,213831.41,mechanical_fatigue,0.072,11462.9,5.8,50.1,rod_replacement,24.6,weak,synthetic
+EVT-00003,BGW-11,CYC-004,2026-01-28T00:24:03Z,10.2,rod_failure,critical,826.0,Rod Failure occurred on well BGW-11,60.8,208495.63,thermal_stress,0.111,11889.2,4.4,34.1,rod_replacement,91.3,weak,synthetic
+EVT-00082,BGW-08,CYC-009,2026-02-01T16:46:45Z,8.3,rod_failure,critical,1108.8,Rod Failure occurred on well BGW-08,95.2,336656.57,mechanical_fatigue,0.129,11587.9,5.7,52.1,rod_replacement,12.2,weak,synthetic
+EVT-00052,BGW-11,CYC-009,2026-02-03T16:02:27Z,7.0,rod_failure,critical,283.7,Rod Failure occurred on well BGW-11,43.9,62381.19,mechanical_fatigue,0.109,8798.2,5.7,26.6,rod_replacement,6.7,weak,synthetic
+EVT-00136,BGW-11,CYC-006,2026-02-06T01:27:26Z,23.2,gear_failure,critical,,Gear Failure occurred on well BGW-11,20.2,211187.43,unknown,0.359,1364.4,6.6,54.0,gear_replacement,2.4,weak,synthetic
+EVT-00123,BGW-11,CYC-002,2026-02-14T09:07:10Z,11.9,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,54.6,41711.68,unknown,0.195,4153.8,6.2,40.6,parameter_adjustment,8.3,weak,synthetic
+EVT-00148,BGW-11,CYC-009,2026-02-18T09:08:25Z,23.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,68.5,52215.63,unknown,0.263,1277.8,5.0,28.2,parameter_adjustment,4.0,weak,synthetic
+EVT-00105,BGW-15,CYC-005,2026-03-16T21:04:18Z,9.6,rod_failure,critical,352.3,Rod Failure occurred on well BGW-15,76.6,259109.61,mechanical_fatigue,0.135,6554.3,5.8,32.2,rod_replacement,83.9,weak,synthetic
+EVT-00121,BGW-08,CYC-012,2026-03-17T02:13:38Z,44.0,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,118.2,91175.05,unknown,0.192,1044.9,4.6,47.7,parameter_adjustment,43.4,weak,synthetic
+EVT-00090,BGW-04,CYC-010,2026-03-28T20:56:30Z,28.6,rod_failure,critical,584.2,Rod Failure occurred on well BGW-04,108.3,148310.03,mechanical_fatigue,0.137,6203.1,7.8,36.1,rod_replacement,68.8,weak,synthetic
+EVT-00130,BGW-11,CYC-007,2026-03-31T02:57:57Z,18.7,routine_maintenance,info,,Routine Maintenance occurred on well BGW-11,145.6,84051.33,unknown,0.216,838.7,8.0,36.3,parameter_adjustment,40.7,weak,synthetic
+EVT-00057,BGW-11,CYC-008,2026-04-01T07:48:52Z,34.6,rod_failure,critical,527.9,Rod Failure occurred on well BGW-11,93.6,273997.88,mechanical_fatigue,0.128,11865.4,5.0,33.4,rod_replacement,1.2,weak,synthetic
+EVT-00059,BGW-04,CYC-008,2026-04-11T02:42:12Z,10.5,rod_failure,critical,1064.9,Rod Failure occurred on well BGW-04,4.5,76356.93,thermal_stress,0.057,10470.7,5.1,41.8,rod_replacement,13.2,weak,synthetic
+EVT-00146,BGW-08,CYC-001,2026-04-13T21:51:08Z,21.4,rod_failure,critical,772.6,Rod Failure occurred on well BGW-08,156.1,170845.85,mechanical_fatigue,0.13,5939.4,6.0,29.5,rod_replacement,27.8,weak,synthetic
+EVT-00125,BGW-15,CYC-014,2026-05-03T20:07:52Z,9.3,rod_failure,critical,386.5,Rod Failure occurred on well BGW-15,160.8,140853.26,thermal_stress,0.105,5654.0,6.6,40.7,rod_replacement,48.0,weak,synthetic
+EVT-00002,BGW-04,CYC-014,2026-05-15T08:10:04Z,23.2,rod_failure,critical,688.4,Rod Failure occurred on well BGW-04,48.2,245280.18,thermal_stress,0.115,11176.7,6.3,28.5,rod_replacement,34.2,weak,synthetic
+EVT-00063,BGW-11,CYC-003,2026-05-23T11:03:15Z,17.8,valve_replacement,warning,,Valve Replacement occurred on well BGW-11,107.9,232487.4,corrosion,0.465,3404.2,4.6,35.5,valve_swap,52.1,weak,synthetic
+EVT-00145,BGW-04,CYC-003,2026-05-23T21:35:40Z,28.0,pump_unseating,warning,,Pump Unseating occurred on well BGW-04,141.0,467291.69,high_viscosity,0.426,972.2,7.0,50.5,pump_reset,8.6,weak,synthetic
+EVT-00140,BGW-05,CYC-005,2026-06-23T20:50:08Z,47.4,rod_failure,critical,869.7,Rod Failure occurred on well BGW-05,116.6,247056.52,mechanical_fatigue,0.1,11541.4,6.9,30.1,rod_replacement,169.9,weak,synthetic
+EVT-00039,BGW-15,CYC-002,2026-07-01T01:50:16Z,18.3,interlock_trip,warning,,Interlock Trip occurred on well BGW-15,69.5,279812.22,operator_error,0.376,2479.6,7.2,23.3,parameter_adjustment,58.2,weak,synthetic
+EVT-00118,BGW-11,CYC-001,2026-07-02T14:46:58Z,38.3,workover,critical,,Workover occurred on well BGW-11,114.7,474667.65,unknown,0.417,2890.9,6.1,33.9,tubing_repair,40.2,weak,synthetic
+EVT-00149,BGW-08,CYC-005,2026-07-07T14:55:55Z,37.0,rod_failure,critical,744.2,Rod Failure occurred on well BGW-08,45.4,182978.28,high_viscosity,0.11,8257.8,4.6,44.0,rod_replacement,84.7,weak,synthetic
+EVT-00069,BGW-11,CYC-003,2026-07-17T07:56:42Z,46.5,pump_unseating,warning,,Pump Unseating occurred on well BGW-11,39.5,339780.24,unknown,0.489,4032.7,5.5,47.7,pump_reset,14.7,weak,synthetic
+EVT-00034,BGW-05,CYC-002,2026-07-19T08:00:54Z,36.8,interlock_trip,warning,,Interlock Trip occurred on well BGW-05,156.2,290019.38,unknown,0.48,1031.7,6.4,49.1,parameter_adjustment,25.5,weak,synthetic
+EVT-00083,BGW-04,CYC-010,2026-07-23T08:45:26Z,22.2,workover,critical,,Workover occurred on well BGW-04,19.2,256169.21,high_viscosity,0.228,585.7,7.4,32.9,tubing_repair,60.5,weak,synthetic
+EVT-00015,BGW-11,CYC-012,2026-07-29T07:48:32Z,13.5,workover,critical,,Workover occurred on well BGW-11,156.4,432979.82,high_viscosity,0.159,3696.0,5.3,52.6,tubing_repair,12.0,weak,synthetic
+EVT-00129,BGW-08,CYC-003,2026-07-31T00:14:27Z,46.8,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,87.5,57561.05,operator_error,0.193,2275.5,4.6,21.8,parameter_adjustment,23.4,weak,synthetic
+EVT-00112,BGW-11,CYC-008,2026-08-05T23:28:04Z,39.7,rod_failure,critical,970.9,Rod Failure occurred on well BGW-11,12.5,389214.25,mechanical_fatigue,0.076,5306.6,4.8,21.5,rod_replacement,7.7,weak,synthetic
+EVT-00064,BGW-08,CYC-005,2026-08-13T11:11:24Z,40.1,routine_maintenance,info,,Routine Maintenance occurred on well BGW-08,72.4,128798.62,unknown,0.5,4274.0,4.4,33.3,parameter_adjustment,13.5,weak,synthetic
+EVT-00075,BGW-05,CYC-013,2026-08-14T17:56:42Z,36.1,routine_maintenance,info,,Routine Maintenance occurred on well BGW-05,13.4,383752.9,unknown,0.435,1203.3,7.1,47.6,parameter_adjustment,26.4,weak,synthetic
+EVT-00080,BGW-11,CYC-009,2026-08-21T02:41:18Z,21.2,rod_failure,critical,680.3,Rod Failure occurred on well BGW-11,73.4,397582.57,high_viscosity,0.089,11216.6,5.7,49.0,rod_replacement,15.1,weak,synthetic
+EVT-00061,BGW-08,CYC-012,2026-08-24T04:17:29Z,10.0,interlock_trip,warning,,Interlock Trip occurred on well BGW-08,164.4,381383.0,operator_error,0.208,1532.4,4.1,31.4,parameter_adjustment,10.7,weak,synthetic
+EVT-00050,BGW-04,CYC-011,2026-08-26T12:45:10Z,50.2,pump_unseating,warning,,Pump Unseating occurred on well BGW-04,97.7,382738.96,high_viscosity,0.332,2239.0,5.1,54.9,pump_reset,34.2,weak,synthetic

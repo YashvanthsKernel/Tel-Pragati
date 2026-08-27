@@ -1,0 +1,81 @@
+# Failure Risk Model — Model Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §7.4
+
+model_name: failure_risk
+version: "1.0.0"
+
+# ─── Prediction Horizons ─────────────────────────────────────────────────────
+horizons_days: [7, 30]   # 7-day and 30-day failure probability
+
+# ─── Feature Configuration ───────────────────────────────────────────────────
+features:
+  groups:
+    - mechanical      # spm, stroke_len, vfd_pct, motor_current, rolling_std_current
+    - dynamometer     # card features + compression_frac
+    - history         # days_since_last_failure, failure_count_trailing_180d
+  # Stacked model: DynamometerClassifier's class probabilities as input features
+  include_classifier_output: true
+  classifier_source: dynamometer_condition_classifier
+
+# ─── Architecture ────────────────────────────────────────────────────────────
+architecture:
+  primary:
+    type: xgboost_binary_classifier
+    label_type: binary_within_horizon   # failure_event=True within N days
+  # If failure timestamps are available, upgrade to survival analysis
+  alternative:
+    type: cox_proportional_hazard   # time-to-event if timestamps available
+    enabled: false
+  # Probability calibration is CRITICAL for this model
+  calibration:
+    method: isotonic_regression    # More flexible than Platt/temperature scaling
+    # Calibration matters more than discrimination for this model:
+    # A well-calibrated 30% is more useful to an operator than a sharp overconfident 90%
+
+# ─── Hyperparameter Search (Optuna) ──────────────────────────────────────────
+hyperparameter_search:
+  n_trials: 50
+  sampler: tpe
+  objective_metric: auc           # primary ranking metric
+  secondary_metric: brier_score   # calibration must be tracked explicitly
+  search_space:
+    learning_rate: [0.01, 0.3, log]
+    n_estimators: [100, 1000]
+    max_depth: [3, 8]
+    min_child_weight: [1, 20]
+    subsample: [0.6, 1.0]
+    colsample_bytree: [0.6, 1.0]
+    scale_pos_weight: [5, 50]    # Strong class imbalance; failures are rare
+
+# ─── Split Strategy ──────────────────────────────────────────────────────────
+split:
+  strategy: by_well_and_time
+  # Time-based split is ESSENTIAL here — never let the model see a well's
+  # future failure history "before" it in training
+  holdout_well_fraction: 0.20
+  holdout_time_fraction: 0.20
+  # Label creation: for each timestamp t, label=True if failure within horizon_days
+  label_lookahead_days: [7, 30]
+
+# ─── Promotion Thresholds ─────────────────────────────────────────────────────
+promotion:
+  auc_min: 0.80
+  # Brier score tracked explicitly — calibration as important as ranking
+  brier_score_max: 0.15    # lower is better; 0 = perfect calibration
+  # On real weak labels: small-n case-study reported, not formal metric
+  real_data_eval_mode: case_study   # "did risk spike before confirmed failures?"
+
+# ─── Explainability ──────────────────────────────────────────────────────────
+explainability:
+  method: shap_force_plot   # per-prediction explanation is NOT optional
+  # This model is most likely to be challenged by OIL engineers
+  # "Why do you think THIS well will fail?" requires per-prediction explanation
+  ui_destination: diagnostics_or_control_recommendation_card
+  top_n_drivers: 5
+
+# ─── Known Failure Modes ─────────────────────────────────────────────────────
+known_failure_modes:
+  - "Real workover logs provide the ONLY real-world ground truth; treat as precious and low-volume"
+  - "n may be too small for formal test-set metrics on real data; honest case-study presentation required"
+  - "Class imbalance is extreme in real data; calibration check against synthetic is a floor, not a ceiling"

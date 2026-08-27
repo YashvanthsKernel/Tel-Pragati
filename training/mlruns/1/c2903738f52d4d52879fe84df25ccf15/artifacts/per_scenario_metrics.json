@@ -1,0 +1,8 @@
+{
+  "synthetic": {
+    "physics_mae": 228.2085,
+    "corrected_mae": 229.3601,
+    "improvement_pct": -0.5,
+    "passed": false
+  }
+}

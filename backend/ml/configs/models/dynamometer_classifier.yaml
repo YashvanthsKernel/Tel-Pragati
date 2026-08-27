@@ -1,0 +1,95 @@
+# Dynamometer Condition Classifier — Model Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §7.3
+
+model_name: dynamometer_condition_classifier
+version: "1.0.0"
+
+# ─── Classes ─────────────────────────────────────────────────────────────────
+classes:
+  - normal
+  - rod_floating
+  - fluid_pound
+  - gas_interference
+  - traveling_valve_leak
+
+# ─── Feature Configuration ───────────────────────────────────────────────────
+features:
+  primary: dynamometer   # card-derived scalar features
+  # peak_load, min_load, card_area, slope_segments, compression_window_frac
+  secondary: raw_card    # raw (load, position) resampled curve — for CNN challenger
+  raw_card_resample_points: 200  # resample every card to fixed 200-point sequence
+
+# ─── Architecture ────────────────────────────────────────────────────────────
+architecture:
+  primary:
+    type: xgboost_classifier
+    features: dynamometer_scalars
+  challenger:
+    type: cnn_1d
+    features: raw_card
+    enabled: true           # synthetic data gives enough class balance immediately
+    # Only promoted if it genuinely beats scalar-feature GBM — don't assume CNN wins
+
+# ─── Class Balance ───────────────────────────────────────────────────────────
+class_balance:
+  # Enforce minimum 15% representation per fault type in training split
+  # Real oilfield faults are rare; deliberate departure from real frequency
+  # corrected for at eval time via stratified test sets
+  min_class_fraction: 0.15
+  strategy: oversample_synthetic   # via emphasis_window_days in generator config
+
+# ─── Hyperparameter Search (Optuna) ──────────────────────────────────────────
+hyperparameter_search:
+  n_trials: 50
+  sampler: tpe
+  objective_metric: macro_f1
+  search_space:
+    learning_rate: [0.01, 0.3, log]
+    n_estimators: [100, 800]
+    max_depth: [3, 8]
+    min_child_weight: [1, 10]
+    subsample: [0.6, 1.0]
+    colsample_bytree: [0.6, 1.0]
+    scale_pos_weight: [1, 10]   # tune for rod_floating class weight
+
+# ─── Split Strategy ──────────────────────────────────────────────────────────
+split:
+  strategy: stratified_by_class_and_well
+  holdout_well_fraction: 0.20
+  holdout_time_fraction: 0.20
+  # Enforce ≥15% minority-class floor in both train and test
+  stratify_by: downhole_card_class_true
+
+# ─── Probability Calibration ─────────────────────────────────────────────────
+calibration:
+  method: temperature_scaling    # Platt-style calibration
+  # First calibrated against held-out synthetic set
+  # Then recalibrated against any real weak labels (Section 5)
+  recalibrate_on_real_labels: true
+
+# ─── Promotion Thresholds ─────────────────────────────────────────────────────
+promotion:
+  macro_f1_min: 0.85
+  # rod_floating recall is asymmetric — missing a real event is much costlier than false alarm
+  rod_floating_recall_min: 0.90
+  # Bias operating threshold toward higher recall for rod_floating
+  rod_floating_decision_threshold: 0.35   # lower than default 0.5
+  golden_set_regression_tolerance_pct: 3.0
+
+# ─── Explainability ──────────────────────────────────────────────────────────
+explainability:
+  primary: shap               # scalar-feature GBM model
+  challenger: grad_cam_1d     # class-activation highlighting of card regions for CNN
+  ui_destination: diagnostics_card_overlay
+
+# ─── Known Failure Modes ─────────────────────────────────────────────────────
+known_failure_modes:
+  - "Real-world cards will have noise/sampling characteristics synthetic generator may not perfectly replicate"
+  - "Treat distribution drift flag on dynamometer features as a signal to review noise model, not just the classifier"
+  - "Only validated on synthetic ground truth until real dynamometer data arrives from OIL"
+
+# ─── Governance ──────────────────────────────────────────────────────────────
+governance:
+  intended_use: "Advisory classification surfaced on /diagnostics; not authorized for Automated-tier dispatch"
+  label_source_required: ground_truth   # must have synthetic ground truth; real weak labels are supplementary

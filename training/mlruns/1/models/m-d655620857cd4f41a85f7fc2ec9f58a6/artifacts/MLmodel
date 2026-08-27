@@ -1,0 +1,27 @@
+artifact_path: file:D:/Tel Pragati/training/mlruns/1/models/m-d655620857cd4f41a85f7fc2ec9f58a6/artifacts
+flavors:
+  lightgbm:
+    code: null
+    data: model.skops
+    lgb_version: 4.7.0
+    model_class: lightgbm.sklearn.LGBMRegressor
+    serialization_format: skops
+    skops_trusted_types:
+    - lightgbm.basic.Booster
+    - collections.OrderedDict
+    - lightgbm.sklearn.LGBMClassifier
+    - lightgbm.sklearn.LGBMRegressor
+  python_function:
+    data: model.skops
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.lightgbm
+    python_version: 3.14.7
+mlflow_version: 3.15.2
+model_id: m-d655620857cd4f41a85f7fc2ec9f58a6
+model_size_bytes: 1087143
+model_uuid: m-d655620857cd4f41a85f7fc2ec9f58a6
+prompts: null
+run_id: 4f56629da96445cdb10c848d3b2c15e8
+utc_time_created: '2026-08-27 10:12:21.150477'

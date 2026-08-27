@@ -1,0 +1,108 @@
+# Anomaly Detector — Model Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §7.5
+
+model_name: anomaly_detector
+version: "1.0.0"
+
+# ─── Architecture: Two-Layer Design ─────────────────────────────────────────
+# LAYER 1: Rule-based (hard bounds, rate-of-change, cross-sensor consistency)
+#   → Runs first, fast, cheap, inherently explainable
+# LAYER 2: Isolation Forest on residual feature set
+#   → Catches softer, multivariate anomalies that rules miss
+# This model's output (quality_flag) is checked FIRST before any other model gets a reading.
+# A 'quarantined' verdict here short-circuits ALL downstream inference.
+
+architecture:
+  layer1_rules:
+    type: rule_based
+    enabled: true
+    priority: 1   # Always runs first
+  layer2_statistical:
+    type: isolation_forest
+    enabled: true
+    priority: 2   # Only if layer1 passes
+    n_estimators: 100
+    contamination: 0.02   # Expected ~2% anomaly rate in normal operations
+
+# ─── Physical Plausibility Rules ─────────────────────────────────────────────
+# These are hard physics constraints — violations are immediate quarantine
+physical_rules:
+  surface_temp_c:
+    min: 10.0    # Below ambient: impossible in Rajasthan desert
+    max: 320.0   # Above max steam injection temp: sensor failure
+  pressure_in_psi:
+    min: 0.0
+    max: 2000.0
+  pressure_out_psi:
+    min: 0.0
+    max: 1500.0
+  flow_bopd:
+    min: 0.0     # Negative flow is physically impossible
+    max: 500.0   # Baghewala well max realistic rate
+  spm:
+    min: 0.0
+    max: 15.0    # Hard mechanical limit for field pumps
+  motor_current_a:
+    min: 0.0
+    max: 100.0
+  vfd_pct:
+    min: 0.0
+    max: 100.0
+
+# ─── Rate-of-Change Limits ───────────────────────────────────────────────────
+# Sudden jumps indicate sensor faults, not real physics
+rate_of_change_per_minute:
+  surface_temp_c: 5.0    # Max 5°C/min change physically plausible
+  pressure_in_psi: 50.0
+  motor_current_a: 20.0
+
+# ─── Cross-Sensor Consistency Rules ─────────────────────────────────────────
+# Physics constraints that MUST hold across sensors
+cross_sensor_rules:
+  - name: pressure_direction
+    rule: "pressure_out_psi <= pressure_in_psi"   # outflow pressure must be <= inflow
+    exceptions: ["wellhead_relief_valve_open"]
+  - name: flow_vs_pump_state
+    rule: "NOT (flow_bopd > 5 AND spm == 0)"    # can't have flow without pump running
+  - name: current_vs_pump_state
+    rule: "NOT (motor_current_a < 2.0 AND spm > 0.5)"  # pump running must draw current
+
+# ─── Isolation Forest Feature Set ───────────────────────────────────────────
+isolation_forest_features:
+  - cross_sensor_residual_temp_flow    # temp anomaly given flow state
+  - cross_sensor_residual_current_spm  # current anomaly given SPM setting
+  - rate_of_change_surface_temp
+  - rate_of_change_motor_current
+  - missingness_rate_1h               # increased missingness itself is a signal
+  - sensor_stuck_at_score             # variance over 30-min window → near-zero = stuck
+
+# ─── Split Strategy / Evaluation ─────────────────────────────────────────────
+evaluation:
+  # No labels needed for unsupervised base; synthetic injected faults provide eval labels
+  test_against: synthetic_fault_injection_windows
+  fault_types_evaluated:
+    - sensor_dropout
+    - sensor_stuck_at
+    - sensor_bias_drift
+
+# ─── Promotion Thresholds ─────────────────────────────────────────────────────
+promotion:
+  precision_min: 0.90    # High precision: don't cry wolf on clean data
+  recall_min: 0.85       # Good recall: catch real anomalies
+  false_positive_rate_normal_ops_max: 0.02   # ≤2% FP on normal_ops scenario
+  # A detector that cries wolf on clean data will get ignored by operators —
+  # which is WORSE than a slightly-missed real fault
+
+# ─── Explainability ──────────────────────────────────────────────────────────
+explainability:
+  rule_trips: inherently_explainable    # Rule trip reason is self-explanatory
+  isolation_forest: feature_contribution  # "which feature looked most unusual"
+  ui_destination: alert_panel
+
+# ─── Output Contract ─────────────────────────────────────────────────────────
+output:
+  quality_flag: enum[ok, missing, out_of_range, quarantined]
+  anomaly_score: float   # Isolation Forest path length, normalized 0-1
+  reason: string         # Human-readable explanation of the flag
+  feature_contributions: dict   # Which feature(s) contributed to the anomaly score

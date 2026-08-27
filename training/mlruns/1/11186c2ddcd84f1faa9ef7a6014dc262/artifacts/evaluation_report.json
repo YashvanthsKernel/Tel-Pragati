@@ -1,0 +1,10 @@
+{
+  "model": "anomaly_detector",
+  "combined_precision": 0.9561,
+  "combined_recall": 0.7267,
+  "combined_f1": 0.8258,
+  "fp_rate_on_normal": 0.05,
+  "if_contamination": 0.05,
+  "n_rules": 21,
+  "passed_promotion": false
+}

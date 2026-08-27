@@ -1,0 +1,12 @@
+{
+  "pipeline_start": "2026-08-27T10:10:58.367251+00:00",
+  "models": {
+    "viscosity": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid format specifier '.4f if isinstance(v, float) else v' for object of type 'bool'"
+    }
+  },
+  "pipeline_end": "2026-08-27T10:11:12.267007+00:00",
+  "all_passed": false
+}

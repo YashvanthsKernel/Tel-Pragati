@@ -1,0 +1,47 @@
+﻿# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+
+# Production build artifacts
+/build
+/dist
+
+# Environment variables
+.env*.local
+.env
+!.env.example
+
+# Debug and log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# Vercel / Deployment
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS metadata
+.DS_Store
+*.pem
+Thumbs.db
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Obsidian vault workspace caches
+**/.obsidian/workspace*
+**/.obsidian/cache/

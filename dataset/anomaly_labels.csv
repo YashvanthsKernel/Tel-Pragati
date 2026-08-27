@@ -1,0 +1,510 @@
+# Dataset: Baghewala Digital Twin - Anomaly Detection Labels
+# Version: 1.3.0
+# Generated: 2026-08-27T13:55:00Z
+# Description: 500 labeled windows (300 anomalies + 200 normal) for sensor health detection
+# Schema: WellState Canonical v1.0 (Anomaly Domain)
+# Anomaly Types: 6 sensor fault types + normal baseline
+# Rule Categories: 15 physical plausibility + 6 cross-sensor consistency checks
+# Field: Baghewala, Jaisalmer, Rajasthan
+# Random Seed: 42
+anomaly_id,well_id,ts_start,ts_end,duration_minutes,anomaly_type,affected_sensor,anomaly_score,is_anomaly,rule_triggered,description,label_source
+ANM-00000,BGW-06,2025-01-01T00:00:00Z,2025-01-01T00:19:00Z,47.14279048214536,none,temp_2,0.14479615340700258,False,,Normal window,ground_truth
+ANM-00001,BGW-01,2025-01-02T00:00:00Z,2025-01-02T00:36:00Z,35.24835585468472,none,flow_rate,0.13951518052402442,False,,Normal window,ground_truth
+ANM-00002,BGW-05,2025-01-03T00:00:00Z,2025-01-03T00:10:00Z,30.137164269883137,sensor_stuck_at,pressure_out,0.9035906904477665,True,Rule-3,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00003,BGW-12,2025-01-04T00:00:00Z,2025-01-04T00:46:00Z,47.98311032236635,sensor_bias_drift,motor_current,0.8629822941149903,True,Rule-12,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00004,BGW-14,2025-01-05T00:00:00Z,2025-01-05T00:29:00Z,30.865732963393807,none,pressure_out,0.3774792969724463,False,,Normal window,ground_truth
+ANM-00005,BGW-19,2025-01-06T00:00:00Z,2025-01-06T00:50:00Z,51.95611512120995,none,rod_load,0.18609357462046228,False,,Normal window,ground_truth
+ANM-00006,BGW-13,2025-01-07T00:00:00Z,2025-01-07T00:27:00Z,13.7723986275113,sensor_dropout,flow_rate,0.6102988367976493,True,Rule-11,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00007,BGW-12,2025-01-08T00:00:00Z,2025-01-08T00:20:00Z,25.476846854723277,sensor_bias_drift,rod_load,0.7494726298260144,True,Rule-4,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00008,BGW-09,2025-01-09T00:00:00Z,2025-01-09T00:33:00Z,56.28247979860742,sensor_dropout,pressure_in,0.9396477380467579,True,Rule-10,Detected sensor_dropout on pressure_in,ground_truth
+ANM-00009,BGW-12,2025-01-10T00:00:00Z,2025-01-10T00:34:00Z,59.97367733601682,rate_of_change_violation,temp_1,0.8916808420109343,True,Rule-14,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00010,BGW-10,2025-01-11T00:00:00Z,2025-01-11T00:47:00Z,20.638711963683157,physical_impossibility,pressure_in,0.9168971978095583,True,Rule-1,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00011,BGW-23,2025-01-12T00:00:00Z,2025-01-12T00:13:00Z,52.259378091880166,none,rod_load,0.23157292267993093,False,,Normal window,ground_truth
+ANM-00012,BGW-14,2025-01-13T00:00:00Z,2025-01-13T00:43:00Z,55.77161369926872,physical_impossibility,temp_1,0.6710896569260426,True,Rule-19,Detected physical_impossibility on temp_1,ground_truth
+ANM-00013,BGW-15,2025-01-14T00:00:00Z,2025-01-14T00:54:00Z,47.17390964256209,none,rod_load,0.39591349939928455,False,,Normal window,ground_truth
+ANM-00014,BGW-02,2025-01-15T00:00:00Z,2025-01-15T00:54:00Z,34.48352798929611,none,pressure_in,0.11568369680601162,False,,Normal window,ground_truth
+ANM-00015,BGW-14,2025-01-16T00:00:00Z,2025-01-16T00:46:00Z,50.84753809669188,sensor_bias_drift,flow_rate,0.792274762899335,True,Rule-12,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00016,BGW-21,2025-01-17T00:00:00Z,2025-01-17T00:34:00Z,48.54739483936031,sensor_bias_drift,pressure_out,0.9909008365099921,True,Rule-1,Detected sensor_bias_drift on pressure_out,ground_truth
+ANM-00017,BGW-19,2025-01-18T00:00:00Z,2025-01-18T00:32:00Z,39.97306786175272,sensor_stuck_at,rod_load,0.6948866386467697,True,Rule-5,Detected sensor_stuck_at on rod_load,ground_truth
+ANM-00018,BGW-04,2025-01-19T00:00:00Z,2025-01-19T00:58:00Z,26.014347665251027,rate_of_change_violation,temp_1,0.9153677726928859,True,Rule-14,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00019,BGW-04,2025-01-20T00:00:00Z,2025-01-20T00:50:00Z,25.544676551133232,none,rod_load,0.29888654006494886,False,,Normal window,ground_truth
+ANM-00020,BGW-08,2025-01-21T00:00:00Z,2025-01-21T00:39:00Z,42.86000757347484,none,flow_rate,0.2522293458651148,False,,Normal window,ground_truth
+ANM-00021,BGW-01,2025-01-22T00:00:00Z,2025-01-22T00:10:00Z,54.22413182091003,sensor_stuck_at,temp_1,0.9682534221747949,True,Rule-6,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00022,BGW-01,2025-01-23T00:00:00Z,2025-01-23T00:39:00Z,18.637168259716,none,pressure_out,0.3049626225479568,False,,Normal window,ground_truth
+ANM-00023,BGW-13,2025-01-24T00:00:00Z,2025-01-24T00:38:00Z,20.995083064310485,cross_sensor_mismatch,temp_1,0.7272406681431509,True,Rule-16,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00024,BGW-11,2025-01-25T00:00:00Z,2025-01-25T00:48:00Z,51.90524071317147,sensor_bias_drift,flow_rate,0.9553063200473342,True,Rule-12,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00025,BGW-07,2025-01-26T00:00:00Z,2025-01-26T00:29:00Z,54.58332497958179,none,motor_current,0.1793506223681265,False,,Normal window,ground_truth
+ANM-00026,BGW-21,2025-01-27T00:00:00Z,2025-01-27T00:45:00Z,55.98688494465171,sensor_bias_drift,flow_rate,0.7122866383943964,True,Rule-11,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00027,BGW-21,2025-01-28T00:00:00Z,2025-01-28T00:55:00Z,41.04493527551655,none,temp_2,0.153544860365334,False,,Normal window,ground_truth
+ANM-00028,BGW-17,2025-01-29T00:00:00Z,2025-01-29T00:36:00Z,48.22608069686086,none,rod_load,0.23694410630479493,False,,Normal window,ground_truth
+ANM-00029,BGW-08,2025-01-30T00:00:00Z,2025-01-30T00:06:00Z,39.634490096337025,cross_sensor_mismatch,motor_current,0.7878226335070136,True,Rule-10,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00030,BGW-05,2025-01-31T00:00:00Z,2025-01-31T00:55:00Z,43.27595913199607,rate_of_change_violation,pressure_out,0.8413575763058356,True,Rule-18,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00031,BGW-11,2025-02-01T00:00:00Z,2025-02-01T00:27:00Z,42.68682806958921,none,temp_1,0.36093838154161184,False,,Normal window,ground_truth
+ANM-00032,BGW-09,2025-02-02T00:00:00Z,2025-02-02T00:07:00Z,54.89417985513827,none,pressure_in,0.1759187028586227,False,,Normal window,ground_truth
+ANM-00033,BGW-05,2025-02-03T00:00:00Z,2025-02-03T00:18:00Z,32.10193465048915,none,temp_1,0.3322122152481636,False,,Normal window,ground_truth
+ANM-00034,BGW-07,2025-02-04T00:00:00Z,2025-02-04T00:20:00Z,46.58966586883224,none,temp_2,0.3001409846750715,False,,Normal window,ground_truth
+ANM-00035,BGW-20,2025-02-05T00:00:00Z,2025-02-05T00:47:00Z,6.242632174846376,physical_impossibility,pressure_out,0.9041352358336897,True,Rule-7,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00036,BGW-14,2025-02-06T00:00:00Z,2025-02-06T00:41:00Z,6.934881620231827,cross_sensor_mismatch,temp_1,0.9510960398660342,True,Rule-10,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00037,BGW-01,2025-02-07T00:00:00Z,2025-02-07T00:27:00Z,47.575134995615834,physical_impossibility,pressure_in,0.7303708202659543,True,Rule-6,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00038,BGW-03,2025-02-08T00:00:00Z,2025-02-08T00:58:00Z,35.369594287957334,cross_sensor_mismatch,temp_2,0.7938041366710826,True,Rule-14,Detected cross_sensor_mismatch on temp_2,ground_truth
+ANM-00039,BGW-08,2025-02-09T00:00:00Z,2025-02-09T00:29:00Z,59.89079140554869,none,pressure_in,0.36104549025554666,False,,Normal window,ground_truth
+ANM-00040,BGW-01,2025-02-10T00:00:00Z,2025-02-10T00:23:00Z,34.809794695221726,cross_sensor_mismatch,temp_2,0.8846998436798064,True,Rule-7,Detected cross_sensor_mismatch on temp_2,ground_truth
+ANM-00041,BGW-12,2025-02-11T00:00:00Z,2025-02-11T00:42:00Z,25.274176727151584,sensor_dropout,motor_current,0.6593992563097993,True,Rule-1,Detected sensor_dropout on motor_current,ground_truth
+ANM-00042,BGW-18,2025-02-12T00:00:00Z,2025-02-12T00:59:00Z,37.6278423402964,sensor_bias_drift,motor_current,0.8969765132357239,True,Rule-10,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00043,BGW-19,2025-02-13T00:00:00Z,2025-02-13T00:15:00Z,56.32835234173599,none,flow_rate,0.1381689255917302,False,,Normal window,ground_truth
+ANM-00044,BGW-16,2025-02-14T00:00:00Z,2025-02-14T00:53:00Z,18.846098863511166,sensor_dropout,rod_load,0.8859822820173068,True,Rule-18,Detected sensor_dropout on rod_load,ground_truth
+ANM-00045,BGW-03,2025-02-15T00:00:00Z,2025-02-15T00:35:00Z,28.38175209396304,sensor_bias_drift,pressure_out,0.9920238172034526,True,Rule-7,Detected sensor_bias_drift on pressure_out,ground_truth
+ANM-00046,BGW-22,2025-02-16T00:00:00Z,2025-02-16T00:16:00Z,58.56926135591972,physical_impossibility,motor_current,0.6035946275570898,True,Rule-9,Detected physical_impossibility on motor_current,ground_truth
+ANM-00047,BGW-02,2025-02-17T00:00:00Z,2025-02-17T00:51:00Z,16.933896418981192,cross_sensor_mismatch,temp_1,0.7309696986617674,True,Rule-5,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00048,BGW-16,2025-02-18T00:00:00Z,2025-02-18T00:56:00Z,18.323359972379777,sensor_stuck_at,temp_2,0.7665432333937208,True,Rule-20,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00049,BGW-23,2025-02-19T00:00:00Z,2025-02-19T00:18:00Z,8.64976293938255,none,temp_1,0.203744036422496,False,,Normal window,ground_truth
+ANM-00050,BGW-07,2025-02-20T00:00:00Z,2025-02-20T00:34:00Z,25.48698568331064,rate_of_change_violation,pressure_out,0.8373214684434608,True,Rule-17,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00051,BGW-10,2025-02-21T00:00:00Z,2025-02-21T00:07:00Z,29.283547341014184,none,temp_2,0.11372464539754036,False,,Normal window,ground_truth
+ANM-00052,BGW-15,2025-02-22T00:00:00Z,2025-02-22T00:06:00Z,38.04214737756928,cross_sensor_mismatch,temp_2,0.8762153100260408,True,Rule-18,Detected cross_sensor_mismatch on temp_2,ground_truth
+ANM-00053,BGW-13,2025-02-23T00:00:00Z,2025-02-23T00:28:00Z,33.732081537164454,sensor_dropout,flow_rate,0.8054554554073277,True,Rule-18,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00054,BGW-05,2025-02-24T00:00:00Z,2025-02-24T00:31:00Z,31.79652070014798,rate_of_change_violation,temp_1,0.7724157925740146,True,Rule-6,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00055,BGW-08,2025-02-25T00:00:00Z,2025-02-25T00:45:00Z,14.939489840603349,rate_of_change_violation,flow_rate,0.77176022991108,True,Rule-9,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00056,BGW-01,2025-02-26T00:00:00Z,2025-02-26T00:13:00Z,43.596488375040884,rate_of_change_violation,motor_current,0.8013270288268448,True,Rule-4,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00057,BGW-02,2025-02-27T00:00:00Z,2025-02-27T00:06:00Z,31.348304388438564,none,temp_2,0.23964759093437316,False,,Normal window,ground_truth
+ANM-00058,BGW-22,2025-02-28T00:00:00Z,2025-02-28T00:36:00Z,57.945403077388235,sensor_bias_drift,temp_2,0.9423886357940859,True,Rule-11,Detected sensor_bias_drift on temp_2,ground_truth
+ANM-00059,BGW-07,2025-03-01T00:00:00Z,2025-03-01T00:45:00Z,16.650936801366786,physical_impossibility,flow_rate,0.6561777027832245,True,Rule-4,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00060,BGW-04,2025-03-02T00:00:00Z,2025-03-02T00:30:00Z,8.193245375494241,none,temp_1,0.343489927745699,False,,Normal window,ground_truth
+ANM-00061,BGW-08,2025-03-03T00:00:00Z,2025-03-03T00:20:00Z,20.473115277466555,sensor_bias_drift,rod_load,0.6791723425500826,True,Rule-11,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00062,BGW-07,2025-03-04T00:00:00Z,2025-03-04T00:59:00Z,18.50901727226032,sensor_stuck_at,pressure_in,0.6443032983004371,True,Rule-7,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00063,BGW-20,2025-03-05T00:00:00Z,2025-03-05T00:40:00Z,40.73588120296964,sensor_bias_drift,flow_rate,0.72183809969779,True,Rule-13,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00064,BGW-23,2025-03-06T00:00:00Z,2025-03-06T00:09:00Z,59.84744380374949,cross_sensor_mismatch,rod_load,0.6200369771214407,True,Rule-8,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00065,BGW-01,2025-03-07T00:00:00Z,2025-03-07T00:18:00Z,53.50156956991033,physical_impossibility,rod_load,0.656184215973964,True,Rule-2,Detected physical_impossibility on rod_load,ground_truth
+ANM-00066,BGW-02,2025-03-08T00:00:00Z,2025-03-08T00:49:00Z,45.68470447475241,physical_impossibility,temp_1,0.6294975703450385,True,Rule-16,Detected physical_impossibility on temp_1,ground_truth
+ANM-00067,BGW-14,2025-03-09T00:00:00Z,2025-03-09T00:24:00Z,47.060473854685895,none,rod_load,0.2938843771904721,False,,Normal window,ground_truth
+ANM-00068,BGW-17,2025-03-10T00:00:00Z,2025-03-10T00:50:00Z,23.943453334132137,sensor_bias_drift,rod_load,0.9562136796837872,True,Rule-7,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00069,BGW-06,2025-03-11T00:00:00Z,2025-03-11T00:15:00Z,50.30861614361406,rate_of_change_violation,temp_1,0.754515864155935,True,Rule-2,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00070,BGW-16,2025-03-12T00:00:00Z,2025-03-12T00:35:00Z,29.33934885574041,none,rod_load,0.38315975943433267,False,,Normal window,ground_truth
+ANM-00071,BGW-19,2025-03-13T00:00:00Z,2025-03-13T00:09:00Z,15.099614457065694,none,rod_load,0.30323371574205105,False,,Normal window,ground_truth
+ANM-00072,BGW-23,2025-03-14T00:00:00Z,2025-03-14T00:46:00Z,13.410641969467475,sensor_bias_drift,flow_rate,0.8874491177830167,True,Rule-5,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00073,BGW-17,2025-03-15T00:00:00Z,2025-03-15T00:07:00Z,26.276188598757543,sensor_stuck_at,pressure_out,0.9882492032094803,True,Rule-18,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00074,BGW-19,2025-03-16T00:00:00Z,2025-03-16T00:22:00Z,7.223485527682904,none,temp_2,0.1856090550184767,False,,Normal window,ground_truth
+ANM-00075,BGW-18,2025-03-17T00:00:00Z,2025-03-17T00:48:00Z,41.04883790012519,sensor_stuck_at,temp_1,0.890647117179746,True,Rule-19,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00076,BGW-09,2025-03-18T00:00:00Z,2025-03-18T00:42:00Z,43.317088220363196,sensor_stuck_at,motor_current,0.8242715859233816,True,Rule-15,Detected sensor_stuck_at on motor_current,ground_truth
+ANM-00077,BGW-01,2025-03-19T00:00:00Z,2025-03-19T00:50:00Z,33.7195940605838,none,pressure_in,0.3700222049488553,False,,Normal window,ground_truth
+ANM-00078,BGW-03,2025-03-20T00:00:00Z,2025-03-20T00:34:00Z,12.931891890597619,sensor_dropout,flow_rate,0.8257933411861718,True,Rule-11,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00079,BGW-15,2025-03-21T00:00:00Z,2025-03-21T00:50:00Z,35.327404532200646,none,motor_current,0.26811895887236026,False,,Normal window,ground_truth
+ANM-00080,BGW-07,2025-03-22T00:00:00Z,2025-03-22T00:24:00Z,19.093475167607927,physical_impossibility,rod_load,0.714898802893793,True,Rule-15,Detected physical_impossibility on rod_load,ground_truth
+ANM-00081,BGW-23,2025-03-23T00:00:00Z,2025-03-23T00:12:00Z,22.630049347920732,cross_sensor_mismatch,motor_current,0.84992769017981,True,Rule-19,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00082,BGW-13,2025-03-24T00:00:00Z,2025-03-24T00:07:00Z,36.72335180808385,physical_impossibility,pressure_out,0.7091718787135117,True,Rule-16,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00083,BGW-05,2025-03-25T00:00:00Z,2025-03-25T00:48:00Z,10.079742500853252,rate_of_change_violation,rod_load,0.8070000730585778,True,Rule-20,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00084,BGW-17,2025-03-26T00:00:00Z,2025-03-26T00:06:00Z,10.78311026253235,none,pressure_in,0.32923222691072795,False,,Normal window,ground_truth
+ANM-00085,BGW-05,2025-03-27T00:00:00Z,2025-03-27T00:38:00Z,48.78468782548707,sensor_dropout,pressure_in,0.8193602769245684,True,Rule-3,Detected sensor_dropout on pressure_in,ground_truth
+ANM-00086,BGW-21,2025-03-28T00:00:00Z,2025-03-28T00:13:00Z,15.212480829426841,none,motor_current,0.13529845096262083,False,,Normal window,ground_truth
+ANM-00087,BGW-17,2025-03-29T00:00:00Z,2025-03-29T00:46:00Z,26.849083001952593,sensor_bias_drift,temp_1,0.6742354889428791,True,Rule-7,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00088,BGW-21,2025-03-30T00:00:00Z,2025-03-30T00:45:00Z,6.737378877622289,none,pressure_in,0.2626760001287892,False,,Normal window,ground_truth
+ANM-00089,BGW-22,2025-03-31T00:00:00Z,2025-03-31T00:57:00Z,41.33189534474526,physical_impossibility,rod_load,0.6953249560883223,True,Rule-8,Detected physical_impossibility on rod_load,ground_truth
+ANM-00090,BGW-05,2025-04-01T00:00:00Z,2025-04-01T00:55:00Z,29.89827095977889,none,temp_2,0.37975418683869433,False,,Normal window,ground_truth
+ANM-00091,BGW-13,2025-04-02T00:00:00Z,2025-04-02T00:06:00Z,33.08180703170159,sensor_dropout,motor_current,0.9743549241470283,True,Rule-12,Detected sensor_dropout on motor_current,ground_truth
+ANM-00092,BGW-12,2025-04-03T00:00:00Z,2025-04-03T00:20:00Z,49.46010909202525,physical_impossibility,temp_2,0.8375658668445007,True,Rule-2,Detected physical_impossibility on temp_2,ground_truth
+ANM-00093,BGW-03,2025-04-04T00:00:00Z,2025-04-04T00:19:00Z,37.875828379955166,physical_impossibility,flow_rate,0.9219308009153837,True,Rule-9,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00094,BGW-21,2025-04-05T00:00:00Z,2025-04-05T00:54:00Z,26.786689723743667,sensor_dropout,pressure_out,0.7304308830443325,True,Rule-14,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00095,BGW-14,2025-04-06T00:00:00Z,2025-04-06T00:54:00Z,18.7783240177475,cross_sensor_mismatch,pressure_in,0.6881491862579157,True,Rule-20,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00096,BGW-18,2025-04-07T00:00:00Z,2025-04-07T00:55:00Z,30.92378596118609,none,rod_load,0.18606813722913937,False,,Normal window,ground_truth
+ANM-00097,BGW-03,2025-04-08T00:00:00Z,2025-04-08T00:13:00Z,58.78463807477646,rate_of_change_violation,flow_rate,0.8932681793821378,True,Rule-20,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00098,BGW-08,2025-04-09T00:00:00Z,2025-04-09T00:12:00Z,35.11378078915048,sensor_stuck_at,pressure_out,0.8471471039678256,True,Rule-5,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00099,BGW-09,2025-04-10T00:00:00Z,2025-04-10T00:18:00Z,49.4215093971843,sensor_stuck_at,temp_1,0.9754449766442022,True,Rule-14,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00100,BGW-06,2025-04-11T00:00:00Z,2025-04-11T00:09:00Z,24.233630049829507,sensor_dropout,pressure_out,0.8907944335989659,True,Rule-19,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00101,BGW-14,2025-04-12T00:00:00Z,2025-04-12T00:43:00Z,23.326110461829618,none,rod_load,0.3637868435316024,False,,Normal window,ground_truth
+ANM-00102,BGW-14,2025-04-13T00:00:00Z,2025-04-13T00:35:00Z,41.98558787027248,none,rod_load,0.15384716068476467,False,,Normal window,ground_truth
+ANM-00103,BGW-14,2025-04-14T00:00:00Z,2025-04-14T00:09:00Z,11.06722467557154,physical_impossibility,temp_1,0.8972835381792894,True,Rule-2,Detected physical_impossibility on temp_1,ground_truth
+ANM-00104,BGW-18,2025-04-15T00:00:00Z,2025-04-15T00:54:00Z,30.419726016452348,physical_impossibility,temp_2,0.6678149095432172,True,Rule-13,Detected physical_impossibility on temp_2,ground_truth
+ANM-00105,BGW-08,2025-04-16T00:00:00Z,2025-04-16T00:37:00Z,41.85055762010532,sensor_stuck_at,pressure_in,0.9687767740742597,True,Rule-17,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00106,BGW-22,2025-04-17T00:00:00Z,2025-04-17T00:06:00Z,43.917386760328064,sensor_stuck_at,pressure_out,0.9283602023790603,True,Rule-8,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00107,BGW-12,2025-04-18T00:00:00Z,2025-04-18T00:23:00Z,8.63225771994836,none,pressure_out,0.13178386851057422,False,,Normal window,ground_truth
+ANM-00108,BGW-15,2025-04-19T00:00:00Z,2025-04-19T00:47:00Z,31.823277102033206,none,rod_load,0.24724070863771913,False,,Normal window,ground_truth
+ANM-00109,BGW-22,2025-04-20T00:00:00Z,2025-04-20T00:27:00Z,28.880533636814448,sensor_dropout,temp_1,0.6723022134094822,True,Rule-16,Detected sensor_dropout on temp_1,ground_truth
+ANM-00110,BGW-05,2025-04-21T00:00:00Z,2025-04-21T00:32:00Z,55.89913302728172,sensor_stuck_at,temp_1,0.674291307540335,True,Rule-3,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00111,BGW-08,2025-04-22T00:00:00Z,2025-04-22T00:24:00Z,14.903915916390558,none,pressure_out,0.34051124409709044,False,,Normal window,ground_truth
+ANM-00112,BGW-14,2025-04-23T00:00:00Z,2025-04-23T00:07:00Z,36.22973552024538,sensor_dropout,pressure_out,0.8713419067217576,True,Rule-9,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00113,BGW-21,2025-04-24T00:00:00Z,2025-04-24T00:46:00Z,25.905391918192787,sensor_dropout,temp_2,0.9182116217663355,True,Rule-7,Detected sensor_dropout on temp_2,ground_truth
+ANM-00114,BGW-14,2025-04-25T00:00:00Z,2025-04-25T00:52:00Z,33.71889886223263,physical_impossibility,temp_1,0.7976762421909267,True,Rule-5,Detected physical_impossibility on temp_1,ground_truth
+ANM-00115,BGW-23,2025-04-26T00:00:00Z,2025-04-26T00:14:00Z,59.1891214713952,none,rod_load,0.34788218381590896,False,,Normal window,ground_truth
+ANM-00116,BGW-15,2025-04-27T00:00:00Z,2025-04-27T00:27:00Z,58.039946886195075,sensor_stuck_at,temp_2,0.7778556510543772,True,Rule-16,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00117,BGW-15,2025-04-28T00:00:00Z,2025-04-28T00:46:00Z,37.98017336226873,none,temp_1,0.1288453137779099,False,,Normal window,ground_truth
+ANM-00118,BGW-07,2025-04-29T00:00:00Z,2025-04-29T00:27:00Z,28.2849403330004,none,pressure_in,0.14010879714146912,False,,Normal window,ground_truth
+ANM-00119,BGW-13,2025-04-30T00:00:00Z,2025-04-30T00:24:00Z,20.644054533796727,sensor_dropout,temp_1,0.6598684183751485,True,Rule-14,Detected sensor_dropout on temp_1,ground_truth
+ANM-00120,BGW-01,2025-05-01T00:00:00Z,2025-05-01T00:21:00Z,28.18742465363071,none,pressure_in,0.3021293744714802,False,,Normal window,ground_truth
+ANM-00121,BGW-05,2025-05-02T00:00:00Z,2025-05-02T00:56:00Z,47.39888936911103,physical_impossibility,rod_load,0.9843628660925842,True,Rule-7,Detected physical_impossibility on rod_load,ground_truth
+ANM-00122,BGW-16,2025-05-03T00:00:00Z,2025-05-03T00:53:00Z,52.579644637378664,rate_of_change_violation,temp_2,0.8111330197691067,True,Rule-19,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00123,BGW-18,2025-05-04T00:00:00Z,2025-05-04T00:22:00Z,50.86427804773194,sensor_bias_drift,temp_2,0.7462850144420861,True,Rule-8,Detected sensor_bias_drift on temp_2,ground_truth
+ANM-00124,BGW-18,2025-05-05T00:00:00Z,2025-05-05T00:55:00Z,57.19297635305947,physical_impossibility,pressure_out,0.8865683265137307,True,Rule-13,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00125,BGW-12,2025-05-06T00:00:00Z,2025-05-06T00:57:00Z,8.593936346355616,rate_of_change_violation,temp_2,0.9984876804450122,True,Rule-18,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00126,BGW-08,2025-05-07T00:00:00Z,2025-05-07T00:11:00Z,25.423283609516947,rate_of_change_violation,rod_load,0.8466429115162551,True,Rule-12,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00127,BGW-16,2025-05-08T00:00:00Z,2025-05-08T00:17:00Z,19.50485831675079,none,temp_1,0.11965804375718017,False,,Normal window,ground_truth
+ANM-00128,BGW-02,2025-05-09T00:00:00Z,2025-05-09T00:44:00Z,44.383611389584054,none,rod_load,0.15051975712586158,False,,Normal window,ground_truth
+ANM-00129,BGW-05,2025-05-10T00:00:00Z,2025-05-10T00:21:00Z,47.75877370270159,none,motor_current,0.21232989692557794,False,,Normal window,ground_truth
+ANM-00130,BGW-08,2025-05-11T00:00:00Z,2025-05-11T00:40:00Z,37.655016462132174,sensor_dropout,rod_load,0.8985918418049721,True,Rule-16,Detected sensor_dropout on rod_load,ground_truth
+ANM-00131,BGW-18,2025-05-12T00:00:00Z,2025-05-12T00:30:00Z,33.34959868840207,physical_impossibility,motor_current,0.6193674511551749,True,Rule-8,Detected physical_impossibility on motor_current,ground_truth
+ANM-00132,BGW-20,2025-05-13T00:00:00Z,2025-05-13T00:56:00Z,23.851210024839506,sensor_dropout,rod_load,0.8955343105208237,True,Rule-19,Detected sensor_dropout on rod_load,ground_truth
+ANM-00133,BGW-17,2025-05-14T00:00:00Z,2025-05-14T00:41:00Z,32.51669117365865,cross_sensor_mismatch,temp_2,0.8882535848805033,True,Rule-5,Detected cross_sensor_mismatch on temp_2,ground_truth
+ANM-00134,BGW-13,2025-05-15T00:00:00Z,2025-05-15T00:18:00Z,10.360401679023596,none,pressure_out,0.2504988924984572,False,,Normal window,ground_truth
+ANM-00135,BGW-07,2025-05-16T00:00:00Z,2025-05-16T00:43:00Z,40.06626729596645,none,flow_rate,0.2725333544036359,False,,Normal window,ground_truth
+ANM-00136,BGW-10,2025-05-17T00:00:00Z,2025-05-17T00:10:00Z,23.142792346174012,none,motor_current,0.14402443076663282,False,,Normal window,ground_truth
+ANM-00137,BGW-17,2025-05-18T00:00:00Z,2025-05-18T00:34:00Z,57.58548530676615,none,temp_1,0.30514082795565123,False,,Normal window,ground_truth
+ANM-00138,BGW-21,2025-05-19T00:00:00Z,2025-05-19T00:27:00Z,9.219909723357063,sensor_dropout,motor_current,0.8397298895402606,True,Rule-16,Detected sensor_dropout on motor_current,ground_truth
+ANM-00139,BGW-02,2025-05-20T00:00:00Z,2025-05-20T00:14:00Z,36.98197399692714,none,rod_load,0.34797105639304515,False,,Normal window,ground_truth
+ANM-00140,BGW-14,2025-05-21T00:00:00Z,2025-05-21T00:40:00Z,52.46229750632303,rate_of_change_violation,rod_load,0.9346213292907495,True,Rule-2,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00141,BGW-22,2025-05-22T00:00:00Z,2025-05-22T00:38:00Z,53.40086977042148,rate_of_change_violation,temp_2,0.7766681560087767,True,Rule-3,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00142,BGW-02,2025-05-23T00:00:00Z,2025-05-23T00:33:00Z,55.98907857066218,physical_impossibility,temp_2,0.7789313131301094,True,Rule-11,Detected physical_impossibility on temp_2,ground_truth
+ANM-00143,BGW-06,2025-05-24T00:00:00Z,2025-05-24T00:21:00Z,27.499949171076043,none,temp_2,0.348200246162937,False,,Normal window,ground_truth
+ANM-00144,BGW-15,2025-05-25T00:00:00Z,2025-05-25T00:07:00Z,10.52865151087597,none,temp_1,0.2037199560904478,False,,Normal window,ground_truth
+ANM-00145,BGW-17,2025-05-26T00:00:00Z,2025-05-26T00:08:00Z,54.719522939579356,none,pressure_out,0.3720277812511168,False,,Normal window,ground_truth
+ANM-00146,BGW-10,2025-05-27T00:00:00Z,2025-05-27T00:40:00Z,31.008952885873303,none,temp_2,0.22345316522144182,False,,Normal window,ground_truth
+ANM-00147,BGW-21,2025-05-28T00:00:00Z,2025-05-28T00:48:00Z,36.22057576401616,none,temp_1,0.38488175838809724,False,,Normal window,ground_truth
+ANM-00148,BGW-04,2025-05-29T00:00:00Z,2025-05-29T00:09:00Z,39.016306261940315,none,flow_rate,0.3787679878270789,False,,Normal window,ground_truth
+ANM-00149,BGW-17,2025-05-30T00:00:00Z,2025-05-30T00:36:00Z,9.008413801447883,none,pressure_in,0.16443692826001427,False,,Normal window,ground_truth
+ANM-00150,BGW-12,2025-05-31T00:00:00Z,2025-05-31T00:46:00Z,54.50992964781097,sensor_stuck_at,pressure_out,0.7442334780754232,True,Rule-3,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00151,BGW-15,2025-06-01T00:00:00Z,2025-06-01T00:46:00Z,33.52670336910596,cross_sensor_mismatch,temp_1,0.95277099060315,True,Rule-7,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00152,BGW-16,2025-06-02T00:00:00Z,2025-06-02T00:11:00Z,29.539055759174442,physical_impossibility,temp_1,0.8386347834675701,True,Rule-4,Detected physical_impossibility on temp_1,ground_truth
+ANM-00153,BGW-07,2025-06-03T00:00:00Z,2025-06-03T00:42:00Z,39.35738415843709,sensor_bias_drift,pressure_in,0.8801048443903952,True,Rule-13,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00154,BGW-08,2025-06-04T00:00:00Z,2025-06-04T00:24:00Z,22.88588871989217,none,temp_2,0.1645673088231412,False,,Normal window,ground_truth
+ANM-00155,BGW-23,2025-06-05T00:00:00Z,2025-06-05T00:24:00Z,23.796117803811637,none,pressure_out,0.2807727747490416,False,,Normal window,ground_truth
+ANM-00156,BGW-23,2025-06-06T00:00:00Z,2025-06-06T00:43:00Z,35.89111060610496,none,rod_load,0.19009650195545036,False,,Normal window,ground_truth
+ANM-00157,BGW-07,2025-06-07T00:00:00Z,2025-06-07T00:42:00Z,58.121131885998985,physical_impossibility,flow_rate,0.8310523278882807,True,Rule-11,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00158,BGW-23,2025-06-08T00:00:00Z,2025-06-08T00:11:00Z,28.98180793280608,rate_of_change_violation,pressure_in,0.6960046447350617,True,Rule-20,Detected rate_of_change_violation on pressure_in,ground_truth
+ANM-00159,BGW-18,2025-06-09T00:00:00Z,2025-06-09T00:26:00Z,47.17575336776775,none,temp_1,0.10550756261287317,False,,Normal window,ground_truth
+ANM-00160,BGW-07,2025-06-10T00:00:00Z,2025-06-10T00:59:00Z,28.04752138497993,none,temp_2,0.14604877981351008,False,,Normal window,ground_truth
+ANM-00161,BGW-09,2025-06-11T00:00:00Z,2025-06-11T00:33:00Z,55.90306307669388,cross_sensor_mismatch,rod_load,0.6467225242676802,True,Rule-15,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00162,BGW-16,2025-06-12T00:00:00Z,2025-06-12T00:10:00Z,42.24531198098306,sensor_dropout,pressure_out,0.9110068844569323,True,Rule-19,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00163,BGW-06,2025-06-13T00:00:00Z,2025-06-13T00:16:00Z,23.72640508829465,none,rod_load,0.25260950634408197,False,,Normal window,ground_truth
+ANM-00164,BGW-06,2025-06-14T00:00:00Z,2025-06-14T00:38:00Z,42.78687405326483,sensor_dropout,temp_2,0.8499395169180068,True,Rule-19,Detected sensor_dropout on temp_2,ground_truth
+ANM-00165,BGW-23,2025-06-15T00:00:00Z,2025-06-15T00:06:00Z,12.905745746435048,sensor_dropout,temp_2,0.8223543107577612,True,Rule-1,Detected sensor_dropout on temp_2,ground_truth
+ANM-00166,BGW-23,2025-06-16T00:00:00Z,2025-06-16T00:25:00Z,54.337394717632705,physical_impossibility,temp_2,0.773920787797457,True,Rule-16,Detected physical_impossibility on temp_2,ground_truth
+ANM-00167,BGW-06,2025-06-17T00:00:00Z,2025-06-17T00:53:00Z,27.752283852691946,none,rod_load,0.2696317172654732,False,,Normal window,ground_truth
+ANM-00168,BGW-08,2025-06-18T00:00:00Z,2025-06-18T00:56:00Z,51.11392279380491,physical_impossibility,pressure_in,0.9704983129409395,True,Rule-16,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00169,BGW-09,2025-06-19T00:00:00Z,2025-06-19T00:32:00Z,43.78703949431953,none,pressure_out,0.11708220127642158,False,,Normal window,ground_truth
+ANM-00170,BGW-02,2025-06-20T00:00:00Z,2025-06-20T00:21:00Z,20.113126085691967,sensor_stuck_at,pressure_in,0.9233862928812475,True,Rule-1,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00171,BGW-07,2025-06-21T00:00:00Z,2025-06-21T00:59:00Z,12.234267829708882,none,flow_rate,0.21317672525206077,False,,Normal window,ground_truth
+ANM-00172,BGW-07,2025-06-22T00:00:00Z,2025-06-22T00:47:00Z,16.569628195654595,sensor_dropout,pressure_out,0.9033547296691015,True,Rule-2,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00173,BGW-16,2025-06-23T00:00:00Z,2025-06-23T00:33:00Z,28.836758324155074,sensor_dropout,motor_current,0.9951448696743456,True,Rule-13,Detected sensor_dropout on motor_current,ground_truth
+ANM-00174,BGW-17,2025-06-24T00:00:00Z,2025-06-24T00:06:00Z,32.19174054934503,cross_sensor_mismatch,motor_current,0.608856530654832,True,Rule-12,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00175,BGW-12,2025-06-25T00:00:00Z,2025-06-25T00:40:00Z,12.180949119395635,none,temp_1,0.1141690544573406,False,,Normal window,ground_truth
+ANM-00176,BGW-10,2025-06-26T00:00:00Z,2025-06-26T00:47:00Z,18.084068648235778,none,temp_2,0.2587823526201551,False,,Normal window,ground_truth
+ANM-00177,BGW-22,2025-06-27T00:00:00Z,2025-06-27T00:30:00Z,37.76306259134959,sensor_bias_drift,flow_rate,0.6865831351490636,True,Rule-3,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00178,BGW-20,2025-06-28T00:00:00Z,2025-06-28T00:29:00Z,18.64290429795988,sensor_dropout,flow_rate,0.9889903868761545,True,Rule-5,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00179,BGW-14,2025-06-29T00:00:00Z,2025-06-29T00:42:00Z,52.526068506450265,none,temp_1,0.12259130032898181,False,,Normal window,ground_truth
+ANM-00180,BGW-04,2025-06-30T00:00:00Z,2025-06-30T00:50:00Z,11.231178325256709,none,rod_load,0.3751265641912134,False,,Normal window,ground_truth
+ANM-00181,BGW-01,2025-07-01T00:00:00Z,2025-07-01T00:12:00Z,15.895371169425216,sensor_stuck_at,pressure_in,0.6384029220404668,True,Rule-5,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00182,BGW-08,2025-07-02T00:00:00Z,2025-07-02T00:08:00Z,28.441207494465427,none,rod_load,0.31418264100351345,False,,Normal window,ground_truth
+ANM-00183,BGW-12,2025-07-03T00:00:00Z,2025-07-03T00:16:00Z,54.009437840886264,none,pressure_in,0.31488814179398605,False,,Normal window,ground_truth
+ANM-00184,BGW-23,2025-07-04T00:00:00Z,2025-07-04T00:43:00Z,12.688839465526444,none,pressure_in,0.27224169753198335,False,,Normal window,ground_truth
+ANM-00185,BGW-21,2025-07-05T00:00:00Z,2025-07-05T00:51:00Z,27.191659386798584,sensor_bias_drift,temp_1,0.7735671196788908,True,Rule-8,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00186,BGW-23,2025-07-06T00:00:00Z,2025-07-06T00:09:00Z,13.964956136535704,none,motor_current,0.23217793421248661,False,,Normal window,ground_truth
+ANM-00187,BGW-02,2025-07-07T00:00:00Z,2025-07-07T00:44:00Z,58.109440057739114,physical_impossibility,pressure_in,0.9672615716779477,True,Rule-10,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00188,BGW-10,2025-07-08T00:00:00Z,2025-07-08T00:31:00Z,36.392361327340254,rate_of_change_violation,temp_2,0.7224289867903897,True,Rule-8,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00189,BGW-09,2025-07-09T00:00:00Z,2025-07-09T00:15:00Z,38.34511516287832,cross_sensor_mismatch,pressure_in,0.9019303491579875,True,Rule-8,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00190,BGW-20,2025-07-10T00:00:00Z,2025-07-10T00:42:00Z,44.52366399617597,rate_of_change_violation,pressure_out,0.6670275833649929,True,Rule-7,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00191,BGW-08,2025-07-11T00:00:00Z,2025-07-11T00:30:00Z,22.508224371480814,rate_of_change_violation,temp_1,0.9784143204977316,True,Rule-8,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00192,BGW-01,2025-07-12T00:00:00Z,2025-07-12T00:23:00Z,33.65367421559185,cross_sensor_mismatch,pressure_in,0.9992936887467896,True,Rule-1,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00193,BGW-13,2025-07-13T00:00:00Z,2025-07-13T00:17:00Z,30.060756139813087,rate_of_change_violation,pressure_in,0.8821341690218086,True,Rule-8,Detected rate_of_change_violation on pressure_in,ground_truth
+ANM-00194,BGW-06,2025-07-14T00:00:00Z,2025-07-14T00:57:00Z,26.20591324169505,sensor_bias_drift,flow_rate,0.8738873472348117,True,Rule-3,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00195,BGW-07,2025-07-15T00:00:00Z,2025-07-15T00:10:00Z,32.424276428977564,sensor_bias_drift,temp_2,0.8764704591009225,True,Rule-19,Detected sensor_bias_drift on temp_2,ground_truth
+ANM-00196,BGW-06,2025-07-16T00:00:00Z,2025-07-16T00:39:00Z,59.77226070933995,rate_of_change_violation,flow_rate,0.9030076169404687,True,Rule-13,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00197,BGW-08,2025-07-17T00:00:00Z,2025-07-17T00:46:00Z,20.53535057481559,cross_sensor_mismatch,temp_2,0.8474864448798435,True,Rule-6,Detected cross_sensor_mismatch on temp_2,ground_truth
+ANM-00198,BGW-05,2025-07-18T00:00:00Z,2025-07-18T00:21:00Z,53.715158227257284,none,rod_load,0.286396886925413,False,,Normal window,ground_truth
+ANM-00199,BGW-09,2025-07-19T00:00:00Z,2025-07-19T00:22:00Z,47.28334090899299,none,pressure_out,0.22468464498263163,False,,Normal window,ground_truth
+ANM-00200,BGW-13,2025-07-20T00:00:00Z,2025-07-20T00:39:00Z,9.669501737471679,sensor_stuck_at,temp_2,0.7423080901784135,True,Rule-15,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00201,BGW-19,2025-07-21T00:00:00Z,2025-07-21T00:53:00Z,53.728181285314776,sensor_bias_drift,pressure_in,0.801611338354618,True,Rule-9,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00202,BGW-13,2025-07-22T00:00:00Z,2025-07-22T00:30:00Z,54.770282560013825,cross_sensor_mismatch,pressure_in,0.8211490433957342,True,Rule-18,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00203,BGW-09,2025-07-23T00:00:00Z,2025-07-23T00:27:00Z,28.451086795487466,sensor_dropout,temp_2,0.6045445938374402,True,Rule-13,Detected sensor_dropout on temp_2,ground_truth
+ANM-00204,BGW-14,2025-07-24T00:00:00Z,2025-07-24T00:41:00Z,27.767602578161302,sensor_dropout,temp_1,0.6534240094636042,True,Rule-1,Detected sensor_dropout on temp_1,ground_truth
+ANM-00205,BGW-13,2025-07-25T00:00:00Z,2025-07-25T00:23:00Z,55.05664154191742,physical_impossibility,pressure_in,0.722173720917646,True,Rule-19,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00206,BGW-08,2025-07-26T00:00:00Z,2025-07-26T00:15:00Z,45.84593956022691,none,temp_1,0.3397645151608685,False,,Normal window,ground_truth
+ANM-00207,BGW-06,2025-07-27T00:00:00Z,2025-07-27T00:20:00Z,16.98883825995324,none,pressure_in,0.3630368487926776,False,,Normal window,ground_truth
+ANM-00208,BGW-19,2025-07-28T00:00:00Z,2025-07-28T00:44:00Z,53.354958343564434,sensor_stuck_at,temp_1,0.9918950390678068,True,Rule-7,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00209,BGW-09,2025-07-29T00:00:00Z,2025-07-29T00:56:00Z,46.630727467689645,none,temp_2,0.31409684721917214,False,,Normal window,ground_truth
+ANM-00210,BGW-06,2025-07-30T00:00:00Z,2025-07-30T00:57:00Z,27.25091511982667,none,flow_rate,0.31435710910816683,False,,Normal window,ground_truth
+ANM-00211,BGW-12,2025-07-31T00:00:00Z,2025-07-31T00:08:00Z,11.584012443088099,cross_sensor_mismatch,pressure_in,0.7331783750395366,True,Rule-12,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00212,BGW-18,2025-08-01T00:00:00Z,2025-08-01T00:21:00Z,30.728149294515617,none,motor_current,0.25126019608673067,False,,Normal window,ground_truth
+ANM-00213,BGW-20,2025-08-02T00:00:00Z,2025-08-02T00:47:00Z,53.344928607789974,sensor_bias_drift,motor_current,0.6931213651333754,True,Rule-11,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00214,BGW-12,2025-08-03T00:00:00Z,2025-08-03T00:48:00Z,41.85549923891471,sensor_stuck_at,pressure_in,0.9631977501961443,True,Rule-20,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00215,BGW-06,2025-08-04T00:00:00Z,2025-08-04T00:31:00Z,52.405810378885924,none,temp_2,0.31351260416622007,False,,Normal window,ground_truth
+ANM-00216,BGW-10,2025-08-05T00:00:00Z,2025-08-05T00:59:00Z,39.430123664379195,sensor_stuck_at,flow_rate,0.7600082946000283,True,Rule-19,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00217,BGW-06,2025-08-06T00:00:00Z,2025-08-06T00:25:00Z,42.261929091103234,sensor_dropout,motor_current,0.8835414653768554,True,Rule-12,Detected sensor_dropout on motor_current,ground_truth
+ANM-00218,BGW-10,2025-08-07T00:00:00Z,2025-08-07T00:49:00Z,46.113076410836655,physical_impossibility,pressure_in,0.9968976496164137,True,Rule-8,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00219,BGW-21,2025-08-08T00:00:00Z,2025-08-08T00:18:00Z,15.036985223131213,sensor_bias_drift,pressure_out,0.836322869436999,True,Rule-2,Detected sensor_bias_drift on pressure_out,ground_truth
+ANM-00220,BGW-01,2025-08-09T00:00:00Z,2025-08-09T00:49:00Z,5.283917508174541,none,pressure_out,0.28001916409198346,False,,Normal window,ground_truth
+ANM-00221,BGW-11,2025-08-10T00:00:00Z,2025-08-10T00:31:00Z,12.976350144502797,none,temp_2,0.28804420853656454,False,,Normal window,ground_truth
+ANM-00222,BGW-08,2025-08-11T00:00:00Z,2025-08-11T00:24:00Z,51.44307597592889,cross_sensor_mismatch,pressure_in,0.9020832112034284,True,Rule-6,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00223,BGW-20,2025-08-12T00:00:00Z,2025-08-12T00:21:00Z,42.27638072962818,sensor_bias_drift,temp_1,0.9377124182087442,True,Rule-16,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00224,BGW-02,2025-08-13T00:00:00Z,2025-08-13T00:13:00Z,8.262879574688283,cross_sensor_mismatch,motor_current,0.79425497510716,True,Rule-10,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00225,BGW-04,2025-08-14T00:00:00Z,2025-08-14T00:49:00Z,34.334426850779415,cross_sensor_mismatch,rod_load,0.9694672937524915,True,Rule-15,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00226,BGW-15,2025-08-15T00:00:00Z,2025-08-15T00:58:00Z,28.437878349241767,sensor_bias_drift,temp_1,0.9951632669310251,True,Rule-18,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00227,BGW-12,2025-08-16T00:00:00Z,2025-08-16T00:47:00Z,16.32619806085883,none,pressure_in,0.20873478152940583,False,,Normal window,ground_truth
+ANM-00228,BGW-17,2025-08-17T00:00:00Z,2025-08-17T00:41:00Z,51.70463761944319,sensor_bias_drift,temp_1,0.6037275815915389,True,Rule-17,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00229,BGW-22,2025-08-18T00:00:00Z,2025-08-18T00:40:00Z,30.695475563160983,none,pressure_in,0.3427733161482331,False,,Normal window,ground_truth
+ANM-00230,BGW-10,2025-08-19T00:00:00Z,2025-08-19T00:52:00Z,28.923618751289535,sensor_dropout,pressure_out,0.7430482942152652,True,Rule-5,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00231,BGW-18,2025-08-20T00:00:00Z,2025-08-20T00:57:00Z,22.386957015569703,rate_of_change_violation,temp_2,0.7711547370949561,True,Rule-18,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00232,BGW-20,2025-08-21T00:00:00Z,2025-08-21T00:26:00Z,23.20115158789533,none,pressure_in,0.1996356845038424,False,,Normal window,ground_truth
+ANM-00233,BGW-09,2025-08-22T00:00:00Z,2025-08-22T00:54:00Z,28.149929225031926,sensor_dropout,motor_current,0.7739915342124983,True,Rule-7,Detected sensor_dropout on motor_current,ground_truth
+ANM-00234,BGW-02,2025-08-23T00:00:00Z,2025-08-23T00:15:00Z,40.58654059160711,physical_impossibility,flow_rate,0.9116021987826634,True,Rule-7,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00235,BGW-07,2025-08-24T00:00:00Z,2025-08-24T00:32:00Z,47.85220277618328,none,pressure_in,0.2980467027680842,False,,Normal window,ground_truth
+ANM-00236,BGW-05,2025-08-25T00:00:00Z,2025-08-25T00:21:00Z,15.258559788921895,none,temp_1,0.27904067517597475,False,,Normal window,ground_truth
+ANM-00237,BGW-03,2025-08-26T00:00:00Z,2025-08-26T00:53:00Z,28.447249933171364,sensor_bias_drift,pressure_in,0.9437741891573497,True,Rule-2,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00238,BGW-13,2025-08-27T00:00:00Z,2025-08-27T00:21:00Z,59.18710388220946,physical_impossibility,rod_load,0.9544889705723459,True,Rule-13,Detected physical_impossibility on rod_load,ground_truth
+ANM-00239,BGW-09,2025-08-28T00:00:00Z,2025-08-28T00:24:00Z,49.56413957081014,none,flow_rate,0.14960048447628194,False,,Normal window,ground_truth
+ANM-00240,BGW-15,2025-08-29T00:00:00Z,2025-08-29T00:45:00Z,26.656197141695653,physical_impossibility,flow_rate,0.7335208701049091,True,Rule-2,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00241,BGW-21,2025-08-30T00:00:00Z,2025-08-30T00:55:00Z,32.57029355907004,rate_of_change_violation,rod_load,0.7394049466406449,True,Rule-12,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00242,BGW-08,2025-08-31T00:00:00Z,2025-08-31T00:24:00Z,59.957743625433,sensor_bias_drift,pressure_in,0.7980660163048934,True,Rule-14,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00243,BGW-01,2025-09-01T00:00:00Z,2025-09-01T00:24:00Z,31.14679427464149,none,motor_current,0.2995595740870679,False,,Normal window,ground_truth
+ANM-00244,BGW-07,2025-09-02T00:00:00Z,2025-09-02T00:37:00Z,20.67024336686253,physical_impossibility,pressure_in,0.8355188458270224,True,Rule-3,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00245,BGW-21,2025-09-03T00:00:00Z,2025-09-03T00:34:00Z,11.401678417030455,rate_of_change_violation,pressure_in,0.6728715302567952,True,Rule-17,Detected rate_of_change_violation on pressure_in,ground_truth
+ANM-00246,BGW-08,2025-09-04T00:00:00Z,2025-09-04T00:48:00Z,38.053057838682015,none,flow_rate,0.16595130768057892,False,,Normal window,ground_truth
+ANM-00247,BGW-14,2025-09-05T00:00:00Z,2025-09-05T00:35:00Z,33.97585468076092,sensor_stuck_at,pressure_in,0.8581914577868119,True,Rule-3,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00248,BGW-22,2025-09-06T00:00:00Z,2025-09-06T00:20:00Z,44.91318965334748,sensor_stuck_at,flow_rate,0.9353312438303115,True,Rule-10,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00249,BGW-16,2025-09-07T00:00:00Z,2025-09-07T00:17:00Z,16.50070077981426,none,rod_load,0.3383043666230541,False,,Normal window,ground_truth
+ANM-00250,BGW-01,2025-09-08T00:00:00Z,2025-09-08T00:46:00Z,35.098907333328484,physical_impossibility,flow_rate,0.8976753868801524,True,Rule-17,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00251,BGW-08,2025-09-09T00:00:00Z,2025-09-09T00:09:00Z,25.015155098818145,physical_impossibility,pressure_in,0.6712415482646382,True,Rule-13,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00252,BGW-16,2025-09-10T00:00:00Z,2025-09-10T00:48:00Z,46.407231228484754,sensor_stuck_at,motor_current,0.7882985363628764,True,Rule-17,Detected sensor_stuck_at on motor_current,ground_truth
+ANM-00253,BGW-08,2025-09-11T00:00:00Z,2025-09-11T00:14:00Z,17.26074475091028,none,rod_load,0.2027085983200798,False,,Normal window,ground_truth
+ANM-00254,BGW-21,2025-09-12T00:00:00Z,2025-09-12T00:08:00Z,39.39439706862499,sensor_bias_drift,pressure_in,0.6237758013839627,True,Rule-20,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00255,BGW-18,2025-09-13T00:00:00Z,2025-09-13T00:53:00Z,37.67835565273234,sensor_stuck_at,pressure_in,0.8841499315122037,True,Rule-16,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00256,BGW-13,2025-09-14T00:00:00Z,2025-09-14T00:16:00Z,19.225270606272847,none,flow_rate,0.14419493861661292,False,,Normal window,ground_truth
+ANM-00257,BGW-14,2025-09-15T00:00:00Z,2025-09-15T00:20:00Z,23.92241580041364,rate_of_change_violation,rod_load,0.7040149650150151,True,Rule-5,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00258,BGW-03,2025-09-16T00:00:00Z,2025-09-16T00:17:00Z,9.102035482008226,none,rod_load,0.3896583623419362,False,,Normal window,ground_truth
+ANM-00259,BGW-15,2025-09-17T00:00:00Z,2025-09-17T00:09:00Z,46.278441882190116,sensor_stuck_at,flow_rate,0.9388911764422341,True,Rule-13,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00260,BGW-06,2025-09-18T00:00:00Z,2025-09-18T00:37:00Z,32.40395524977386,cross_sensor_mismatch,flow_rate,0.6057106891098992,True,Rule-3,Detected cross_sensor_mismatch on flow_rate,ground_truth
+ANM-00261,BGW-16,2025-09-19T00:00:00Z,2025-09-19T00:07:00Z,52.49742514202875,none,pressure_out,0.17202548876034385,False,,Normal window,ground_truth
+ANM-00262,BGW-21,2025-09-20T00:00:00Z,2025-09-20T00:37:00Z,59.69406684742692,sensor_bias_drift,rod_load,0.8134689405204567,True,Rule-12,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00263,BGW-08,2025-09-21T00:00:00Z,2025-09-21T00:54:00Z,53.20084407120813,none,rod_load,0.2862670854707122,False,,Normal window,ground_truth
+ANM-00264,BGW-17,2025-09-22T00:00:00Z,2025-09-22T00:41:00Z,15.38789514416199,none,flow_rate,0.25201512027761763,False,,Normal window,ground_truth
+ANM-00265,BGW-05,2025-09-23T00:00:00Z,2025-09-23T00:50:00Z,41.642480534087326,none,pressure_out,0.23095827774118263,False,,Normal window,ground_truth
+ANM-00266,BGW-17,2025-09-24T00:00:00Z,2025-09-24T00:43:00Z,57.424770223733596,cross_sensor_mismatch,flow_rate,0.6636172441948827,True,Rule-8,Detected cross_sensor_mismatch on flow_rate,ground_truth
+ANM-00267,BGW-23,2025-09-25T00:00:00Z,2025-09-25T00:16:00Z,22.98070367794191,none,temp_1,0.3470316558347313,False,,Normal window,ground_truth
+ANM-00268,BGW-17,2025-09-26T00:00:00Z,2025-09-26T00:19:00Z,23.418230057680184,none,pressure_out,0.3030682518990889,False,,Normal window,ground_truth
+ANM-00269,BGW-07,2025-09-27T00:00:00Z,2025-09-27T00:42:00Z,20.281582583829042,physical_impossibility,rod_load,0.9469298769406655,True,Rule-3,Detected physical_impossibility on rod_load,ground_truth
+ANM-00270,BGW-04,2025-09-28T00:00:00Z,2025-09-28T00:07:00Z,50.225315583894876,none,motor_current,0.36757308886938944,False,,Normal window,ground_truth
+ANM-00271,BGW-11,2025-09-29T00:00:00Z,2025-09-29T00:29:00Z,32.68394691728553,sensor_dropout,temp_1,0.8423691700972411,True,Rule-20,Detected sensor_dropout on temp_1,ground_truth
+ANM-00272,BGW-01,2025-09-30T00:00:00Z,2025-09-30T00:44:00Z,16.19330757931192,none,motor_current,0.289676635880581,False,,Normal window,ground_truth
+ANM-00273,BGW-03,2025-10-01T00:00:00Z,2025-10-01T00:23:00Z,47.01458681648937,sensor_dropout,motor_current,0.8822225326067725,True,Rule-15,Detected sensor_dropout on motor_current,ground_truth
+ANM-00274,BGW-13,2025-10-02T00:00:00Z,2025-10-02T00:30:00Z,17.444063226528797,none,rod_load,0.285595918621098,False,,Normal window,ground_truth
+ANM-00275,BGW-12,2025-10-03T00:00:00Z,2025-10-03T00:44:00Z,42.06321517168947,cross_sensor_mismatch,rod_load,0.8172145835460237,True,Rule-6,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00276,BGW-14,2025-10-04T00:00:00Z,2025-10-04T00:30:00Z,38.579631645493585,sensor_bias_drift,temp_1,0.7927964912616194,True,Rule-17,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00277,BGW-21,2025-10-05T00:00:00Z,2025-10-05T00:05:00Z,34.77299618997661,none,motor_current,0.3587231754387509,False,,Normal window,ground_truth
+ANM-00278,BGW-01,2025-10-06T00:00:00Z,2025-10-06T00:44:00Z,39.582362354732304,none,temp_2,0.21826260508804746,False,,Normal window,ground_truth
+ANM-00279,BGW-05,2025-10-07T00:00:00Z,2025-10-07T00:48:00Z,20.933305373075843,rate_of_change_violation,flow_rate,0.7117567001537527,True,Rule-13,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00280,BGW-13,2025-10-08T00:00:00Z,2025-10-08T00:16:00Z,12.90242325252127,sensor_stuck_at,pressure_out,0.6962494198984386,True,Rule-13,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00281,BGW-16,2025-10-09T00:00:00Z,2025-10-09T00:16:00Z,16.129536861714335,cross_sensor_mismatch,rod_load,0.9500597699906046,True,Rule-14,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00282,BGW-01,2025-10-10T00:00:00Z,2025-10-10T00:32:00Z,7.4687503282466565,physical_impossibility,pressure_out,0.9262136857564088,True,Rule-6,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00283,BGW-06,2025-10-11T00:00:00Z,2025-10-11T00:33:00Z,47.19491575596155,sensor_bias_drift,motor_current,0.7144575542990409,True,Rule-4,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00284,BGW-05,2025-10-12T00:00:00Z,2025-10-12T00:23:00Z,32.49062910964139,physical_impossibility,temp_1,0.6754910159674353,True,Rule-7,Detected physical_impossibility on temp_1,ground_truth
+ANM-00285,BGW-20,2025-10-13T00:00:00Z,2025-10-13T00:10:00Z,39.73374079933773,sensor_stuck_at,flow_rate,0.8787774730126816,True,Rule-7,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00286,BGW-02,2025-10-14T00:00:00Z,2025-10-14T00:35:00Z,53.27636148630518,none,temp_1,0.19755009008030638,False,,Normal window,ground_truth
+ANM-00287,BGW-17,2025-10-15T00:00:00Z,2025-10-15T00:25:00Z,17.830178891754272,cross_sensor_mismatch,temp_1,0.7377005711878257,True,Rule-17,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00288,BGW-14,2025-10-16T00:00:00Z,2025-10-16T00:15:00Z,54.17339207488312,sensor_stuck_at,temp_2,0.9473070962690998,True,Rule-7,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00289,BGW-04,2025-10-17T00:00:00Z,2025-10-17T00:38:00Z,14.9571173053779,physical_impossibility,pressure_in,0.6720214601056194,True,Rule-17,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00290,BGW-05,2025-10-18T00:00:00Z,2025-10-18T00:38:00Z,23.107443455908953,none,motor_current,0.2426388911502496,False,,Normal window,ground_truth
+ANM-00291,BGW-04,2025-10-19T00:00:00Z,2025-10-19T00:48:00Z,29.167423728634997,cross_sensor_mismatch,rod_load,0.942870030740631,True,Rule-2,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00292,BGW-06,2025-10-20T00:00:00Z,2025-10-20T00:58:00Z,25.39217228798589,sensor_stuck_at,temp_1,0.9891978261555869,True,Rule-6,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00293,BGW-23,2025-10-21T00:00:00Z,2025-10-21T00:44:00Z,34.5167070520296,none,temp_1,0.28491885456304533,False,,Normal window,ground_truth
+ANM-00294,BGW-12,2025-10-22T00:00:00Z,2025-10-22T00:26:00Z,13.643026127250899,none,pressure_in,0.2520279674841489,False,,Normal window,ground_truth
+ANM-00295,BGW-13,2025-10-23T00:00:00Z,2025-10-23T00:31:00Z,14.541988899323353,physical_impossibility,pressure_in,0.6377777952473996,True,Rule-13,Detected physical_impossibility on pressure_in,ground_truth
+ANM-00296,BGW-15,2025-10-24T00:00:00Z,2025-10-24T00:17:00Z,34.74878044972018,none,temp_1,0.2661781744971199,False,,Normal window,ground_truth
+ANM-00297,BGW-07,2025-10-25T00:00:00Z,2025-10-25T00:23:00Z,37.289434306739665,sensor_bias_drift,pressure_out,0.6714396565706879,True,Rule-4,Detected sensor_bias_drift on pressure_out,ground_truth
+ANM-00298,BGW-11,2025-10-26T00:00:00Z,2025-10-26T00:59:00Z,53.306832635910865,physical_impossibility,temp_1,0.9970437891230794,True,Rule-15,Detected physical_impossibility on temp_1,ground_truth
+ANM-00299,BGW-19,2025-10-27T00:00:00Z,2025-10-27T00:17:00Z,6.849233602170891,rate_of_change_violation,temp_1,0.6631088659506152,True,Rule-17,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00300,BGW-17,2025-10-28T00:00:00Z,2025-10-28T00:56:00Z,8.280816026461572,sensor_dropout,pressure_out,0.8252194357733109,True,Rule-3,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00301,BGW-05,2025-10-29T00:00:00Z,2025-10-29T00:06:00Z,19.77935253470934,none,motor_current,0.26297222584412483,False,,Normal window,ground_truth
+ANM-00302,BGW-12,2025-10-30T00:00:00Z,2025-10-30T00:54:00Z,5.707238575560831,sensor_dropout,temp_1,0.9476679684033984,True,Rule-14,Detected sensor_dropout on temp_1,ground_truth
+ANM-00303,BGW-04,2025-10-31T00:00:00Z,2025-10-31T00:52:00Z,28.585692940847593,none,temp_1,0.2796298670111637,False,,Normal window,ground_truth
+ANM-00304,BGW-20,2025-11-01T00:00:00Z,2025-11-01T00:45:00Z,55.82314716883817,none,temp_1,0.11612326992672149,False,,Normal window,ground_truth
+ANM-00305,BGW-06,2025-11-02T00:00:00Z,2025-11-02T00:10:00Z,44.07416978925453,rate_of_change_violation,motor_current,0.7056214736347757,True,Rule-2,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00306,BGW-09,2025-11-03T00:00:00Z,2025-11-03T00:49:00Z,43.7948388462408,none,flow_rate,0.22117336528409975,False,,Normal window,ground_truth
+ANM-00307,BGW-01,2025-11-04T00:00:00Z,2025-11-04T00:37:00Z,35.086631041164125,none,pressure_out,0.15403959352212993,False,,Normal window,ground_truth
+ANM-00308,BGW-14,2025-11-05T00:00:00Z,2025-11-05T00:10:00Z,58.59535443579802,sensor_bias_drift,flow_rate,0.873223337268991,True,Rule-18,Detected sensor_bias_drift on flow_rate,ground_truth
+ANM-00309,BGW-15,2025-11-06T00:00:00Z,2025-11-06T00:22:00Z,23.312776101827573,cross_sensor_mismatch,pressure_in,0.860066080663012,True,Rule-5,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00310,BGW-22,2025-11-07T00:00:00Z,2025-11-07T00:15:00Z,29.530687076372864,none,temp_1,0.22196997177457575,False,,Normal window,ground_truth
+ANM-00311,BGW-13,2025-11-08T00:00:00Z,2025-11-08T00:51:00Z,8.846951702404505,none,motor_current,0.10013841618885388,False,,Normal window,ground_truth
+ANM-00312,BGW-10,2025-11-09T00:00:00Z,2025-11-09T00:52:00Z,27.101489062272055,sensor_bias_drift,pressure_out,0.8754954789002746,True,Rule-12,Detected sensor_bias_drift on pressure_out,ground_truth
+ANM-00313,BGW-10,2025-11-10T00:00:00Z,2025-11-10T00:42:00Z,42.71446018780227,sensor_bias_drift,temp_1,0.9932429057665977,True,Rule-20,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00314,BGW-10,2025-11-11T00:00:00Z,2025-11-11T00:31:00Z,38.08721142009522,rate_of_change_violation,flow_rate,0.8576125462575628,True,Rule-17,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00315,BGW-20,2025-11-12T00:00:00Z,2025-11-12T00:48:00Z,11.182713203407118,sensor_stuck_at,temp_2,0.8287082084479139,True,Rule-7,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00316,BGW-23,2025-11-13T00:00:00Z,2025-11-13T00:34:00Z,26.717964240570186,rate_of_change_violation,rod_load,0.6617265882771541,True,Rule-3,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00317,BGW-23,2025-11-14T00:00:00Z,2025-11-14T00:58:00Z,56.85417402146172,none,flow_rate,0.38428221978752386,False,,Normal window,ground_truth
+ANM-00318,BGW-09,2025-11-15T00:00:00Z,2025-11-15T00:27:00Z,10.221275590507204,none,flow_rate,0.24217919801760673,False,,Normal window,ground_truth
+ANM-00319,BGW-22,2025-11-16T00:00:00Z,2025-11-16T00:40:00Z,39.57269900901235,none,motor_current,0.34361161138871865,False,,Normal window,ground_truth
+ANM-00320,BGW-01,2025-11-17T00:00:00Z,2025-11-17T00:43:00Z,47.87389328697467,sensor_dropout,flow_rate,0.6441649143466596,True,Rule-13,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00321,BGW-21,2025-11-18T00:00:00Z,2025-11-18T00:14:00Z,43.20740307142845,rate_of_change_violation,motor_current,0.6088800354154622,True,Rule-5,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00322,BGW-02,2025-11-19T00:00:00Z,2025-11-19T00:17:00Z,43.63910858886496,none,rod_load,0.3832458256501049,False,,Normal window,ground_truth
+ANM-00323,BGW-01,2025-11-20T00:00:00Z,2025-11-20T00:41:00Z,39.12333433789004,rate_of_change_violation,temp_2,0.6539400801709642,True,Rule-1,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00324,BGW-04,2025-11-21T00:00:00Z,2025-11-21T00:39:00Z,41.56533107930244,none,rod_load,0.3822183123758053,False,,Normal window,ground_truth
+ANM-00325,BGW-09,2025-11-22T00:00:00Z,2025-11-22T00:47:00Z,59.166219198348905,cross_sensor_mismatch,temp_1,0.6088759825693364,True,Rule-14,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00326,BGW-15,2025-11-23T00:00:00Z,2025-11-23T00:14:00Z,14.514677572179068,sensor_stuck_at,temp_2,0.7278918235141643,True,Rule-14,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00327,BGW-08,2025-11-24T00:00:00Z,2025-11-24T00:59:00Z,59.97678163854309,rate_of_change_violation,temp_1,0.9020156924883671,True,Rule-2,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00328,BGW-09,2025-11-25T00:00:00Z,2025-11-25T00:20:00Z,40.91584925281247,sensor_dropout,rod_load,0.7201727651950826,True,Rule-3,Detected sensor_dropout on rod_load,ground_truth
+ANM-00329,BGW-07,2025-11-26T00:00:00Z,2025-11-26T00:49:00Z,8.403305855709402,none,motor_current,0.3795111163930769,False,,Normal window,ground_truth
+ANM-00330,BGW-02,2025-11-27T00:00:00Z,2025-11-27T00:28:00Z,23.97590972211093,cross_sensor_mismatch,pressure_out,0.6175975868622893,True,Rule-9,Detected cross_sensor_mismatch on pressure_out,ground_truth
+ANM-00331,BGW-05,2025-11-28T00:00:00Z,2025-11-28T00:26:00Z,52.40324950469305,rate_of_change_violation,temp_1,0.9751055968363398,True,Rule-3,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00332,BGW-13,2025-11-29T00:00:00Z,2025-11-29T00:42:00Z,30.5132690509784,none,motor_current,0.27967702733837707,False,,Normal window,ground_truth
+ANM-00333,BGW-13,2025-11-30T00:00:00Z,2025-11-30T00:18:00Z,30.29418829666044,physical_impossibility,temp_1,0.9479800935555933,True,Rule-18,Detected physical_impossibility on temp_1,ground_truth
+ANM-00334,BGW-04,2025-12-01T00:00:00Z,2025-12-01T00:26:00Z,9.121097260097404,cross_sensor_mismatch,rod_load,0.7105543877610415,True,Rule-5,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00335,BGW-01,2025-12-02T00:00:00Z,2025-12-02T00:05:00Z,16.890971928661703,none,pressure_out,0.12039178250912207,False,,Normal window,ground_truth
+ANM-00336,BGW-21,2025-12-03T00:00:00Z,2025-12-03T00:49:00Z,28.715692843741,sensor_stuck_at,temp_2,0.6727036825306546,True,Rule-4,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00337,BGW-02,2025-12-04T00:00:00Z,2025-12-04T00:52:00Z,25.025810015342998,none,rod_load,0.33018615040303223,False,,Normal window,ground_truth
+ANM-00338,BGW-06,2025-12-05T00:00:00Z,2025-12-05T00:40:00Z,48.68738032546722,rate_of_change_violation,pressure_out,0.9043133164873748,True,Rule-13,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00339,BGW-12,2025-12-06T00:00:00Z,2025-12-06T00:09:00Z,23.693920764662572,physical_impossibility,flow_rate,0.6752360609196122,True,Rule-19,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00340,BGW-22,2025-12-07T00:00:00Z,2025-12-07T00:23:00Z,42.17447954682524,rate_of_change_violation,temp_1,0.6250497767373361,True,Rule-1,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00341,BGW-18,2025-12-08T00:00:00Z,2025-12-08T00:57:00Z,49.351902164166596,sensor_stuck_at,pressure_in,0.6519475371593026,True,Rule-16,Detected sensor_stuck_at on pressure_in,ground_truth
+ANM-00342,BGW-09,2025-12-09T00:00:00Z,2025-12-09T00:37:00Z,9.289424667838116,sensor_dropout,flow_rate,0.7712575250317091,True,Rule-2,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00343,BGW-09,2025-12-10T00:00:00Z,2025-12-10T00:54:00Z,51.36860294416447,sensor_bias_drift,temp_1,0.9671710717137114,True,Rule-8,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00344,BGW-18,2025-12-11T00:00:00Z,2025-12-11T00:34:00Z,11.116378972925148,sensor_bias_drift,motor_current,0.9372030145637958,True,Rule-14,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00345,BGW-04,2025-12-12T00:00:00Z,2025-12-12T00:09:00Z,40.506718744763134,rate_of_change_violation,temp_1,0.6172177596031965,True,Rule-20,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00346,BGW-02,2025-12-13T00:00:00Z,2025-12-13T00:10:00Z,29.338855387022456,none,rod_load,0.27032801474869705,False,,Normal window,ground_truth
+ANM-00347,BGW-17,2025-12-14T00:00:00Z,2025-12-14T00:51:00Z,8.638789982372188,physical_impossibility,temp_1,0.8449655699719301,True,Rule-6,Detected physical_impossibility on temp_1,ground_truth
+ANM-00348,BGW-18,2025-12-15T00:00:00Z,2025-12-15T00:20:00Z,28.436150074859874,physical_impossibility,temp_2,0.649122531719523,True,Rule-10,Detected physical_impossibility on temp_2,ground_truth
+ANM-00349,BGW-15,2025-12-16T00:00:00Z,2025-12-16T00:09:00Z,21.231064135677208,none,rod_load,0.3199732703594228,False,,Normal window,ground_truth
+ANM-00350,BGW-04,2025-12-17T00:00:00Z,2025-12-17T00:59:00Z,39.05617091873554,sensor_stuck_at,pressure_out,0.9430742287912403,True,Rule-9,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00351,BGW-09,2025-12-18T00:00:00Z,2025-12-18T00:36:00Z,12.125020287448612,none,flow_rate,0.329405671184009,False,,Normal window,ground_truth
+ANM-00352,BGW-02,2025-12-19T00:00:00Z,2025-12-19T00:48:00Z,55.97729043363328,cross_sensor_mismatch,pressure_out,0.9341464013707301,True,Rule-11,Detected cross_sensor_mismatch on pressure_out,ground_truth
+ANM-00353,BGW-10,2025-12-20T00:00:00Z,2025-12-20T00:45:00Z,8.456861507969386,sensor_bias_drift,temp_2,0.6575091935933637,True,Rule-10,Detected sensor_bias_drift on temp_2,ground_truth
+ANM-00354,BGW-06,2025-12-21T00:00:00Z,2025-12-21T00:33:00Z,21.54842379232825,none,pressure_out,0.3018700681277783,False,,Normal window,ground_truth
+ANM-00355,BGW-06,2025-12-22T00:00:00Z,2025-12-22T00:50:00Z,10.905336412682672,none,temp_1,0.25030357250917246,False,,Normal window,ground_truth
+ANM-00356,BGW-11,2025-12-23T00:00:00Z,2025-12-23T00:33:00Z,15.475101822267934,rate_of_change_violation,rod_load,0.6291515208417893,True,Rule-10,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00357,BGW-07,2025-12-24T00:00:00Z,2025-12-24T00:59:00Z,11.270792130181299,physical_impossibility,pressure_out,0.7611666262553465,True,Rule-10,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00358,BGW-02,2025-12-25T00:00:00Z,2025-12-25T00:19:00Z,21.260861971418823,none,flow_rate,0.15172181741551952,False,,Normal window,ground_truth
+ANM-00359,BGW-12,2025-12-26T00:00:00Z,2025-12-26T00:07:00Z,51.26630719841675,sensor_stuck_at,temp_1,0.7178359272351805,True,Rule-10,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00360,BGW-13,2025-12-27T00:00:00Z,2025-12-27T00:27:00Z,38.52340700020473,none,pressure_out,0.2508000551496845,False,,Normal window,ground_truth
+ANM-00361,BGW-14,2025-12-28T00:00:00Z,2025-12-28T00:42:00Z,19.027088906738186,cross_sensor_mismatch,pressure_out,0.7005470127892679,True,Rule-11,Detected cross_sensor_mismatch on pressure_out,ground_truth
+ANM-00362,BGW-02,2025-12-29T00:00:00Z,2025-12-29T00:11:00Z,13.71794612680912,cross_sensor_mismatch,flow_rate,0.6025010500830847,True,Rule-4,Detected cross_sensor_mismatch on flow_rate,ground_truth
+ANM-00363,BGW-05,2025-12-30T00:00:00Z,2025-12-30T00:55:00Z,7.416407525667598,none,pressure_out,0.29804017947319716,False,,Normal window,ground_truth
+ANM-00364,BGW-17,2025-12-31T00:00:00Z,2025-12-31T00:14:00Z,32.69120971030676,none,motor_current,0.119438368175637,False,,Normal window,ground_truth
+ANM-00365,BGW-10,2026-01-01T00:00:00Z,2026-01-01T00:07:00Z,58.898847416137706,none,pressure_out,0.34552491350523923,False,,Normal window,ground_truth
+ANM-00366,BGW-05,2026-01-02T00:00:00Z,2026-01-02T00:28:00Z,14.934824038628605,rate_of_change_violation,pressure_out,0.623081182876054,True,Rule-2,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00367,BGW-12,2026-01-03T00:00:00Z,2026-01-03T00:12:00Z,5.34082603523604,sensor_stuck_at,temp_2,0.8637367434265595,True,Rule-19,Detected sensor_stuck_at on temp_2,ground_truth
+ANM-00368,BGW-12,2026-01-04T00:00:00Z,2026-01-04T00:41:00Z,41.796966850559144,none,flow_rate,0.3062387045993705,False,,Normal window,ground_truth
+ANM-00369,BGW-15,2026-01-05T00:00:00Z,2026-01-05T00:38:00Z,23.425624600235633,sensor_stuck_at,temp_1,0.7851375334833749,True,Rule-8,Detected sensor_stuck_at on temp_1,ground_truth
+ANM-00370,BGW-04,2026-01-06T00:00:00Z,2026-01-06T00:40:00Z,16.10639390332193,sensor_stuck_at,rod_load,0.9695316229618394,True,Rule-20,Detected sensor_stuck_at on rod_load,ground_truth
+ANM-00371,BGW-19,2026-01-07T00:00:00Z,2026-01-07T00:44:00Z,20.65833852768889,none,temp_1,0.1340820572719188,False,,Normal window,ground_truth
+ANM-00372,BGW-17,2026-01-08T00:00:00Z,2026-01-08T00:06:00Z,37.77031070333335,physical_impossibility,temp_1,0.7304721162434004,True,Rule-1,Detected physical_impossibility on temp_1,ground_truth
+ANM-00373,BGW-06,2026-01-09T00:00:00Z,2026-01-09T00:18:00Z,43.17394477885906,none,motor_current,0.39444104678963954,False,,Normal window,ground_truth
+ANM-00374,BGW-13,2026-01-10T00:00:00Z,2026-01-10T00:16:00Z,27.84499241795708,physical_impossibility,motor_current,0.8469898758795633,True,Rule-16,Detected physical_impossibility on motor_current,ground_truth
+ANM-00375,BGW-17,2026-01-11T00:00:00Z,2026-01-11T00:42:00Z,33.24162245212936,none,pressure_in,0.37339888833312895,False,,Normal window,ground_truth
+ANM-00376,BGW-20,2026-01-12T00:00:00Z,2026-01-12T00:27:00Z,7.815500334230652,none,flow_rate,0.27947268056546715,False,,Normal window,ground_truth
+ANM-00377,BGW-15,2026-01-13T00:00:00Z,2026-01-13T00:41:00Z,40.782549407147684,none,temp_2,0.16044866836654154,False,,Normal window,ground_truth
+ANM-00378,BGW-13,2026-01-14T00:00:00Z,2026-01-14T00:51:00Z,54.921152113231095,none,temp_2,0.35644004709889565,False,,Normal window,ground_truth
+ANM-00379,BGW-04,2026-01-15T00:00:00Z,2026-01-15T00:14:00Z,19.841321863603234,physical_impossibility,rod_load,0.8248204434124133,True,Rule-7,Detected physical_impossibility on rod_load,ground_truth
+ANM-00380,BGW-04,2026-01-16T00:00:00Z,2026-01-16T00:54:00Z,7.208448680450809,none,temp_1,0.38847074725182673,False,,Normal window,ground_truth
+ANM-00381,BGW-20,2026-01-17T00:00:00Z,2026-01-17T00:09:00Z,56.869544656678976,none,temp_2,0.36654710647159894,False,,Normal window,ground_truth
+ANM-00382,BGW-13,2026-01-18T00:00:00Z,2026-01-18T00:20:00Z,12.115432515639663,sensor_bias_drift,temp_1,0.6766820553947904,True,Rule-12,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00383,BGW-04,2026-01-19T00:00:00Z,2026-01-19T00:26:00Z,44.96352794606549,none,flow_rate,0.12968990060899535,False,,Normal window,ground_truth
+ANM-00384,BGW-12,2026-01-20T00:00:00Z,2026-01-20T00:49:00Z,56.220760960315154,physical_impossibility,rod_load,0.9938531623335604,True,Rule-14,Detected physical_impossibility on rod_load,ground_truth
+ANM-00385,BGW-01,2026-01-21T00:00:00Z,2026-01-21T00:52:00Z,13.230558020212634,none,rod_load,0.10756490314767418,False,,Normal window,ground_truth
+ANM-00386,BGW-18,2026-01-22T00:00:00Z,2026-01-22T00:37:00Z,5.483223794625492,none,pressure_out,0.3730113781876797,False,,Normal window,ground_truth
+ANM-00387,BGW-12,2026-01-23T00:00:00Z,2026-01-23T00:25:00Z,10.634685232543209,rate_of_change_violation,temp_1,0.7669542123412261,True,Rule-9,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00388,BGW-18,2026-01-24T00:00:00Z,2026-01-24T00:25:00Z,16.934347909540868,none,temp_1,0.3313552600936963,False,,Normal window,ground_truth
+ANM-00389,BGW-23,2026-01-25T00:00:00Z,2026-01-25T00:49:00Z,54.50411228436619,none,temp_2,0.19600898386821422,False,,Normal window,ground_truth
+ANM-00390,BGW-01,2026-01-26T00:00:00Z,2026-01-26T00:24:00Z,41.1088767312699,sensor_bias_drift,motor_current,0.9493383920883869,True,Rule-8,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00391,BGW-01,2026-01-27T00:00:00Z,2026-01-27T00:57:00Z,43.54065262621185,none,rod_load,0.3765226369662098,False,,Normal window,ground_truth
+ANM-00392,BGW-16,2026-01-28T00:00:00Z,2026-01-28T00:32:00Z,6.8035460963151975,sensor_stuck_at,flow_rate,0.9948607653965658,True,Rule-16,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00393,BGW-02,2026-01-29T00:00:00Z,2026-01-29T00:53:00Z,33.007865523760685,sensor_dropout,pressure_out,0.6392387118258117,True,Rule-14,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00394,BGW-08,2026-01-30T00:00:00Z,2026-01-30T00:29:00Z,44.82760719915524,none,pressure_out,0.30335684765839566,False,,Normal window,ground_truth
+ANM-00395,BGW-06,2026-01-31T00:00:00Z,2026-01-31T00:25:00Z,6.020294594065159,sensor_dropout,temp_2,0.7451749807638473,True,Rule-17,Detected sensor_dropout on temp_2,ground_truth
+ANM-00396,BGW-21,2026-02-01T00:00:00Z,2026-02-01T00:24:00Z,23.320966217650312,sensor_dropout,rod_load,0.8978178581534957,True,Rule-4,Detected sensor_dropout on rod_load,ground_truth
+ANM-00397,BGW-18,2026-02-02T00:00:00Z,2026-02-02T00:13:00Z,35.41744522673764,physical_impossibility,flow_rate,0.7799057416296568,True,Rule-12,Detected physical_impossibility on flow_rate,ground_truth
+ANM-00398,BGW-13,2026-02-03T00:00:00Z,2026-02-03T00:47:00Z,32.42975111433499,cross_sensor_mismatch,pressure_in,0.9995907610270123,True,Rule-5,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00399,BGW-05,2026-02-04T00:00:00Z,2026-02-04T00:31:00Z,39.88527767451225,sensor_dropout,pressure_out,0.6471432774235742,True,Rule-17,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00400,BGW-19,2026-02-05T00:00:00Z,2026-02-05T00:48:00Z,47.97480605392686,sensor_stuck_at,flow_rate,0.7863715153437447,True,Rule-8,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00401,BGW-02,2026-02-06T00:00:00Z,2026-02-06T00:59:00Z,54.8547677099493,none,pressure_in,0.2896935220137649,False,,Normal window,ground_truth
+ANM-00402,BGW-17,2026-02-07T00:00:00Z,2026-02-07T00:35:00Z,41.790419120017866,none,temp_2,0.15938374391368207,False,,Normal window,ground_truth
+ANM-00403,BGW-13,2026-02-08T00:00:00Z,2026-02-08T00:15:00Z,29.343499169734688,none,rod_load,0.19556162325968873,False,,Normal window,ground_truth
+ANM-00404,BGW-18,2026-02-09T00:00:00Z,2026-02-09T00:57:00Z,48.65268443974477,none,pressure_out,0.3811364705008723,False,,Normal window,ground_truth
+ANM-00405,BGW-14,2026-02-10T00:00:00Z,2026-02-10T00:55:00Z,54.739714095984695,cross_sensor_mismatch,rod_load,0.7787303395522792,True,Rule-15,Detected cross_sensor_mismatch on rod_load,ground_truth
+ANM-00406,BGW-22,2026-02-11T00:00:00Z,2026-02-11T00:07:00Z,57.071093839036465,cross_sensor_mismatch,pressure_in,0.7362081323384652,True,Rule-8,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00407,BGW-01,2026-02-12T00:00:00Z,2026-02-12T00:58:00Z,26.785962049859283,none,temp_1,0.2043934846845614,False,,Normal window,ground_truth
+ANM-00408,BGW-08,2026-02-13T00:00:00Z,2026-02-13T00:50:00Z,49.846130386609325,none,pressure_in,0.11453500958055808,False,,Normal window,ground_truth
+ANM-00409,BGW-18,2026-02-14T00:00:00Z,2026-02-14T00:55:00Z,35.178281465961156,cross_sensor_mismatch,motor_current,0.7579656426176399,True,Rule-14,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00410,BGW-23,2026-02-15T00:00:00Z,2026-02-15T00:57:00Z,43.120967795938135,none,temp_1,0.39059293050014654,False,,Normal window,ground_truth
+ANM-00411,BGW-06,2026-02-16T00:00:00Z,2026-02-16T00:38:00Z,26.868113230931066,cross_sensor_mismatch,temp_1,0.9856902412601537,True,Rule-12,Detected cross_sensor_mismatch on temp_1,ground_truth
+ANM-00412,BGW-04,2026-02-17T00:00:00Z,2026-02-17T00:58:00Z,25.268440822463873,none,flow_rate,0.3896403551072892,False,,Normal window,ground_truth
+ANM-00413,BGW-07,2026-02-18T00:00:00Z,2026-02-18T00:19:00Z,28.56607345348826,sensor_stuck_at,flow_rate,0.9446902869134004,True,Rule-19,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00414,BGW-17,2026-02-19T00:00:00Z,2026-02-19T00:22:00Z,35.730262133583764,cross_sensor_mismatch,pressure_in,0.9171706265565875,True,Rule-16,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00415,BGW-21,2026-02-20T00:00:00Z,2026-02-20T00:20:00Z,13.426069089056083,rate_of_change_violation,temp_1,0.9791857800531479,True,Rule-17,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00416,BGW-02,2026-02-21T00:00:00Z,2026-02-21T00:25:00Z,35.857360227907336,sensor_bias_drift,rod_load,0.6722766972721371,True,Rule-9,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00417,BGW-15,2026-02-22T00:00:00Z,2026-02-22T00:48:00Z,31.25823635327023,none,motor_current,0.24111619380595284,False,,Normal window,ground_truth
+ANM-00418,BGW-04,2026-02-23T00:00:00Z,2026-02-23T00:40:00Z,43.15145114233424,none,temp_1,0.2328004993187156,False,,Normal window,ground_truth
+ANM-00419,BGW-01,2026-02-24T00:00:00Z,2026-02-24T00:44:00Z,18.17935120646913,none,temp_2,0.31112080133867664,False,,Normal window,ground_truth
+ANM-00420,BGW-03,2026-02-25T00:00:00Z,2026-02-25T00:35:00Z,56.33415612041937,cross_sensor_mismatch,pressure_in,0.877843358604448,True,Rule-6,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00421,BGW-10,2026-02-26T00:00:00Z,2026-02-26T00:14:00Z,13.54339087532679,sensor_dropout,motor_current,0.7787971077908491,True,Rule-9,Detected sensor_dropout on motor_current,ground_truth
+ANM-00422,BGW-08,2026-02-27T00:00:00Z,2026-02-27T00:38:00Z,18.621415824726707,rate_of_change_violation,temp_1,0.8534747117636117,True,Rule-11,Detected rate_of_change_violation on temp_1,ground_truth
+ANM-00423,BGW-15,2026-02-28T00:00:00Z,2026-02-28T00:45:00Z,10.46018242304467,sensor_dropout,pressure_out,0.9749054062286411,True,Rule-8,Detected sensor_dropout on pressure_out,ground_truth
+ANM-00424,BGW-10,2026-03-01T00:00:00Z,2026-03-01T00:16:00Z,7.705860338051246,none,flow_rate,0.19495100439797977,False,,Normal window,ground_truth
+ANM-00425,BGW-12,2026-03-02T00:00:00Z,2026-03-02T00:58:00Z,44.776699109365225,none,temp_1,0.2387022411743081,False,,Normal window,ground_truth
+ANM-00426,BGW-02,2026-03-03T00:00:00Z,2026-03-03T00:08:00Z,39.1005357538728,none,rod_load,0.15670057874713264,False,,Normal window,ground_truth
+ANM-00427,BGW-10,2026-03-04T00:00:00Z,2026-03-04T00:25:00Z,47.291411631573936,rate_of_change_violation,rod_load,0.9962461718206584,True,Rule-1,Detected rate_of_change_violation on rod_load,ground_truth
+ANM-00428,BGW-04,2026-03-05T00:00:00Z,2026-03-05T00:32:00Z,49.21123258012765,none,pressure_in,0.2058984492436281,False,,Normal window,ground_truth
+ANM-00429,BGW-02,2026-03-06T00:00:00Z,2026-03-06T00:54:00Z,45.87163927299291,sensor_bias_drift,temp_1,0.802639757654957,True,Rule-5,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00430,BGW-03,2026-03-07T00:00:00Z,2026-03-07T00:07:00Z,24.117003724925794,physical_impossibility,temp_2,0.6608552634119447,True,Rule-12,Detected physical_impossibility on temp_2,ground_truth
+ANM-00431,BGW-03,2026-03-08T00:00:00Z,2026-03-08T00:28:00Z,15.278955531026778,none,rod_load,0.19127693737231072,False,,Normal window,ground_truth
+ANM-00432,BGW-20,2026-03-09T00:00:00Z,2026-03-09T00:07:00Z,32.41264580265416,physical_impossibility,pressure_out,0.7721775230320774,True,Rule-20,Detected physical_impossibility on pressure_out,ground_truth
+ANM-00433,BGW-15,2026-03-10T00:00:00Z,2026-03-10T00:40:00Z,31.89354885550704,rate_of_change_violation,motor_current,0.7618208922389661,True,Rule-13,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00434,BGW-12,2026-03-11T00:00:00Z,2026-03-11T00:09:00Z,39.994998617104,none,temp_1,0.3553705737150654,False,,Normal window,ground_truth
+ANM-00435,BGW-21,2026-03-12T00:00:00Z,2026-03-12T00:47:00Z,23.351676953504587,none,rod_load,0.2508452702536455,False,,Normal window,ground_truth
+ANM-00436,BGW-18,2026-03-13T00:00:00Z,2026-03-13T00:09:00Z,11.42756131350437,none,temp_2,0.28918165185179634,False,,Normal window,ground_truth
+ANM-00437,BGW-15,2026-03-14T00:00:00Z,2026-03-14T00:27:00Z,27.892191890340687,none,pressure_in,0.1576490946513217,False,,Normal window,ground_truth
+ANM-00438,BGW-10,2026-03-15T00:00:00Z,2026-03-15T00:17:00Z,13.480789348215252,sensor_bias_drift,pressure_in,0.7955937903411888,True,Rule-8,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00439,BGW-03,2026-03-16T00:00:00Z,2026-03-16T00:19:00Z,39.21127311425848,sensor_stuck_at,motor_current,0.7318822401987921,True,Rule-3,Detected sensor_stuck_at on motor_current,ground_truth
+ANM-00440,BGW-02,2026-03-17T00:00:00Z,2026-03-17T00:39:00Z,11.623453971928772,sensor_bias_drift,rod_load,0.759292754392987,True,Rule-4,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00441,BGW-01,2026-03-18T00:00:00Z,2026-03-18T00:08:00Z,54.783164256138676,sensor_bias_drift,pressure_in,0.8789523108945683,True,Rule-11,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00442,BGW-11,2026-03-19T00:00:00Z,2026-03-19T00:57:00Z,53.908897414162944,none,rod_load,0.1755693605063568,False,,Normal window,ground_truth
+ANM-00443,BGW-10,2026-03-20T00:00:00Z,2026-03-20T00:41:00Z,11.254669553810741,none,temp_2,0.31531609543659866,False,,Normal window,ground_truth
+ANM-00444,BGW-23,2026-03-21T00:00:00Z,2026-03-21T00:37:00Z,53.894548806403755,rate_of_change_violation,motor_current,0.7104826848443969,True,Rule-20,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00445,BGW-01,2026-03-22T00:00:00Z,2026-03-22T00:32:00Z,15.818708418080606,sensor_bias_drift,rod_load,0.6473215598039304,True,Rule-11,Detected sensor_bias_drift on rod_load,ground_truth
+ANM-00446,BGW-15,2026-03-23T00:00:00Z,2026-03-23T00:50:00Z,26.59555479860788,none,pressure_in,0.3025393175825483,False,,Normal window,ground_truth
+ANM-00447,BGW-11,2026-03-24T00:00:00Z,2026-03-24T00:48:00Z,57.358946719696405,none,temp_1,0.26850033442049204,False,,Normal window,ground_truth
+ANM-00448,BGW-05,2026-03-25T00:00:00Z,2026-03-25T00:23:00Z,56.23395287041867,none,pressure_out,0.17854770665669278,False,,Normal window,ground_truth
+ANM-00449,BGW-07,2026-03-26T00:00:00Z,2026-03-26T00:51:00Z,58.06201691255151,sensor_dropout,pressure_in,0.7794891956106094,True,Rule-10,Detected sensor_dropout on pressure_in,ground_truth
+ANM-00450,BGW-06,2026-03-27T00:00:00Z,2026-03-27T00:30:00Z,52.61272146819786,none,temp_2,0.386734308688346,False,,Normal window,ground_truth
+ANM-00451,BGW-20,2026-03-28T00:00:00Z,2026-03-28T00:30:00Z,12.881915320148334,none,flow_rate,0.3524477757959442,False,,Normal window,ground_truth
+ANM-00452,BGW-15,2026-03-29T00:00:00Z,2026-03-29T00:08:00Z,47.23846495076525,none,pressure_in,0.2519244801953029,False,,Normal window,ground_truth
+ANM-00453,BGW-15,2026-03-30T00:00:00Z,2026-03-30T00:33:00Z,25.64508639760721,none,rod_load,0.16537666126643885,False,,Normal window,ground_truth
+ANM-00454,BGW-23,2026-03-31T00:00:00Z,2026-03-31T00:33:00Z,35.299863178025205,rate_of_change_violation,motor_current,0.6185270308961842,True,Rule-20,Detected rate_of_change_violation on motor_current,ground_truth
+ANM-00455,BGW-18,2026-04-01T00:00:00Z,2026-04-01T00:25:00Z,35.03561563230007,cross_sensor_mismatch,pressure_out,0.831645512045188,True,Rule-15,Detected cross_sensor_mismatch on pressure_out,ground_truth
+ANM-00456,BGW-06,2026-04-02T00:00:00Z,2026-04-02T00:45:00Z,29.17778009505188,none,temp_1,0.21330151233900677,False,,Normal window,ground_truth
+ANM-00457,BGW-04,2026-04-03T00:00:00Z,2026-04-03T00:30:00Z,56.594593576842065,sensor_stuck_at,motor_current,0.9262273304004163,True,Rule-9,Detected sensor_stuck_at on motor_current,ground_truth
+ANM-00458,BGW-16,2026-04-04T00:00:00Z,2026-04-04T00:17:00Z,5.029805340121973,cross_sensor_mismatch,motor_current,0.7882877450216128,True,Rule-3,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00459,BGW-13,2026-04-05T00:00:00Z,2026-04-05T00:51:00Z,13.328548941145485,none,pressure_in,0.35123581396674153,False,,Normal window,ground_truth
+ANM-00460,BGW-19,2026-04-06T00:00:00Z,2026-04-06T00:11:00Z,47.563514774809136,physical_impossibility,temp_1,0.9005681454528849,True,Rule-15,Detected physical_impossibility on temp_1,ground_truth
+ANM-00461,BGW-06,2026-04-07T00:00:00Z,2026-04-07T00:12:00Z,49.00393592373938,cross_sensor_mismatch,motor_current,0.7147629987085952,True,Rule-19,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00462,BGW-21,2026-04-08T00:00:00Z,2026-04-08T00:48:00Z,16.241993332811752,rate_of_change_violation,flow_rate,0.9818310059791487,True,Rule-1,Detected rate_of_change_violation on flow_rate,ground_truth
+ANM-00463,BGW-18,2026-04-09T00:00:00Z,2026-04-09T00:50:00Z,47.758588502250795,cross_sensor_mismatch,pressure_out,0.9485688990846198,True,Rule-3,Detected cross_sensor_mismatch on pressure_out,ground_truth
+ANM-00464,BGW-10,2026-04-10T00:00:00Z,2026-04-10T00:06:00Z,22.044471756489298,rate_of_change_violation,temp_2,0.9630908732383253,True,Rule-14,Detected rate_of_change_violation on temp_2,ground_truth
+ANM-00465,BGW-05,2026-04-11T00:00:00Z,2026-04-11T00:17:00Z,41.00587505923051,rate_of_change_violation,pressure_out,0.6211665544014052,True,Rule-19,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00466,BGW-07,2026-04-12T00:00:00Z,2026-04-12T00:55:00Z,21.171519303672653,sensor_dropout,temp_1,0.9308645149706247,True,Rule-11,Detected sensor_dropout on temp_1,ground_truth
+ANM-00467,BGW-05,2026-04-13T00:00:00Z,2026-04-13T00:52:00Z,41.70249907790739,none,temp_1,0.3897068912177517,False,,Normal window,ground_truth
+ANM-00468,BGW-19,2026-04-14T00:00:00Z,2026-04-14T00:54:00Z,51.13924429352063,cross_sensor_mismatch,pressure_in,0.7440878262183047,True,Rule-8,Detected cross_sensor_mismatch on pressure_in,ground_truth
+ANM-00469,BGW-18,2026-04-15T00:00:00Z,2026-04-15T00:25:00Z,37.9000783875663,none,temp_2,0.14925534309455304,False,,Normal window,ground_truth
+ANM-00470,BGW-21,2026-04-16T00:00:00Z,2026-04-16T00:23:00Z,14.299082334259545,sensor_dropout,pressure_in,0.9838971858460372,True,Rule-20,Detected sensor_dropout on pressure_in,ground_truth
+ANM-00471,BGW-05,2026-04-17T00:00:00Z,2026-04-17T00:55:00Z,10.421573499611164,none,flow_rate,0.30630449771371593,False,,Normal window,ground_truth
+ANM-00472,BGW-20,2026-04-18T00:00:00Z,2026-04-18T00:20:00Z,27.038975898707747,cross_sensor_mismatch,motor_current,0.9919659090828994,True,Rule-15,Detected cross_sensor_mismatch on motor_current,ground_truth
+ANM-00473,BGW-06,2026-04-19T00:00:00Z,2026-04-19T00:46:00Z,55.22245707133249,none,temp_1,0.1314136665252969,False,,Normal window,ground_truth
+ANM-00474,BGW-03,2026-04-20T00:00:00Z,2026-04-20T00:40:00Z,44.54809269464738,sensor_stuck_at,flow_rate,0.6421529095995249,True,Rule-10,Detected sensor_stuck_at on flow_rate,ground_truth
+ANM-00475,BGW-21,2026-04-21T00:00:00Z,2026-04-21T00:05:00Z,42.77136695969198,none,pressure_out,0.3124849690945142,False,,Normal window,ground_truth
+ANM-00476,BGW-05,2026-04-22T00:00:00Z,2026-04-22T00:55:00Z,57.754057345362305,none,pressure_out,0.1649319149718574,False,,Normal window,ground_truth
+ANM-00477,BGW-15,2026-04-23T00:00:00Z,2026-04-23T00:06:00Z,31.618048271754926,sensor_bias_drift,temp_1,0.9791494404478016,True,Rule-16,Detected sensor_bias_drift on temp_1,ground_truth
+ANM-00478,BGW-23,2026-04-24T00:00:00Z,2026-04-24T00:05:00Z,51.99789329437191,sensor_bias_drift,temp_2,0.6165063205438122,True,Rule-9,Detected sensor_bias_drift on temp_2,ground_truth
+ANM-00479,BGW-18,2026-04-25T00:00:00Z,2026-04-25T00:33:00Z,20.065099639812253,none,rod_load,0.14790182106555824,False,,Normal window,ground_truth
+ANM-00480,BGW-07,2026-04-26T00:00:00Z,2026-04-26T00:59:00Z,30.820197301520015,sensor_bias_drift,pressure_in,0.9848143848468047,True,Rule-20,Detected sensor_bias_drift on pressure_in,ground_truth
+ANM-00481,BGW-19,2026-04-27T00:00:00Z,2026-04-27T00:17:00Z,14.438153597954825,sensor_stuck_at,rod_load,0.9400141012074608,True,Rule-6,Detected sensor_stuck_at on rod_load,ground_truth
+ANM-00482,BGW-04,2026-04-28T00:00:00Z,2026-04-28T00:42:00Z,23.980620840787275,sensor_dropout,temp_1,0.9332550952108062,True,Rule-2,Detected sensor_dropout on temp_1,ground_truth
+ANM-00483,BGW-14,2026-04-29T00:00:00Z,2026-04-29T00:38:00Z,36.17307049060915,physical_impossibility,temp_1,0.775618964162982,True,Rule-19,Detected physical_impossibility on temp_1,ground_truth
+ANM-00484,BGW-22,2026-04-30T00:00:00Z,2026-04-30T00:37:00Z,34.25518906860462,sensor_dropout,temp_2,0.6210857801037061,True,Rule-4,Detected sensor_dropout on temp_2,ground_truth
+ANM-00485,BGW-21,2026-05-01T00:00:00Z,2026-05-01T00:44:00Z,36.53981924146486,none,pressure_in,0.25932723935181223,False,,Normal window,ground_truth
+ANM-00486,BGW-20,2026-05-02T00:00:00Z,2026-05-02T00:40:00Z,7.282079926307695,sensor_bias_drift,motor_current,0.6168666171025629,True,Rule-14,Detected sensor_bias_drift on motor_current,ground_truth
+ANM-00487,BGW-13,2026-05-03T00:00:00Z,2026-05-03T00:25:00Z,56.26101585186003,none,temp_2,0.35774424087190837,False,,Normal window,ground_truth
+ANM-00488,BGW-09,2026-05-04T00:00:00Z,2026-05-04T00:17:00Z,9.527781164974677,none,pressure_out,0.39426205464894004,False,,Normal window,ground_truth
+ANM-00489,BGW-17,2026-05-05T00:00:00Z,2026-05-05T00:51:00Z,45.7249046637185,cross_sensor_mismatch,flow_rate,0.8315608617565418,True,Rule-12,Detected cross_sensor_mismatch on flow_rate,ground_truth
+ANM-00490,BGW-18,2026-05-06T00:00:00Z,2026-05-06T00:07:00Z,9.706928211560559,none,flow_rate,0.28822787022439894,False,,Normal window,ground_truth
+ANM-00491,BGW-05,2026-05-07T00:00:00Z,2026-05-07T00:05:00Z,18.96225492420748,sensor_stuck_at,pressure_out,0.6302638153857875,True,Rule-10,Detected sensor_stuck_at on pressure_out,ground_truth
+ANM-00492,BGW-07,2026-05-08T00:00:00Z,2026-05-08T00:32:00Z,47.987073466089846,sensor_dropout,flow_rate,0.9753076033146009,True,Rule-10,Detected sensor_dropout on flow_rate,ground_truth
+ANM-00493,BGW-03,2026-05-09T00:00:00Z,2026-05-09T00:16:00Z,12.50198326251877,cross_sensor_mismatch,flow_rate,0.7787542635519369,True,Rule-19,Detected cross_sensor_mismatch on flow_rate,ground_truth
+ANM-00494,BGW-22,2026-05-10T00:00:00Z,2026-05-10T00:39:00Z,5.499068544025985,rate_of_change_violation,pressure_out,0.9787501309685792,True,Rule-4,Detected rate_of_change_violation on pressure_out,ground_truth
+ANM-00495,BGW-17,2026-05-11T00:00:00Z,2026-05-11T00:09:00Z,20.060779941620048,none,pressure_out,0.25930801829968025,False,,Normal window,ground_truth
+ANM-00496,BGW-18,2026-05-12T00:00:00Z,2026-05-12T00:53:00Z,29.002447159187184,none,rod_load,0.13484405661139587,False,,Normal window,ground_truth
+ANM-00497,BGW-20,2026-05-13T00:00:00Z,2026-05-13T00:09:00Z,7.792952883512327,none,temp_2,0.19294808957383344,False,,Normal window,ground_truth
+ANM-00498,BGW-10,2026-05-14T00:00:00Z,2026-05-14T00:29:00Z,58.443736266559135,rate_of_change_violation,pressure_in,0.7594125056076556,True,Rule-3,Detected rate_of_change_violation on pressure_in,ground_truth
+ANM-00499,BGW-14,2026-05-15T00:00:00Z,2026-05-15T00:59:00Z,17.93660639249194,rate_of_change_violation,motor_current,0.7387210198030632,True,Rule-13,Detected rate_of_change_violation on motor_current,ground_truth

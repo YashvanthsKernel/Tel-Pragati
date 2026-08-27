@@ -1,0 +1,16 @@
+{
+  "model": "viscosity_corrector",
+  "test_corrected_mae": 19.3214,
+  "test_physics_mae": 19.095,
+  "improvement_pct": -1.19,
+  "all_scenarios_pass": false,
+  "per_scenario": {
+    "synthetic": {
+      "physics_mae": 228.2085,
+      "corrected_mae": 229.3601,
+      "improvement_pct": -0.5,
+      "passed": false
+    }
+  },
+  "passed_promotion": false
+}

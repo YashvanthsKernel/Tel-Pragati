@@ -1,0 +1,27 @@
+{
+  "model": "production_forecaster",
+  "horizons": {
+    "1h": {
+      "p50_mae": 9.2034,
+      "persistence_mae": 11.2401,
+      "improvement_pct": 18.12,
+      "coverage_pct": 66.0,
+      "passed": false
+    },
+    "6h": {
+      "p50_mae": 19.1799,
+      "persistence_mae": 22.2283,
+      "improvement_pct": 13.71,
+      "coverage_pct": 57.5,
+      "passed": false
+    },
+    "24h": {
+      "p50_mae": 34.4074,
+      "persistence_mae": 45.7529,
+      "improvement_pct": 24.8,
+      "coverage_pct": 61.0,
+      "passed": false
+    }
+  },
+  "passed_promotion": false
+}

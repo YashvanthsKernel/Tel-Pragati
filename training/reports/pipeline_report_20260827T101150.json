@@ -1,0 +1,32 @@
+{
+  "pipeline_start": "2026-08-27T10:11:50.038249+00:00",
+  "models": {
+    "forecaster": {
+      "passed": false,
+      "training_seconds": 60.480520725250244,
+      "status": "archived"
+    },
+    "viscosity": {
+      "passed": false,
+      "training_seconds": 9.624083042144775,
+      "status": "archived"
+    },
+    "dynamometer": {
+      "passed": true,
+      "training_seconds": 7.564350366592407,
+      "status": "staged"
+    },
+    "failure": {
+      "passed": false,
+      "status": "error",
+      "error": "Invalid model name ('failure_risk/7d/model') provided. Model name must be a non-empty string and cannot contain the following characters: ('/', ':', '.', '%', '\"', \"'\")"
+    },
+    "anomaly": {
+      "passed": false,
+      "status": "error",
+      "error": "at least one array or dtype is required"
+    }
+  },
+  "pipeline_end": "2026-08-27T10:13:19.726172+00:00",
+  "all_passed": false
+}

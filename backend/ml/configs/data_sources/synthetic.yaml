@@ -1,0 +1,162 @@
+# Synthetic Data Generator — Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §4.1
+#
+# This is not a toy data faker — it is a proper simulation product.
+# Training data credibility depends entirely on this generator.
+# Every change bumps generator_version; all downstream datasets are re-versioned.
+
+generator_version: "1.3.0"
+
+# ─── Scenario Definitions ────────────────────────────────────────────────────
+scenarios:
+  - name: normal_ops
+    display_name: "Normal Operations"
+    description: "Stable CSS cycle with no faults. Baseline for all other scenarios."
+    css_cycle_days: 45
+    inject_days: 5
+    soak_days: 2
+    peak_bht_c: 140          # Peak bottomhole temperature post-injection
+    thermal_tau_days: 12     # Decay time constant τ; feeds §11.1 of main architecture doc
+    ambient_temp_c: 47       # Baghewala reservoir ambient (~46-48°C)
+    spm_profile: constant    # {constant | reduced | variable}
+    spm_value: 4.5
+    stroke_len_in: 72.0
+    vfd_pct: 75.0
+    fault_injection: none
+    emphasis_window_days: null
+
+  - name: cooling_phase
+    display_name: "Cooling Phase (Day 25)"
+    description: "Mid-cycle cooling with rising viscosity. Key SRP stress scenario."
+    inherits: normal_ops
+    fault_injection: none
+    emphasis_window_days: [20, 30]   # Oversample this window in the dataset
+
+  - name: rod_floating
+    display_name: "Rod Floating Onset (Day 28)"
+    description: "Viscous drag exceeds buoyant weight margin. Critical SRP fault."
+    inherits: normal_ops
+    fault_injection:
+      type: rod_floating
+      onset_day: 28
+      severity_ramp: linear    # linear | step | exponential
+      severity_max: 0.8        # 0-1 scale of fault severity
+      # Mechanism: fluid temperature drops → viscosity rises → drag exceeds buoyant weight
+      # Produces compression window in synthetic downhole card
+
+  - name: fluid_pound
+    display_name: "Fluid Pound"
+    description: "Incomplete pump fillage causing impact loading."
+    inherits: normal_ops
+    fault_injection:
+      type: fluid_pound
+      onset_day: 32
+      severity_ramp: step
+      severity_max: 0.6
+
+  - name: gas_interference
+    display_name: "Gas Interference"
+    description: "Compressible fluid (gas) entering pump barrel."
+    inherits: normal_ops
+    fault_injection:
+      type: gas_interference
+      onset_day: 25
+      severity_ramp: linear
+      severity_max: 0.5
+
+  - name: traveling_valve_leak
+    display_name: "Traveling Valve Leak"
+    description: "Load bleed-off pattern from leaking traveling valve."
+    inherits: normal_ops
+    fault_injection:
+      type: traveling_valve_leak
+      onset_day: 30
+      severity_ramp: exponential
+      severity_max: 0.7
+
+  - name: css_cutoff
+    display_name: "CSS Economic Cut-off (Day 41)"
+    description: "Marginal revenue falls below marginal cost. CSS cycle termination decision."
+    inherits: normal_ops
+    fault_injection: none
+    cutoff_trigger: economic_model   # ties to §13 economic cutoff logic
+    css_cycle_days: 45
+    # Day ~41 marginal revenue = marginal cost based on realistic Baghewala economics
+
+  - name: energy_min
+    display_name: "Energy Minimization (Day 18)"
+    description: "Reduced SPM scenario demonstrating energy savings vs production trade-off."
+    inherits: normal_ops
+    spm_profile: reduced
+    spm_value: 3.2          # ~30% reduction from baseline
+    fault_injection: none
+    emphasis_window_days: [14, 22]
+
+# ─── Noise Model ─────────────────────────────────────────────────────────────
+noise_model:
+  sensor_gaussian_pct: 2.0       # 2% Gaussian noise on all sensor readings
+  dropout_prob_per_reading: 0.01  # 1% chance of a reading being absent
+  stuck_at_prob_per_run: 0.02     # 2% chance a sensor gets stuck at a value for a run
+  bias_drift_prob_per_run: 0.03   # 3% chance of slow linear bias drift per run
+  # Noise applied to surface-observable traces ONLY — ground-truth labels stay clean
+
+# ─── Generation Volume ────────────────────────────────────────────────────────
+replicas_per_scenario: 200    # Monte Carlo seeds; gives 200 wells × N scenarios
+timestep_minutes: 5           # Integration timestep for physics engine
+# Enforce ≥15% representation of each fault type in training split (Section 4.1)
+min_fault_class_fraction_in_train: 0.15
+
+# ─── Class Balance ───────────────────────────────────────────────────────────
+# Fault injection class weights for training (deliberately departs from real frequency)
+# Corrected at eval time via stratified test sets
+fault_class_oversampling:
+  rod_floating: 3.0
+  fluid_pound: 2.5
+  gas_interference: 2.0
+  traveling_valve_leak: 2.5
+
+# ─── Output Configuration ────────────────────────────────────────────────────
+output:
+  format: parquet
+  partition_by: [scenario, well_id, cycle_id]
+  # For local dev: write to filesystem
+  local_path: "data/synthetic/{generator_version}/"
+  # For cloud: path: "s3://btwin-datasets/synthetic/{generator_version}/"
+  # Source and label_source fields set on every row:
+  # source=synthetic, label_source=ground_truth
+  compression: snappy
+
+# ─── Dataset Registry ────────────────────────────────────────────────────────
+registry:
+  # Every run gets a dataset_id, config hash, generator version, row count, class balance
+  store: postgres    # dataset_version table in main application DB
+  track_with: dvc    # DVC or lakeFS; DVC recommended for hackathon simplicity
+
+# ─── Fault Injection Taxonomy ────────────────────────────────────────────────
+# Documented for reproducibility and audibility
+fault_taxonomy:
+  rod_floating:
+    mechanism: "Viscous drag exceeds buoyant weight margin on downstroke"
+    ground_truth_signal: "Compression window in synthetic card; downhole_card_class_true=rod_floating"
+  fluid_pound:
+    mechanism: "Incomplete pump fillage"
+    ground_truth_signal: "Card foreshortening on upstroke"
+  gas_interference:
+    mechanism: "Compressible fluid entering barrel"
+    ground_truth_signal: "Rounded card corners"
+  traveling_valve_leak:
+    mechanism: "Load bleed-off pattern"
+    ground_truth_signal: "Sloped card base"
+  sensor_dropout:
+    mechanism: "Missing readings for a window"
+    ground_truth_signal: "quality_flag=missing"
+  sensor_stuck_at:
+    mechanism: "Frozen value — near-zero variance over window"
+    ground_truth_signal: "quality_flag=out_of_range after rate-of-change check"
+  sensor_bias_drift:
+    mechanism: "Slow linear offset — used to test drift DETECTION"
+    ground_truth_signal: "Used for drift monitoring tests, not anomaly detection training"
+  leak_proxy:
+    mechanism: "Unexpected pressure/flow mismatch"
+    ground_truth_signal: "Feeds anomaly detector negative-class diversity"

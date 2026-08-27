@@ -1,0 +1,57 @@
+name: Backend CI
+on:
+  push:
+    paths: ["backend/**"]
+  pull_request:
+    paths: ["backend/**"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install ruff mypy
+      - run: ruff check backend/
+      - run: mypy backend/app --ignore-missing-imports
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: timescale/timescaledb:latest-pg16
+        env:
+          POSTGRES_USER: btwin
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: btwin_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports: ['5432:5432']
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r backend/requirements.txt
+      - working-directory: backend
+        run: pytest tests/ -v --cov=app --cov-report=xml
+        env:
+          DATABASE_URL: postgresql+asyncpg://btwin:secret@localhost:5432/btwin_test
+          REDIS_URL: redis://localhost:6379/0
+          USE_SYNTHETIC_DATA: 'true'
+
+  physics-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install numpy scipy pytest
+      - working-directory: backend
+        run: pytest tests/physics/ -v

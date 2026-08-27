@@ -1,0 +1,91 @@
+# Viscosity Residual Corrector — Model Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §7.2
+
+model_name: viscosity_residual_corrector
+version: "1.0.0"
+
+# ─── Objective ────────────────────────────────────────────────────────────────
+# Question: How far is the physics μ=f(T) estimate from actual fluid behavior?
+# Label: viscosity_cp_true - viscosity_cp_physics  (residual correction target)
+# This model is a SMALL, EXPLAINABLE correction, not a replacement for physics.
+
+# ─── Feature Configuration ───────────────────────────────────────────────────
+features:
+  groups:
+    - mechanical     # motor_current, rod_drag — viscosity's real-world fingerprints
+    - thermal        # temperature trend features
+  # The physics estimate itself is always an input feature
+  include_physics_estimate: true
+  # physics_predicted_viscosity_cp: the μ=f(T) estimate from the thermal/viscosity models
+
+# ─── Architecture ────────────────────────────────────────────────────────────
+architecture:
+  primary:
+    type: ridge_regression   # Deliberately simple — keeps the correction explainable
+    # Can show the regression equation on /physics page alongside the physics curve
+  challenger:
+    type: gradient_boosting_regressor  # sklearn GradientBoostingRegressor
+    # More flexible, evaluated when residuals show nonlinear patterns
+    enabled: true
+  # Bootstrap ensemble for uncertainty quantification
+  uncertainty:
+    method: bootstrap_ensemble
+    n_resamples: 20     # 10-20 resamples → residual prediction std as confidence proxy
+
+# ─── Hyperparameter Search (Optuna) ──────────────────────────────────────────
+hyperparameter_search:
+  n_trials: 30          # Simpler model, fewer trials needed
+  sampler: tpe
+  objective_metric: corrected_mae_vs_physics_only
+  search_space:
+    # Ridge
+    alpha: [0.001, 100.0, log]
+    # GBR challenger
+    learning_rate: [0.01, 0.3, log]
+    n_estimators: [50, 500]
+    max_depth: [2, 6]      # Keep shallow for interpretability
+
+# ─── Split Strategy ──────────────────────────────────────────────────────────
+split:
+  strategy: by_well_and_scenario
+  # Ensure rod_floating/cooling_phase scenarios are represented in both train and test
+  # These are exactly where physics is weakest and correction matters most
+  required_scenarios_in_test:
+    - rod_floating
+    - cooling_phase
+  holdout_well_fraction: 0.20
+
+# ─── Promotion Thresholds ─────────────────────────────────────────────────────
+promotion:
+  # Corrected MAE must beat physics-only by ≥10%
+  mae_improvement_vs_physics_only_pct: 10.0
+  # CRITICAL: Must NEVER be worse than physics-only on any individual scenario bucket
+  # A net-positive-average model that quietly makes rod_floating scenarios worse is NOT acceptable
+  per_scenario_must_not_regress: true
+  scenarios_to_check:
+    - normal_ops
+    - cooling_phase
+    - rod_floating
+    - css_cutoff
+    - energy_min
+
+# ─── Explainability ──────────────────────────────────────────────────────────
+explainability:
+  primary: coefficients    # Ridge coefficients — show the equation on /physics
+  challenger: shap          # SHAP for GBR challenger
+  ui_destination: physics_page_alongside_equation
+
+# ─── Real-Data Handling ──────────────────────────────────────────────────────
+real_data:
+  # Only validated on synthetic ground truth
+  # Real-data performance is CALIBRATION-CHECKED, not benchmarked
+  # Until real viscosity measurements (lab PVT data from OIL) exist
+  performance_mode: calibration_check
+  requires_lab_pvt_data: true   # toggle to validation_benchmark when OIL provides PVT data
+
+# ─── Known Failure Modes ─────────────────────────────────────────────────────
+known_failure_modes:
+  - "Only validated against synthetic ground truth viscosity; PVT lab measurements from OIL required for real validation"
+  - "Physics engine calibration changes can silently invalidate this corrector — retrain after any physics parameter update"
+  - "Model is tagged with physics_dependency version; mismatch triggers automatic retraining candidate"

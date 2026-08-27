@@ -1,0 +1,18 @@
+{
+  "bht_estimate_c": 3.358,
+  "spm_x_visc_interaction": 1.66131,
+  "dBHT_dt_6h": 1.462822,
+  "thermal_viscosity_index": 1.322039,
+  "viscosity_cp_physics": 1.155103,
+  "motor_current_a": 0.728534,
+  "visc_ratio_vs_peak": 0.655213,
+  "dBHT_dt_1h": 0.556598,
+  "vfd_pct": 0.434231,
+  "motor_current_rolling_std_1h": 0.420938,
+  "phase_shut_in": 0.382938,
+  "spm": 0.308308,
+  "phase_produce": 0.220509,
+  "surface_temp_c": 0.204021,
+  "stroke_len_in": 0.116505,
+  "phase_soak": 0.043813
+}

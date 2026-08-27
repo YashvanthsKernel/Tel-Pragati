@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Baghewala Digital Twin Design Tokens - Precision Instrumentation (§3.1) */
+    --surface-0: #F3F5F7;
+    --surface-1: #FFFFFF;
+    --surface-2: #EEF2F5;
+    --surface-3: #E4E9EE;
+    --line: #D1D8DF;
+    --line-strong: #AEB8C2;
+
+    --text-primary: #20252B;
+    --text-secondary: #46515C;
+    --text-muted: #74808B;
+    --text-disabled: #AAB3BB;
+
+    --oil-red: #E31E24;
+    --oil-red-soft: #FDEBEC;
+    --oil-charcoal: #2B2A29;
+
+    --accent-thermal: #C65B32;
+    --thermal-hot: #D9472E;
+    --thermal-mid: #E58A3A;
+    --thermal-warm: #F0C27A;
+
+    --accent-mechanical: #197F8C;
+    --mechanical-soft: #E1F2F4;
+    --mechanical-dark: #145E69;
+
+    --accent-telemetry: #2868A8;
+    --telemetry-soft: #E8F1F9;
+
+    --status-safe: #238B57;
+    --status-safe-soft: #E8F6EE;
+    --status-warn: #B77A08;
+    --status-warn-soft: #FFF5DC;
+    --status-critical: #C43D35;
+    --status-critical-soft: #FCEAE9;
+    --status-info: #2868A8;
+    --status-info-soft: #E8F1F9;
+
+    --provenance-measured: #2868A8;
+    --provenance-estimated: #197F8C;
+    --provenance-predicted: #B77A08;
+    --provenance-simulated: #7650A5;
+
+    --depth-gradient-start: #DCEBF1;
+    --depth-gradient-mid: #8DB7C3;
+    --depth-gradient-warm: #D58A58;
+    --depth-gradient-end: #87432E;
+
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-space-grotesk: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-ibm-plex-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  body {
+    background-color: var(--surface-0);
+    color: var(--text-primary);
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Focus visible accessibility styling (§15.1) */
+  :focus-visible {
+    outline: 2px solid var(--accent-mechanical);
+    outline-offset: 2px;
+  }
+}
+
+/* Precision Industrial Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--line-strong);
+}
+
+/* Reduced Motion Support (§15.1, §11.6) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Animation utilities */
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Depth rail visual styling */
+.depth-rail-bg {
+  background: linear-gradient(180deg, var(--depth-gradient-start) 0%, var(--depth-gradient-mid) 35%, var(--depth-gradient-warm) 70%, var(--depth-gradient-end) 100%);
+}

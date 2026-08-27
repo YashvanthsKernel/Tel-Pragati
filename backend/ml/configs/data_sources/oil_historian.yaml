@@ -1,0 +1,139 @@
+# OIL Historian / SCADA Adapter — Field Mapping Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §4.2
+#
+# IMPORTANT: This file is a TEMPLATE for the real OIL historian format.
+# Exact column names will be updated when OIL provides their actual export format.
+# All three source types are supported (csv_batch, opcua_stream, sql_dump).
+# Build for all three; implement the one that arrives first.
+
+source_type: csv_batch          # csv_batch | opcua_stream | sql_dump
+timezone: Asia/Kolkata
+encoding: utf-8
+delimiter: ","
+
+# ─── Field Mapping ────────────────────────────────────────────────────────────
+# Maps OIL's actual column names → canonical WellState field names (Section 3.1)
+# Explicit mapping — a silently-wrong unit is worse than a missing field
+field_map:
+  # These are ASSUMED column names until OIL provides actual headers
+  # Update this block with real names once OIL's export arrives
+  "Well_Name":              well_id
+  "TimeStamp":              ts
+  "WHT_degC":               surface_temp_c
+  "Inj_Temp_degC":          injection_temp_c
+  "CasingPressure_psi":     pressure_in_psi
+  "LinePressure_psi":       pressure_out_psi
+  "OilRate_BOPD":           flow_bopd
+  "TankLevel_pct":          tank_level_pct
+  "SPM":                    spm
+  "StrokeLength_in":        stroke_len_in
+  "VFD_Pct":                vfd_pct
+  "MotorCurrent_A":         motor_current_a
+  # SRP load cell — may be provided as separate file
+  "RodLoad_lb":             rod_load_lb
+  "RodPosition_in":         rod_position_in
+  # CSS cycle metadata (may come from separate cycle records file)
+  "CycleNumber":            cycle_number_raw    # used to look up cycle_id in DB
+  "PhaseCode":              phase_raw           # mapped via phase_map below
+
+# Phase code mapping from OIL's codes to canonical enum
+phase_map:
+  "INJ":  inject
+  "SOAK": soak
+  "PROD": produce
+  "SHUT": shut_in
+  # Unmapped codes → unknown (allowed per schema)
+
+# ─── Unit Conversions ─────────────────────────────────────────────────────────
+# All conversions are EXPLICIT — never implicit
+# Format: field_name: {from_unit: target_unit, factor: float}
+unit_conversions:
+  pressure_in_psi:
+    from: kg_cm2
+    to: psi
+    factor: 14.2233    # 1 kg/cm² = 14.2233 psi
+  pressure_out_psi:
+    from: kg_cm2
+    to: psi
+    factor: 14.2233
+  # steam volume: OIL may report in metric tons or m³ of cold water equivalent
+  steam_volume_tons:
+    from: m3_cwe
+    to: tons
+    factor: 1.0       # update when OIL confirms their steam volume units
+  # If temperatures come in Kelvin (unlikely but possible for automation systems)
+  # surface_temp_c:
+  #   from: kelvin
+  #   to: celsius
+  #   offset: -273.15
+
+# ─── Missing Field Policy ─────────────────────────────────────────────────────
+# quarantine: mark row with quality_flag=quarantined (RECOMMENDED — most conservative)
+# impute_null: allow null value to pass through (use for optional fields)
+# reject_row: drop the entire row (use only if the field is critical for all downstream use)
+missing_field_policy: quarantine
+
+# Per-field overrides
+field_missing_policy_overrides:
+  # Optional fields — can be null without quarantining the row
+  rod_load_lb: impute_null
+  rod_position_in: impute_null
+  tank_level_pct: impute_null
+  vfd_pct: impute_null
+  stroke_len_in: impute_null
+
+# ─── Batch Processing ─────────────────────────────────────────────────────────
+batch:
+  # Fail the entire batch if >30% of a critical field is null in the batch window
+  critical_field_null_threshold_pct: 30.0
+  critical_fields:
+    - ts
+    - well_id
+    - surface_temp_c
+    - flow_bopd
+    - spm
+    - motor_current_a
+  # If aggregate check fails: block ingestion + alert, never silently degrade dataset
+  aggregate_failure_action: block_and_alert
+
+# ─── Label Extraction from Workover Logs ─────────────────────────────────────
+# If OIL provides failure/workover records, extract weak labels from them
+# These are PRECIOUS — the only real-world ground truth for the failure-risk model
+workover_log:
+  enabled: false    # flip to true when OIL provides workover data
+  field_map:
+    "WorkoverDate":    failure_date
+    "WellName":        well_id
+    "FailureType":     failure_type_raw
+    "Description":     notes
+  failure_type_map:
+    "ROD FAILURE":     rod_failure
+    "PUMP UNSETTING":  pump_unsetting
+    "TUBING LEAK":     other
+    "MECHANICAL":      other
+  label_source: weak   # always weak — real workover logs are not ground truth
+  # Use for threshold calibration and case-study validation ONLY (Section 5)
+
+# ─── raw_extra Sidecar ────────────────────────────────────────────────────────
+# Any field OIL provides that isn't in the canonical schema yet
+# → lands in raw_extra JSONB column rather than being silently dropped
+raw_extra_enabled: true
+raw_extra_column: raw_extra
+
+# ─── OPC-UA Stream Configuration (for streaming mode) ─────────────────────────
+# opcua:
+#   server_url: opc.tcp://oil-scada-server:4840
+#   security_policy: Basic256Sha256
+#   tag_map:
+#     "ns=2;s=BGW08.WHT": surface_temp_c
+#     "ns=2;s=BGW08.SPM": spm
+#   poll_interval_s: 30
+
+# ─── SQL Dump Configuration (for SQL export mode) ─────────────────────────────
+# sql_dump:
+#   query: |
+#     SELECT WellName, TimeStamp, WHT_degC, SPM, MotorCurrent_A, OilRate_BOPD
+#     FROM PRODUCTION_HISTORY
+#     WHERE TimeStamp >= :from_ts AND TimeStamp <= :to_ts
+#   connection_string_env: OIL_HISTORIAN_DB_URL  # from environment variable

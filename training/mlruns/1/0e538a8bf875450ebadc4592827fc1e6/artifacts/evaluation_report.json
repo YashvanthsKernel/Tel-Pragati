@@ -1,0 +1,52 @@
+{
+  "model": "dynamometer_classifier",
+  "test_macro_f1": 0.9783,
+  "test_rod_floating_recall": 1.0,
+  "temperature": 0.11498901552282588,
+  "passed_promotion": true,
+  "classification_report": {
+    "Normal": {
+      "precision": 0.9705882352941176,
+      "recall": 0.9801980198019802,
+      "f1-score": 0.9753694581280788,
+      "support": 101.0
+    },
+    "Rod_Floating": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 76.0
+    },
+    "Fluid_Pound": {
+      "precision": 0.9782608695652174,
+      "recall": 1.0,
+      "f1-score": 0.989010989010989,
+      "support": 45.0
+    },
+    "Gas_Interference": {
+      "precision": 0.9523809523809523,
+      "recall": 0.9302325581395349,
+      "f1-score": 0.9411764705882353,
+      "support": 43.0
+    },
+    "Traveling_Valve_Leak": {
+      "precision": 1.0,
+      "recall": 0.9722222222222222,
+      "f1-score": 0.9859154929577465,
+      "support": 36.0
+    },
+    "accuracy": 0.9800664451827242,
+    "macro avg": {
+      "precision": 0.9802460114480575,
+      "recall": 0.9765305600327474,
+      "f1-score": 0.9782944821370098,
+      "support": 301.0
+    },
+    "weighted avg": {
+      "precision": 0.9800781788954207,
+      "recall": 0.9800664451827242,
+      "f1-score": 0.9800045041800779,
+      "support": 301.0
+    }
+  }
+}

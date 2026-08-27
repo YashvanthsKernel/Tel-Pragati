@@ -1,0 +1,22 @@
+artifact_path: file:D:/Tel Pragati/training/mlruns/1/models/m-314653b9b188401dac2cbc80e15ed4f5/artifacts
+flavors:
+  python_function:
+    data: model.ubj
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.14.7
+  xgboost:
+    code: null
+    data: model.ubj
+    model_class: xgboost.core.Booster
+    model_format: ubj
+    xgb_version: 3.4.1
+mlflow_version: 3.15.2
+model_id: m-314653b9b188401dac2cbc80e15ed4f5
+model_size_bytes: 1961885
+model_uuid: m-314653b9b188401dac2cbc80e15ed4f5
+prompts: null
+run_id: 279cfcb0f96841f897698251acefc759
+utc_time_created: '2026-08-27 10:20:17.604056'

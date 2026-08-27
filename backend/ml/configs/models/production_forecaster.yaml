@@ -1,0 +1,83 @@
+# Production Forecaster — Model Configuration
+# Baghewala Digital Twin | SIH 2026
+# Companion to: Baghewala_Digital_Twin_AIML_Architecture.md §7.1
+
+model_name: production_forecaster
+version: "1.0.0"
+
+# ─── Feature Configuration ───────────────────────────────────────────────────
+features:
+  groups:
+    - production       # flow_bopd, lagged_1h, lagged_6h, lagged_24h, rolling_mean_1h
+    - thermal          # surface_temp_c, bht_estimate, dBHT_dt_1h, dBHT_dt_6h
+    - mechanical       # spm, stroke_len, vfd_pct, motor_current, rolling_std_current_1h
+    - css_context      # cycle_day, phase_encoded, cumulative_steam, days_since_injection
+  # Quality features always included to allow model to learn from data quality
+  include_quality_flags: true
+  # Phase transition flag — model reacts to discontinuities at phase boundaries
+  include_phase_transition_flag: true
+
+# ─── Prediction Horizons ─────────────────────────────────────────────────────
+horizons_hours: [1, 6, 24]
+
+# ─── Architecture ────────────────────────────────────────────────────────────
+architecture:
+  primary:
+    type: lightgbm_quantile
+    quantiles: [0.10, 0.50, 0.90]    # p10 / p50 / p90 prediction interval
+    objective: quantile
+  challenger:
+    type: temporal_fusion_transformer # evaluated only when >= 500 cycle-equivalents of data
+    enabled: false                    # flip to true once data volume justifies it
+
+# ─── Hyperparameter Search (Optuna) ──────────────────────────────────────────
+hyperparameter_search:
+  n_trials: 50
+  sampler: tpe
+  objective_metric: p50_mae_vs_persistence  # must beat naive persistence by ≥15%
+  search_space:
+    learning_rate: [0.01, 0.3, log]
+    n_estimators: [100, 1000]
+    num_leaves: [15, 127]
+    min_child_samples: [10, 100]
+    reg_alpha: [0.0, 5.0]
+    reg_lambda: [0.0, 5.0]
+
+# ─── Split Strategy ──────────────────────────────────────────────────────────
+split:
+  strategy: by_well_and_time
+  # Hold out entire wells never seen in training (generalization test)
+  holdout_well_fraction: 0.20
+  # Hold out most recent 20% of each remaining well's timeline (temporal test)
+  holdout_time_fraction: 0.20
+  # Both splits reported separately — they answer different questions
+
+# ─── Promotion Thresholds ─────────────────────────────────────────────────────
+promotion:
+  # p50 MAE must beat naive-persistence by ≥15%
+  p50_mae_improvement_vs_persistence_pct: 15.0
+  # p10/p90 empirical coverage must be within [80%, 96%]
+  coverage_interval_target: 0.80
+  coverage_interval_min: 0.80
+  coverage_interval_max: 0.96
+  # Must not regress on "golden" evaluation set
+  golden_set_regression_tolerance_pct: 5.0
+
+# ─── Explainability ──────────────────────────────────────────────────────────
+explainability:
+  method: shap
+  model_target: p50           # SHAP on the p50 model
+  top_n_drivers: 3            # surfaced as "top 3 drivers" text on /twin
+  ui_destination: twin_forecast_card
+
+# ─── Known Failure Modes ─────────────────────────────────────────────────────
+known_failure_modes:
+  - "Degrades sharply during CSS phase transitions (inject→soak, soak→produce) where dynamics are discontinuous — flag `phase_transition_active` feature explicitly"
+  - "Under-performs when CSS cycle parameters deviate significantly from training distribution"
+
+# ─── MLflow Metadata ─────────────────────────────────────────────────────────
+mlflow:
+  experiment_name: baghewala-digital-twin
+  tags:
+    model_family: production_forecaster
+    physics_dependency: physics_engine_v1.0.0

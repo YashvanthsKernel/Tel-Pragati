@@ -1,0 +1,32 @@
+{
+  "pipeline_start": "2026-08-27T10:15:13.954973+00:00",
+  "models": {
+    "forecaster": {
+      "passed": false,
+      "training_seconds": 225.45768785476685,
+      "status": "archived"
+    },
+    "viscosity": {
+      "passed": false,
+      "training_seconds": 53.26067399978638,
+      "status": "archived"
+    },
+    "dynamometer": {
+      "passed": true,
+      "training_seconds": 26.399785041809082,
+      "status": "staged"
+    },
+    "failure": {
+      "passed": false,
+      "training_seconds": 6.513890027999878,
+      "status": "archived"
+    },
+    "anomaly": {
+      "passed": false,
+      "training_seconds": 0.3590424060821533,
+      "status": "archived"
+    }
+  },
+  "pipeline_end": "2026-08-27T10:20:27.160865+00:00",
+  "all_passed": false
+}
