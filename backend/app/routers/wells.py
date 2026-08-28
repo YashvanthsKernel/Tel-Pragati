@@ -208,28 +208,52 @@ def _compute_physics_state(well_id: str, css_day: float = 25.0) -> dict:
 
 @router.get("/wells", response_model=list[WellSummary])
 async def list_wells():
-    """List all wells with summary state for the field map and fleet view."""
-    logger.info("Listing all wells")
-    # Seed two Baghewala wells for demo
+    """List all 23 wells with summary state for the field map and fleet view."""
+    logger.info("Listing all 23 wells")
+    well_meta = [
+        ("BGW-01", "BGW-01", 14.0, 27.8124, 72.4182, "PAD-NORTH-1", 1056.0, 15.1),
+        ("BGW-02", "BGW-02", 32.0, 27.8145, 72.4215, "PAD-NORTH-1", 1197.0, 14.0),
+        ("BGW-03", "BGW-03", 4.0, 27.8168, 72.4165, "PAD-NORTH-1", 1184.0, 15.9),
+        ("BGW-04", "BGW-04", 39.0, 27.8095, 72.4251, "PAD-NORTH-2", 1091.0, 17.4),
+        ("BGW-05", "BGW-05", 8.0, 27.8182, 72.4289, "PAD-NORTH-2", 1261.0, 15.1),
+        ("BGW-06", "BGW-06", 19.0, 27.8111, 72.4132, "PAD-NORTH-2", 1112.0, 15.3),
+        ("BGW-07", "BGW-07", 26.0, 27.8139, 72.4312, "PAD-CENTRAL-1", 1199.0, 17.0),
+        ("BGW-08", "BGW-08", 25.0, 27.8155, 72.4201, "PAD-CENTRAL-1", 1293.0, 16.5),
+        ("BGW-09", "BGW-09", 11.0, 27.8078, 72.4174, "PAD-CENTRAL-1", 1065.0, 18.7),
+        ("BGW-10", "BGW-10", 43.0, 27.8201, 72.4234, "PAD-CENTRAL-2", 1228.0, 17.4),
+        ("BGW-11", "BGW-11", 18.0, 27.8166, 72.4345, "PAD-CENTRAL-2", 1068.0, 17.3),
+        ("BGW-12", "BGW-12", 29.0, 27.8089, 72.4287, "PAD-CENTRAL-2", 1065.0, 18.0),
+        ("BGW-13", "BGW-13", 3.0, 27.8062, 72.4195, "PAD-SOUTH-1", 1282.0, 14.8),
+        ("BGW-14", "BGW-14", 21.0, 27.8055, 72.4228, "PAD-SOUTH-1", 1089.0, 18.8),
+        ("BGW-15", "BGW-15", 44.0, 27.8071, 72.4265, "PAD-SOUTH-1", 1151.0, 16.8),
+        ("BGW-16", "BGW-16", 17.0, 27.8048, 72.4310, "PAD-SOUTH-2", 1129.0, 14.4),
+        ("BGW-17", "BGW-17", 12.0, 27.8068, 72.4352, "PAD-SOUTH-2", 1203.0, 17.3),
+        ("BGW-18", "BGW-18", 22.0, 27.8082, 72.4385, "PAD-SOUTH-2", 1101.0, 15.3),
+        ("BGW-19", "BGW-19", 15.0, 27.8175, 72.4380, "PAD-EAST-1", 1190.0, 18.7),
+        ("BGW-20", "BGW-20", 37.0, 27.8198, 72.4362, "PAD-EAST-1", 1103.0, 14.5),
+        ("BGW-21", "BGW-21", 20.0, 27.8215, 72.4318, "PAD-EAST-1", 1251.0, 18.1),
+        ("BGW-22", "BGW-22", 16.0, 27.8188, 72.4140, "PAD-WEST-1", 1150.0, 14.3),
+        ("BGW-23", "BGW-23", 2.0, 27.8220, 72.4168, "PAD-WEST-1", 1136.0, 16.2),
+    ]
     wells = []
-    for well_id, name, css_day, lat, lon in [
-        ("BGW-08", "BGW-08", 25.0, 28.6139, 72.3154),
-        ("BGW-04", "BGW-04", 14.0, 28.6201, 72.3098),
-        ("BGW-12", "BGW-12", 35.0, 28.6087, 72.3212),
-    ]:
+    for well_id, name, css_day, lat, lon, pad_id, depth_m, api_gravity in well_meta:
         p = _compute_physics_state(well_id, css_day)
+        status_val = "shut_in" if css_day > 42 else ("css_active" if css_day < 6 else ("alarm" if p["risk_pct"] > 70 else "producing"))
         wells.append(WellSummary(
             well_id=well_id,
             name=name,
             lat=lat,
             lon=lon,
+            pad_id=pad_id,
+            depth_m=depth_m,
+            api_gravity=api_gravity,
             health_pct=p["health"],
-            flow_bopd=p["flow_bopd"],
+            flow_bopd=p["flow_bopd"] if status_val != "shut_in" and status_val != "css_active" else 0.0,
             css_day=css_day,
             rod_floating_risk_pct=p["risk_pct"],
             bht_celsius=p["bht"],
             viscosity_cp=p["viscosity"],
-            status="alarm" if p["risk_pct"] > 70 else "producing",
+            status=status_val,
         ))
     return wells
 

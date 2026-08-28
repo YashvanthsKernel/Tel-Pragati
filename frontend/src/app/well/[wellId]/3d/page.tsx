@@ -1,11 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { useWellContext } from "../../../../components/well/WellContext";
-import { WellboreScene } from "../../../../components/scene/WellboreScene";
 import { ComponentDossier } from "../../../../components/cards/ComponentDossier";
 import { ScenarioPlayer } from "../../../../components/common/ScenarioPlayer";
-import { Box, Layers, Sliders, Info, ShieldCheck } from "lucide-react";
+import { Box, Compass } from "lucide-react";
+import { PageHeader } from "../../../../components/ui/PageHeader";
+
+// Dynamically import Three.js WebGL scene with SSR disabled
+const WellboreScene = dynamic(
+  () => import("../../../../components/scene/WellboreScene").then((m) => m.WellboreScene),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full min-h-[500px] flex flex-col items-center justify-center bg-surface-0 rounded-lg border border-line">
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-text-muted mt-3">
+          Initializing 3D Subsurface GPU WebGL Context...
+        </span>
+      </div>
+    ),
+  }
+);
 
 export default function Dedicated3DWellPage() {
   const { wellId, wellState, isLoading } = useWellContext();
@@ -14,7 +31,7 @@ export default function Dedicated3DWellPage() {
   if (isLoading || !wellState) {
     return (
       <div className="p-6 flex flex-col items-center justify-center min-h-[70vh]">
-        <div className="w-10 h-10 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
         <span className="text-xs font-mono text-text-muted mt-3">
           Constructing 3D Subsurface Model for {wellId}...
         </span>
@@ -24,34 +41,26 @@ export default function Dedicated3DWellPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-4 flex-1 flex flex-col min-h-[calc(100vh-4rem)]">
-      {/* Top Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
-        <div>
+      {/* ── Page Header ── */}
+      <PageHeader
+        wellId={wellId}
+        icon={<Box className="w-5 h-5 text-accent-mechanical" />}
+        title="Dedicated 3D Subsurface Wellbore Experience"
+        subtitle="Real-Time Data-Bound Three.js WebGL Model · Surface to Reservoir Multi-Layer Spatial Twin"
+        badge={`Depth: ${wellState.depthM || 1040}m`}
+        actions={
           <div className="flex items-center gap-2">
-            <Box className="w-5 h-5 text-accent-mechanical" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              {wellId} Dedicated 3D Subsurface Wellbore Experience
-            </h1>
+            <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-surface-2 border border-line text-text-secondary">
+              GPU Instanced · 60 FPS
+            </span>
           </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Real-Time Data-Bound Three.js WebGL Model · Surface to Reservoir Multi-Layer Spatial Twin
-          </p>
-        </div>
+        }
+      />
 
-        <div className="flex items-center gap-2">
-          <div className="px-3 py-1 rounded bg-surface-1 border border-line text-xs font-mono text-text-muted">
-            Depth: <span className="text-text-primary font-bold">{wellState.depthM || 1040}m</span>
-          </div>
-          <div className="px-3 py-1 rounded bg-accent-thermal/10 text-accent-thermal border border-accent-thermal/30 text-xs font-mono font-bold">
-            GPU Instanced 60 FPS
-          </div>
-        </div>
-      </div>
-
-      {/* Time Machine Scenario Controller Synchronized (§11.4) */}
+      {/* ── Time Machine Scenario Controller Synchronized (§11.4) ── */}
       <ScenarioPlayer showTimeline={true} />
 
-      {/* Main 3D Canvas + Component Dossier Grid */}
+      {/* ── Main 3D Canvas + Contextual Inspector ── */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-4 min-h-[550px]">
         {/* Fullscreen 3D Scene (3 Cols) */}
         <div className="lg:col-span-3 bg-surface-1 border border-line rounded-lg overflow-hidden shadow-card relative flex flex-col">
@@ -63,24 +72,25 @@ export default function Dedicated3DWellPage() {
           />
         </div>
 
-        {/* Right Dossier Panel (1 Col) */}
-        <div className="space-y-4">
+        {/* Right Dossier / Inspector Panel (1 Col) */}
+        <div className="space-y-3">
           <ComponentDossier
             nodeId={selectedNode}
             wellState={wellState}
             onClose={() => setSelectedNode(null)}
           />
 
-          <div className="p-3.5 rounded-lg bg-surface-1 border border-line shadow-card space-y-2 text-xs font-mono">
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-              3D Navigation & Controls
-            </span>
-            <div className="space-y-1 text-[11px] text-text-muted leading-relaxed">
-              <p>• <strong>Left Click + Drag:</strong> Orbit camera around wellbore</p>
-              <p>• <strong>Right Click + Drag:</strong> Pan vertically</p>
-              <p>• <strong>Scroll Wheel:</strong> Zoom from surface to reservoir</p>
-              <p>• <strong>Click Components:</strong> Open engineering dossier</p>
-              <p>• <strong>Mode Pills:</strong> Switch shaders (Thermal, Risk, Drag)</p>
+          <div className="p-3.5 rounded-lg bg-surface-1 border border-line shadow-card space-y-2 text-xs font-sans">
+            <div className="flex items-center gap-1.5 font-bold text-text-primary uppercase tracking-wide text-xs border-b border-line pb-1.5">
+              <Compass className="w-3.5 h-3.5 text-accent-mechanical" />
+              <span>3D Navigation & Controls</span>
+            </div>
+            <div className="space-y-1 text-[11px] text-text-secondary leading-relaxed font-sans">
+              <p>• <strong className="text-text-primary">Orbit:</strong> Left-click and drag camera around wellbore</p>
+              <p>• <strong className="text-text-primary">Pan:</strong> Right-click and drag vertically</p>
+              <p>• <strong className="text-text-primary">Zoom:</strong> Scroll wheel from surface to reservoir</p>
+              <p>• <strong className="text-text-primary">Inspect:</strong> Click any component to load telemetry dossier</p>
+              <p>• <strong className="text-text-primary">Shaders:</strong> Toggle Thermal, Drag & Risk color profiles</p>
             </div>
           </div>
         </div>

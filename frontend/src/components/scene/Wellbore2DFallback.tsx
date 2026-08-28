@@ -19,7 +19,7 @@ export function Wellbore2DFallback({ wellState, onTry3d }: Wellbore2DFallbackPro
     <div className="w-full h-full bg-surface-1 border border-line rounded-lg p-4 flex flex-col justify-between select-none">
       <div className="flex items-center justify-between border-b border-line pb-2">
         <div>
-          <h3 className="font-display text-sm font-bold text-text-primary uppercase tracking-wide">
+          <h3 className="font-sans text-sm font-bold text-text-primary uppercase tracking-wide">
             2D Subsurface Wellbore Schematic (Low-Power / A11y Mode)
           </h3>
           <span className="text-xs font-mono text-text-muted">

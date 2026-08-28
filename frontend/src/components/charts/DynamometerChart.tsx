@@ -13,7 +13,7 @@ interface DynamometerChartProps {
 
 export function DynamometerChart({
   card,
-  height = 280,
+  height = 300,
   interactive = true,
 }: DynamometerChartProps) {
   const [hoveredTrace, setHoveredTrace] = useState<"surface" | "downhole" | null>(null);
@@ -47,11 +47,11 @@ export function DynamometerChart({
   const isFluidPound = card.classification === "fluid_pound";
 
   return (
-    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none">
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-2">
         <div className="flex items-center gap-2">
-          <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-            Dynagraph Card Overlay (Gibbs 1D Wave Reconstruction)
+          <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
+            Dynagraph Card Wave Overlay
           </span>
           <EstimatedBadge
             data={{
@@ -63,22 +63,33 @@ export function DynamometerChart({
           />
         </div>
 
-        {/* Classification status badge */}
-        <div
-          className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-mono font-bold uppercase border ${
-            isRodFloating
-              ? "bg-status-warn/10 text-status-warn border-status-warn/40"
-              : isFluidPound
-              ? "bg-status-critical/10 text-status-critical border-status-critical/40"
-              : "bg-status-safe/10 text-status-safe border-status-safe/40"
-          }`}
-        >
-          {isRodFloating ? (
-            <AlertTriangle className="w-3.5 h-3.5" />
-          ) : (
-            <CheckCircle className="w-3.5 h-3.5" />
-          )}
-          <span>Classification: {card.classification.replace("_", " ")}</span>
+        {/* Traces Legend & Status */}
+        <div className="flex items-center gap-4 text-xs font-mono">
+          <div className="flex items-center gap-1.5 cursor-pointer" onMouseEnter={() => setHoveredTrace("surface")} onMouseLeave={() => setHoveredTrace(null)}>
+            <span className="w-2.5 h-0.5 bg-accent-mechanical rounded" />
+            <span className="text-accent-mechanical font-semibold">Surface Card</span>
+          </div>
+          <div className="flex items-center gap-1.5 cursor-pointer" onMouseEnter={() => setHoveredTrace("downhole")} onMouseLeave={() => setHoveredTrace(null)}>
+            <span className="w-2.5 h-0.5 bg-accent-thermal rounded" />
+            <span className="text-accent-thermal font-semibold">Downhole (1D Wave)</span>
+          </div>
+
+          <div
+            className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase font-bold border ${
+              isRodFloating
+                ? "bg-status-warn/15 text-status-warn border-status-warn/30"
+                : isFluidPound
+                ? "bg-status-critical/15 text-status-critical border-status-critical/30"
+                : "bg-status-safe/15 text-status-safe border-status-safe/30"
+            }`}
+          >
+            {isRodFloating ? (
+              <AlertTriangle className="w-3 h-3" />
+            ) : (
+              <CheckCircle className="w-3 h-3" />
+            )}
+            <span>{card.classification.replace("_", " ")}</span>
+          </div>
         </div>
       </div>
 
@@ -193,22 +204,22 @@ export function DynamometerChart({
       {/* Footer Metrics */}
       <div className="grid grid-cols-4 gap-2 pt-2 border-t border-line text-xs font-mono mt-1">
         <div>
-          <span className="text-[10px] text-text-muted">Peak Surface (PPRL):</span>
-          <div className="font-bold text-text-primary">{card.peakSurfaceLoadLb.toLocaleString()} lb</div>
+          <span className="text-[10px] font-sans text-text-muted">Peak Surface (PPRL):</span>
+          <div className="font-bold text-text-primary tabular-nums">{card.peakSurfaceLoadLb.toLocaleString()} lb</div>
         </div>
         <div>
-          <span className="text-[10px] text-text-muted">Min Surface (MPRL):</span>
-          <div className={`font-bold ${isRodFloating ? "text-status-warn" : "text-text-primary"}`}>
+          <span className="text-[10px] font-sans text-text-muted">Min Surface (MPRL):</span>
+          <div className={`font-bold tabular-nums ${isRodFloating ? "text-status-warn" : "text-text-primary"}`}>
             {card.minSurfaceLoadLb.toLocaleString()} lb
           </div>
         </div>
         <div>
-          <span className="text-[10px] text-text-muted">Downhole Fillage:</span>
-          <div className="font-bold text-accent-thermal">{card.pumpFillagePct}%</div>
+          <span className="text-[10px] font-sans text-text-muted">Downhole Fillage:</span>
+          <div className="font-bold text-accent-thermal tabular-nums">{card.pumpFillagePct}%</div>
         </div>
         <div>
-          <span className="text-[10px] text-text-muted">Stroke Length:</span>
-          <div className="font-bold text-accent-mechanical">144 in</div>
+          <span className="text-[10px] font-sans text-text-muted">Stroke Length:</span>
+          <div className="font-bold text-accent-mechanical tabular-nums">144 in</div>
         </div>
       </div>
     </div>

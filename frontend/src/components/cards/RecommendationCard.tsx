@@ -43,23 +43,24 @@ export function RecommendationCard({ recommendation, onActionComplete }: Recomme
   const isRejected = recommendation.status === "rejected";
 
   return (
-    <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-accent-thermal/20 text-accent-thermal flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
-          <div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-accent-thermal font-bold">
-              AI Decision Engine Advisory
+    <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3.5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-accent-mechanical font-bold">
+              SCADA Supervisory Advisory
             </span>
-            <h4 className="font-semibold text-sm text-text-primary leading-tight">
-              {recommendation.title}
-            </h4>
+            <span className="text-text-muted text-xs">·</span>
+            <span className="text-[10px] font-mono text-text-muted">
+              {recommendation.actionType}
+            </span>
           </div>
+          <h3 className="font-sans font-bold text-sm sm:text-base text-text-primary leading-tight">
+            {recommendation.title}
+          </h3>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 flex-shrink-0">
           <span
             className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${
               isApproved
@@ -74,7 +75,7 @@ export function RecommendationCard({ recommendation, onActionComplete }: Recomme
         </div>
       </div>
 
-      <p className="text-xs text-text-muted leading-relaxed">
+      <p className="text-xs font-sans text-text-secondary leading-relaxed">
         {recommendation.explanation}
       </p>
 

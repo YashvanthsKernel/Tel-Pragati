@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import { WellSummary } from "../../data/types";
-import { Layers, MapPin, Eye, Maximize2, Satellite, Navigation } from "lucide-react";
+import { Layers, MapPin, Satellite, Mountain, Navigation, Compass } from "lucide-react";
 
 interface RealtimeLeafletMapProps {
   wells: WellSummary[];
@@ -19,7 +19,7 @@ export function RealtimeLeafletMap({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const markersRef = useRef<Map<string, any>>(new Map());
-  const [mapType, setMapType] = useState<"esriDark" | "dark" | "positron" | "voyager" | "satellite" | "osm">("esriDark");
+  const [mapType, setMapType] = useState<"esriDark" | "satellite" | "esriLight" | "topo" | "osm">("esriDark");
   const [isReady, setIsReady] = useState(false);
 
   // Initialize Leaflet Map
@@ -45,19 +45,10 @@ export function RealtimeLeafletMap({
 
         L.control.zoom({ position: "topleft" }).addTo(map);
 
-        const cartoKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
-        // CARTO basemap CDN expects ?key=YOUR_BASEMAP_KEY
-        const authParam = cartoKey ? `?key=${cartoKey}` : "";
-
-        // Tile layer definitions
-        const darkTiles = L.tileLayer(
-          `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${authParam}`,
-          { maxZoom: 19, subdomains: "abcd", attribution: "&copy; CARTO" }
-        );
-
+        // ── 1. High-Contrast SCADA Dark (Esri Dark Canvas - 100% Free & No API Key) ──
         const esriDarkBase = L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-          { maxZoom: 16, attribution: "&copy; Esri" }
+          { maxZoom: 16, attribution: "&copy; Esri &mdash; SCADA Dark" }
         );
         const esriDarkLabels = L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
@@ -65,34 +56,47 @@ export function RealtimeLeafletMap({
         );
         const esriDarkGroup = L.layerGroup([esriDarkBase, esriDarkLabels]);
 
-        const positronTiles = L.tileLayer(
-          `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${authParam}`,
-          { maxZoom: 19, subdomains: "abcd", attribution: "&copy; CARTO" }
-        );
-
-        const voyagerTiles = L.tileLayer(
-          `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${authParam}`,
-          { maxZoom: 19, subdomains: "abcd", attribution: "&copy; CARTO" }
-        );
-
-        const satTiles = L.tileLayer(
+        // ── 2. High-Res Satellite Imagery with Hybrid Overlay (Esri Imagery - Free) ──
+        const satBase = L.tileLayer(
           "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-          { maxZoom: 19, attribution: "&copy; Esri" }
+          { maxZoom: 19, attribution: "&copy; Esri &mdash; Satellite" }
+        );
+        const satLabels = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 19 }
+        );
+        const satGroup = L.layerGroup([satBase, satLabels]);
+
+        // ── 3. High-Contrast Engineering Light (Esri Light Canvas - Free) ──
+        const esriLightBase = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 16, attribution: "&copy; Esri &mdash; Light Canvas" }
+        );
+        const esriLightLabels = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 16 }
+        );
+        const esriLightGroup = L.layerGroup([esriLightBase, esriLightLabels]);
+
+        // ── 4. Geological Topography / Elevation Terrain (Esri Topo - Free) ──
+        const topoTiles = L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+          { maxZoom: 19, attribution: "&copy; Esri &mdash; Topo" }
         );
 
+        // ── 5. OpenStreetMap Standard Vector (OSM - Free) ──
         const osmTiles = L.tileLayer(
           "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-          { maxZoom: 19, attribution: "&copy; OpenStreetMap" }
+          { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }
         );
 
-        // Default to clean SCADA dark
+        // Default to SCADA Dark Group
         esriDarkGroup.addTo(map);
         (map as any)._tileLayers = {
-          dark: darkTiles,
           esriDark: esriDarkGroup,
-          positron: positronTiles,
-          voyager: voyagerTiles,
-          satellite: satTiles,
+          satellite: satGroup,
+          esriLight: esriLightGroup,
+          topo: topoTiles,
           osm: osmTiles,
         };
 
@@ -107,7 +111,7 @@ export function RealtimeLeafletMap({
         const pmlPolygon = L.polygon(pmlBoundaryCoords, {
           color: "#C65B32",
           weight: 2,
-          opacity: 0.8,
+          opacity: 0.85,
           dashArray: "6, 6",
           fillColor: "#C65B32",
           fillOpacity: 0.08,
@@ -180,7 +184,7 @@ export function RealtimeLeafletMap({
                   : "bg-transparent"
               }"></div>
               <div class="w-5 h-5 rounded-full border-2 ${
-                isSelected ? "border-white scale-125" : "border-surface-0"
+                isSelected ? "border-white scale-125 ring-2 ring-accent-mechanical" : "border-surface-0"
               } shadow-popup flex items-center justify-center transition-all" style="background-color: ${color}">
                 <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
               </div>
@@ -199,18 +203,18 @@ export function RealtimeLeafletMap({
 
         const marker = L.marker([well.lat, well.lon], { icon: customIcon }).addTo(map);
 
-        // Interactive popup
+        // Interactive SCADA popup
         const popupContent = `
-          <div style="font-family: var(--font-ibm-plex-mono); color: #20252B; background: #FFFFFF; padding: 8px; border-radius: 6px; border: 1px solid #D1D8DF; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <strong style="color: #197F8C; font-size: 13px;">${well.name}</strong>
-              <span style="font-size: 9px; padding: 2px 6px; border-radius: 4px; background: ${color}20; color: ${color}; font-weight: bold; text-transform: uppercase;">${well.status}</span>
+          <div style="font-family: var(--font-inter), sans-serif; color: #F0F4F8; background: #13171C; padding: 10px; border-radius: 8px; border: 1px solid #232B36; min-width: 190px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid #232B36; padding-bottom: 4px;">
+              <strong style="color: #00B4A0; font-size: 13px;">${well.name}</strong>
+              <span style="font-size: 9px; font-family: var(--font-ibm-plex-mono); padding: 2px 6px; border-radius: 4px; background: ${color}25; color: ${color}; font-weight: bold; text-transform: uppercase; border: 1px solid ${color}40;">${well.status}</span>
             </div>
-            <div style="font-size: 11px; margin-bottom: 3px;">Pad: <span style="color: #74808B;">${well.padId}</span></div>
-            <div style="font-size: 11px; margin-bottom: 3px;">Gross Flow: <strong>${well.flowBopd} BOPD</strong></div>
-            <div style="font-size: 11px; margin-bottom: 3px;">BHT: <span style="color: #C65B32;">${well.bhtCelsius || 74.2}°C</span></div>
-            <div style="font-size: 11px; margin-bottom: 6px;">Health Index: <strong style="color: #238B57;">${well.healthPct}%</strong></div>
-            <a href="/well/${well.wellId}/twin" style="display: block; text-align: center; background: #197F8C; color: #FFFFFF; font-weight: bold; font-size: 10px; padding: 4px 8px; border-radius: 4px; text-decoration: none; margin-top: 4px;">Open Full Digital Twin →</a>
+            <div style="font-size: 11px; margin-bottom: 3px; font-family: var(--font-ibm-plex-mono); color: #8F9CA9;">Pad: <span style="color: #F0F4F8;">${well.padId}</span></div>
+            <div style="font-size: 11px; margin-bottom: 3px; font-family: var(--font-ibm-plex-mono); color: #8F9CA9;">Gross Flow: <strong style="color: #F0F4F8;">${well.flowBopd} BOPD</strong></div>
+            <div style="font-size: 11px; margin-bottom: 3px; font-family: var(--font-ibm-plex-mono); color: #8F9CA9;">BHT: <span style="color: #C65B32; font-weight: bold;">${well.bhtCelsius || 74.2}°C</span></div>
+            <div style="font-size: 11px; margin-bottom: 8px; font-family: var(--font-ibm-plex-mono); color: #8F9CA9;">Health Index: <strong style="color: #238B57;">${well.healthPct}%</strong></div>
+            <a href="/well/${well.wellId}/twin" style="display: block; text-align: center; background: #00B4A0; color: #0C0F12; font-weight: 700; font-size: 11px; padding: 5px 8px; border-radius: 6px; text-decoration: none; transition: opacity 0.2s;">Open Digital Twin →</a>
           </div>
         `;
 
@@ -236,84 +240,33 @@ export function RealtimeLeafletMap({
     }
   };
 
-  const hasCartoKey = !!process.env.NEXT_PUBLIC_CARTO_API_KEY;
-
   return (
     <div className="relative w-full h-full min-h-[500px] overflow-hidden rounded-lg bg-surface-0">
       {/* Top Map Layer Selector Overlay */}
-      <div className="absolute top-3 right-3 z-[1000] flex items-center gap-1 bg-surface-1/90 backdrop-blur-md p-1 rounded-md border border-line shadow-popup">
-        {hasCartoKey && (
-          <span className="px-2 py-0.5 mr-1 rounded bg-accent-mechanical/10 text-accent-mechanical border border-accent-mechanical/20 text-[9px] font-mono font-bold uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-mechanical animate-pulse" />
-            CARTO Connected
-          </span>
-        )}
-
+      <div className="absolute top-3 right-3 z-[1000] flex items-center gap-1 bg-surface-1/90 backdrop-blur-md p-1 rounded-lg border border-line shadow-card">
         <button
           type="button"
           onClick={() => setMapType("esriDark")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans font-semibold transition-colors ${
             mapType === "esriDark"
-              ? "bg-accent-mechanical text-surface-0"
-              : "text-text-muted hover:text-text-primary"
+              ? "bg-accent-mechanical text-surface-0 font-bold"
+              : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
           }`}
-          title="Esri World Dark Canvas (Clean High-Contrast SCADA)"
+          title="Esri World Dark Canvas (High-Contrast SCADA Dark)"
         >
           <Layers className="w-3.5 h-3.5" />
-          <span>SCADA Dark (Clean)</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setMapType("dark")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
-            mapType === "dark"
-              ? "bg-accent-mechanical text-surface-0"
-              : "text-text-muted hover:text-text-primary"
-          }`}
-          title="CARTO Dark Matter"
-        >
-          <Layers className="w-3.5 h-3.5" />
-          <span>CARTO Dark</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setMapType("positron")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
-            mapType === "positron"
-              ? "bg-accent-mechanical text-surface-0"
-              : "text-text-muted hover:text-text-primary"
-          }`}
-          title="CARTO Positron Light"
-        >
-          <Layers className="w-3.5 h-3.5" />
-          <span>CARTO Light</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setMapType("voyager")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
-            mapType === "voyager"
-              ? "bg-accent-mechanical text-surface-0"
-              : "text-text-muted hover:text-text-primary"
-          }`}
-          title="CARTO Voyager Detailed"
-        >
-          <Layers className="w-3.5 h-3.5" />
-          <span>Voyager</span>
+          <span>SCADA Dark</span>
         </button>
 
         <button
           type="button"
           onClick={() => setMapType("satellite")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans font-semibold transition-colors ${
             mapType === "satellite"
-              ? "bg-accent-thermal text-surface-0"
-              : "text-text-muted hover:text-text-primary"
+              ? "bg-accent-thermal text-surface-0 font-bold"
+              : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
           }`}
-          title="ArcGIS Satellite Imagery"
+          title="High-Resolution Satellite Imagery"
         >
           <Satellite className="w-3.5 h-3.5" />
           <span>Satellite</span>
@@ -321,13 +274,41 @@ export function RealtimeLeafletMap({
 
         <button
           type="button"
-          onClick={() => setMapType("osm")}
-          className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
-            mapType === "osm"
-              ? "bg-status-safe text-surface-0"
-              : "text-text-muted hover:text-text-primary"
+          onClick={() => setMapType("topo")}
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans font-semibold transition-colors ${
+            mapType === "topo"
+              ? "bg-accent-mechanical text-surface-0 font-bold"
+              : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
           }`}
-          title="OpenStreetMap Standard"
+          title="Geological Elevation & Topography"
+        >
+          <Mountain className="w-3.5 h-3.5" />
+          <span>Terrain Topo</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setMapType("esriLight")}
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans font-semibold transition-colors ${
+            mapType === "esriLight"
+              ? "bg-surface-3 text-text-primary font-bold border border-line"
+              : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
+          }`}
+          title="Engineering Light Canvas"
+        >
+          <Compass className="w-3.5 h-3.5" />
+          <span>Light Canvas</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setMapType("osm")}
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-sans font-semibold transition-colors ${
+            mapType === "osm"
+              ? "bg-status-safe text-surface-0 font-bold"
+              : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
+          }`}
+          title="OpenStreetMap Standard Vector"
         >
           <MapPin className="w-3.5 h-3.5" />
           <span>Street</span>
@@ -336,13 +317,13 @@ export function RealtimeLeafletMap({
 
       {/* Recenter & Telemetry HUD Overlay */}
       {selectedWell && (
-        <div className="absolute bottom-3 left-3 z-[1000] bg-surface-1/95 backdrop-blur-md p-2.5 rounded-md border border-line shadow-popup flex items-center gap-3 text-xs font-mono">
+        <div className="absolute bottom-3 left-3 z-[1000] bg-surface-1/95 backdrop-blur-md p-2.5 rounded-lg border border-line shadow-card flex items-center gap-3 text-xs font-mono">
           <div>
-            <span className="text-[10px] text-text-muted">Target Well:</span>
+            <span className="text-[10px] font-sans text-text-muted">Target Well:</span>
             <span className="font-bold text-accent-mechanical ml-1">{selectedWell.name}</span>
           </div>
           <div>
-            <span className="text-[10px] text-text-muted">GPS:</span>
+            <span className="text-[10px] font-sans text-text-muted">GPS:</span>
             <span className="font-bold text-text-primary ml-1">
               {selectedWell.lat.toFixed(4)}°N, {selectedWell.lon.toFixed(4)}°E
             </span>
@@ -350,7 +331,7 @@ export function RealtimeLeafletMap({
           <button
             type="button"
             onClick={() => handleRecenter(selectedWell)}
-            className="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-2 hover:bg-line border border-line text-accent-thermal transition-colors text-[11px] font-bold"
+            className="flex items-center gap-1 px-2.5 py-1 rounded bg-surface-2 hover:bg-surface-3 border border-line text-accent-thermal transition-colors text-xs font-sans font-semibold"
           >
             <Navigation className="w-3 h-3" />
             <span>Fly To Well</span>

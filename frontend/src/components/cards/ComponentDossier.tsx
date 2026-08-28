@@ -99,44 +99,44 @@ export function ComponentDossier({ nodeId, wellState, onClose }: ComponentDossie
   const dossier = getDossierData(nodeId);
 
   return (
-    <div className="p-4 rounded-lg bg-surface-1 border border-accent-mechanical/50 shadow-popup space-y-3 animate-fade-in text-left">
-      <div className="flex items-start justify-between gap-2 border-b border-line pb-2">
+    <div className="p-3.5 rounded-lg bg-surface-1 border border-line shadow-card space-y-3 animate-fade-in text-left">
+      <div className="flex items-start justify-between gap-2 border-b border-line pb-2.5">
         <div className="flex items-center gap-2">
           <div className="p-1 rounded bg-accent-mechanical/10 text-accent-mechanical">
             <Cpu className="w-4 h-4" />
           </div>
           <div>
             <span className="text-[10px] font-mono uppercase text-accent-mechanical font-bold">
-              Subsurface Component Dossier
+              Subsurface Node Inspector
             </span>
-            <h4 className="font-semibold text-sm text-text-primary leading-tight">{dossier.title}</h4>
-            <div className="text-[11px] font-mono text-text-muted">Depth: {dossier.depthRange}</div>
+            <h4 className="font-sans font-bold text-sm text-text-primary leading-tight">{dossier.title}</h4>
+            <div className="text-[10px] font-mono text-text-muted">Interval: {dossier.depthRange}</div>
           </div>
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="p-1 rounded hover:bg-surface-2 text-text-muted hover:text-text-primary"
+          className="p-1 rounded hover:bg-surface-2 text-text-muted hover:text-text-primary transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
       </div>
 
-      <p className="text-xs text-text-muted leading-relaxed">{dossier.description}</p>
+      <p className="text-xs font-sans text-text-secondary leading-relaxed">{dossier.description}</p>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         {dossier.specs.map((s) => (
           <div key={s.label} className="p-2 rounded bg-surface-0 border border-line">
-            <div className="text-[10px] font-mono text-text-muted">{s.label}</div>
+            <div className="text-[10px] font-sans text-text-muted truncate">{s.label}</div>
             <div className="font-mono text-xs font-bold text-text-primary mt-0.5">{s.value}</div>
           </div>
         ))}
       </div>
 
       <div className="flex items-center justify-between pt-1 border-t border-line text-xs font-mono">
-        <span className="text-text-muted">Status: <strong className="text-text-primary">{dossier.status}</strong></span>
-        <span className="text-accent-mechanical">Health: {Math.round(dossier.healthPct)}%</span>
+        <span className="text-text-muted">Status: <strong className="text-text-primary font-bold">{dossier.status}</strong></span>
+        <span className="text-accent-mechanical font-bold">Health: {Math.round(dossier.healthPct)}%</span>
       </div>
     </div>
   );

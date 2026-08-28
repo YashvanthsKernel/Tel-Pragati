@@ -2,40 +2,48 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Activity,
-  Flame,
-  Atom,
-  TrendingDown,
-  ShieldAlert,
-  Sliders,
-  Box,
-  Cpu,
-  Layers,
-  ArrowRight,
-  ExternalLink,
-} from "lucide-react";
+import { Activity, Box, ArrowRight, Thermometer, Droplets, Gauge, ShieldCheck } from "lucide-react";
 import { useWellContext } from "../../../../components/well/WellContext";
-import { StatCard } from "../../../../components/cards/StatCard";
 import { EstimatedBadge } from "../../../../components/common/EstimatedBadge";
 import { RadialGauge } from "../../../../components/common/RadialGauge";
 import { RecommendationCard } from "../../../../components/cards/RecommendationCard";
 import { ComponentDossier } from "../../../../components/cards/ComponentDossier";
 import { ScenarioPlayer } from "../../../../components/common/ScenarioPlayer";
-import { WellboreScene } from "../../../../components/scene/WellboreScene";
-import { TimeSeriesChart } from "../../../../components/charts/TimeSeriesChart";
+import dynamic from "next/dynamic";
+import { PageHeader } from "../../../../components/ui/PageHeader";
+import { SectionCard } from "../../../../components/ui/SectionCard";
+
+const WellboreScene = dynamic(
+  () => import("../../../../components/scene/WellboreScene").then((m) => m.WellboreScene),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-72 w-full flex flex-col items-center justify-center bg-surface-0 rounded border border-line">
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-text-muted mt-2">Loading 3D Spatial Visualizer...</span>
+      </div>
+    ),
+  }
+);
+
+const SUBSYSTEMS = [
+  { id: "surface_pad",    label: "Surface"    },
+  { id: "rod_string",     label: "Rod Column" },
+  { id: "downhole_pump",  label: "Pump"       },
+  { id: "reservoir_slab", label: "Formation"  },
+] as const;
 
 export default function WellTwinPage() {
   const { wellId, wellState, isLoading, error } = useWellContext();
   const [selectedSubsystem, setSelectedSubsystem] = useState<string>("rod_string");
-  const [isDossierOpen, setIsDossierOpen] = useState(true);
+  const [isDossierOpen, setIsDossierOpen]         = useState(true);
 
   if (isLoading || !wellState) {
     return (
-      <div className="p-6 flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="w-10 h-10 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
-        <span className="text-xs font-mono text-text-muted mt-3">
-          Synchronizing Well Twin telemetry stream for {wellId}...
+      <div className="p-6 flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-text-muted">
+          Synchronizing Well Twin telemetry for {wellId}...
         </span>
       </div>
     );
@@ -45,211 +53,192 @@ export default function WellTwinPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-5">
-      {/* Top Header & Subsystem Selector */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-status-safe animate-pulse-subtle" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              {wellId} Digital Twin Observer
-            </h1>
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-surface-2 text-accent-mechanical border border-line">
-              Cycle #{cssCycle} · Day {day} ({phase.toUpperCase()})
-            </span>
+      {/* ── Page Header ── */}
+      <PageHeader
+        wellId={wellId}
+        icon={<Activity className="w-5 h-5 text-accent-mechanical" />}
+        title="Integrated Digital Twin Workstation"
+        subtitle="Physics-Informed Real-Time Heavy Oil Reservoir & Sucker Rod Lift Twin"
+        status="live"
+        badge={`Cycle #${cssCycle} · Day ${day} · ${phase.toUpperCase()}`}
+        actions={
+          <div className="flex items-center gap-1 bg-surface-1 p-1 rounded-lg border border-line">
+            {SUBSYSTEMS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => { setSelectedSubsystem(s.id); setIsDossierOpen(true); }}
+                className={`px-3 py-1 rounded text-xs font-sans font-medium transition-all ${
+                  selectedSubsystem === s.id
+                    ? "bg-accent-mechanical text-surface-0 font-semibold"
+                    : "text-text-secondary hover:text-text-primary hover:bg-surface-2"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
           </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Physics-Informed Real-Time Heavy Oil Reservoir & Sucker Rod Lift Twin
-          </p>
-        </div>
+        }
+      />
 
-        {/* Subsystem Pills */}
-        <div className="flex items-center gap-1 bg-surface-1 p-1 rounded-lg border border-line">
-          {(
-            [
-              { id: "surface_pad", label: "Surface" },
-              { id: "rod_string", label: "Rod Column" },
-              { id: "downhole_pump", label: "Pump" },
-              { id: "reservoir_slab", label: "Formation" },
-            ] as const
-          ).map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              onClick={() => {
-                setSelectedSubsystem(s.id);
-                setIsDossierOpen(true);
-              }}
-              className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-colors ${
-                selectedSubsystem === s.id
-                  ? "bg-accent-mechanical text-surface-0"
-                  : "text-text-muted hover:text-text-primary hover:bg-surface-2"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Row 1: Time Machine Scenario Controller (§10.1) */}
+      {/* ── Scenario Player ── */}
       <ScenarioPlayer showTimeline={true} />
 
-      {/* Row 2: Subsurface State Cards (Bottomhole Temp, Viscosity, Rod Drag, Fillage) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Bottomhole Temperature */}
-        <div className="p-4 rounded-lg bg-surface-1 border border-accent-thermal/30 shadow-card flex flex-col justify-between space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-text-muted uppercase">Bottomhole Temp (BHT)</span>
+      {/* ── Subsurface Operational State Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {/* BHT Card */}
+        <div className="bg-surface-1 border border-line rounded-lg p-3.5 shadow-card flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <span className="text-xs font-sans font-medium text-text-secondary uppercase tracking-wide">
+              Bottomhole Temp (BHT)
+            </span>
             <EstimatedBadge data={inferred.bottomholeTempC} />
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-mono font-bold text-accent-thermal">
-              {inferred.bottomholeTempC.value}°C
+          <div className="flex items-baseline gap-1.5 my-1">
+            <span className="text-2xl sm:text-3xl font-mono font-bold text-accent-thermal tabular-nums">
+              {inferred.bottomholeTempC.value.toFixed(1)}
             </span>
-            <span className="text-xs font-mono text-text-muted">
-              ({inferred.bottomholeTempC.trendPctPerDay && inferred.bottomholeTempC.trendPctPerDay > 0 ? "+" : ""}
-              {inferred.bottomholeTempC.trendPctPerDay}%/d)
-            </span>
+            <span className="text-xs font-mono text-text-muted">°C</span>
           </div>
-          <div className="text-[11px] font-mono text-text-muted">
-            Surface: {observed.surfaceTempC}°C · Thermal Radius: {inferred.reservoirThermalRadiusM?.value || 14.2}m
+          <div className="text-[11px] font-sans text-text-muted border-t border-line pt-2 mt-1 truncate">
+            Surface {observed.surfaceTempC}°C · Thermal Radius {inferred.reservoirThermalRadiusM?.value || 14.2}m
           </div>
         </div>
 
-        {/* Card 2: In-Situ Viscosity */}
-        <div className="p-4 rounded-lg bg-surface-1 border border-accent-mechanical/30 shadow-card flex flex-col justify-between space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-text-muted uppercase">In-Situ Oil Viscosity</span>
+        {/* Viscosity Card */}
+        <div className="bg-surface-1 border border-line rounded-lg p-3.5 shadow-card flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <span className="text-xs font-sans font-medium text-text-secondary uppercase tracking-wide">
+              In-Situ Oil Viscosity
+            </span>
             <EstimatedBadge data={inferred.viscosityCp} />
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-mono font-bold text-accent-mechanical">
+          <div className="flex items-baseline gap-1.5 my-1">
+            <span className="text-2xl sm:text-3xl font-mono font-bold text-accent-mechanical tabular-nums">
               {inferred.viscosityCp.value.toLocaleString()}
             </span>
             <span className="text-xs font-mono text-text-muted">cP</span>
           </div>
-          <div className="text-[11px] font-mono text-text-muted">
+          <div className="text-[11px] font-sans text-text-muted border-t border-line pt-2 mt-1 truncate">
             Andrade Rheology · 17.2° API Heavy Crude
           </div>
         </div>
 
-        {/* Card 3: Viscous Rod Drag */}
-        <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card flex flex-col justify-between space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-text-muted uppercase">Downstroke Rod Drag</span>
+        {/* Rod Drag Card */}
+        <div className="bg-surface-1 border border-line rounded-lg p-3.5 shadow-card flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <span className="text-xs font-sans font-medium text-text-secondary uppercase tracking-wide">
+              Downstroke Rod Drag
+            </span>
             <EstimatedBadge data={inferred.rodDragLb} />
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-mono font-bold text-text-primary">
+          <div className="flex items-baseline gap-1.5 my-1">
+            <span className="text-2xl sm:text-3xl font-mono font-bold text-text-primary tabular-nums">
               {inferred.rodDragLb.value.toLocaleString()}
             </span>
             <span className="text-xs font-mono text-text-muted">lb</span>
           </div>
-          <div className="text-[11px] font-mono text-text-muted">
-            Gibbs 1D Wave Shear · Peak PPRL: {observed.polishedRodLoadLb.toLocaleString()} lb
+          <div className="text-[11px] font-sans text-text-muted border-t border-line pt-2 mt-1 truncate">
+            Gibbs 1D Wave · PPRL {observed.polishedRodLoadLb.toLocaleString()} lb
           </div>
         </div>
 
-        {/* Card 4: Downhole Pump Fillage */}
-        <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card flex flex-col justify-between space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-text-muted uppercase">Downhole Pump Fillage</span>
+        {/* Pump Fillage Card */}
+        <div className="bg-surface-1 border border-line rounded-lg p-3.5 shadow-card flex flex-col justify-between">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <span className="text-xs font-sans font-medium text-text-secondary uppercase tracking-wide">
+              Downhole Pump Fillage
+            </span>
             <EstimatedBadge data={inferred.downholeFillagePct} />
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-mono font-bold text-status-safe">
-              {inferred.downholeFillagePct.value}%
+          <div className="flex items-baseline gap-1.5 my-1">
+            <span className="text-2xl sm:text-3xl font-mono font-bold text-status-safe tabular-nums">
+              {inferred.downholeFillagePct.value}
             </span>
-            <span className="text-xs font-mono text-text-muted">
-              Gross: {observed.flowBopd} BOPD
-            </span>
+            <span className="text-xs font-mono text-text-muted">%</span>
           </div>
-          <div className="text-[11px] font-mono text-text-muted">
-            SPM: {observed.spm} · Stroke: {observed.strokeLengthIn} in
+          <div className="text-[11px] font-sans text-text-muted border-t border-line pt-2 mt-1 truncate">
+            Gross {observed.flowBopd} BOPD · {observed.spm} SPM · Stroke {observed.strokeLengthIn}in
           </div>
         </div>
       </div>
 
-      {/* Row 3: Physics/ML Agreement + Rod Floating Risk Gauge + 3D Embedded Preview */}
+      {/* ── Row 3: Physics/ML Agreement + Rod Hazard + 3D Preview ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Left: Physics/ML Fusion & Risk Gauge */}
-        <div className="space-y-4 flex flex-col justify-between">
-          {/* Physics vs ML Agreement Card */}
-          <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-                Physics vs. ML Agreement Envelope
-              </span>
-              <span className="text-xs font-mono font-bold text-status-safe">
-                {fusion.agreementPct}% Agreement
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 rounded bg-surface-0 border border-line">
-              <div>
-                <span className="text-[10px] text-text-muted uppercase">Convective Physics</span>
-                <div className="font-bold text-accent-thermal mt-0.5">{fusion.physicsValue}°C</div>
+        {/* Left column */}
+        <div className="space-y-4">
+          {/* Physics vs ML Agreement */}
+          <SectionCard accent="mechanical" title="Physics vs. ML Agreement">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-sans text-text-secondary">Agreement Score</span>
+                <span className={`text-sm font-mono font-bold tabular-nums ${fusion.agreementPct >= 90 ? "text-status-safe" : fusion.agreementPct >= 75 ? "text-status-warn" : "text-status-critical"}`}>
+                  {fusion.agreementPct}%
+                </span>
               </div>
-              <div>
-                <span className="text-[10px] text-text-muted uppercase">Neural Surrogate</span>
-                <div className="font-bold text-accent-mechanical mt-0.5">{fusion.mlValue}°C</div>
+              {/* Agreement bar */}
+              <div className="h-1.5 bg-surface-0 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all ${fusion.agreementPct >= 90 ? "bg-status-safe" : fusion.agreementPct >= 75 ? "bg-status-warn" : "bg-status-critical"}`}
+                  style={{ width: `${fusion.agreementPct}%` }}
+                />
               </div>
-            </div>
-
-            <div className="text-[11px] text-text-muted leading-relaxed">
-              First-principles thermal boundary model and deep neural surrogate agree within calibrated 90% confidence envelope.
-            </div>
-          </div>
-
-          {/* Rod Floating Risk & Buckling Tendency Gauge */}
-          <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card flex items-center justify-around gap-4">
-            <RadialGauge
-              value={rodFloatingRiskPct}
-              label="Rod Floating Hazard"
-              size={90}
-              variant={rodFloatingRiskPct > 55 ? "warn" : "safe"}
-            />
-            <div className="space-y-1 text-xs font-mono">
-              <div className="text-[10px] text-text-muted uppercase">Buckling Severity</div>
-              <div
-                className={`font-bold text-sm ${
-                  rodFloatingRiskPct > 70
-                    ? "text-status-critical"
-                    : rodFloatingRiskPct > 45
-                    ? "text-status-warn"
-                    : "text-status-safe"
-                }`}
-              >
-                {rodFloatingRiskPct > 70 ? "CRITICAL HAZARD" : rodFloatingRiskPct > 45 ? "ELEVATED SLACK" : "NOMINAL TENSION"}
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2.5 bg-surface-0 rounded border border-line">
+                <div>
+                  <span className="text-[10px] font-sans text-text-muted uppercase">Convective Physics</span>
+                  <div className="font-bold text-accent-thermal mt-0.5 tabular-nums">{fusion.physicsValue}°C</div>
+                </div>
+                <div>
+                  <span className="text-[10px] font-sans text-text-muted uppercase">Neural Surrogate</span>
+                  <div className="font-bold text-accent-mechanical mt-0.5 tabular-nums">{fusion.mlValue}°C</div>
+                </div>
               </div>
-              <p className="text-[11px] text-text-muted max-w-[160px] leading-tight">
-                {rodFloatingRiskPct > 45
-                  ? "Fluid viscous drag counters >40% of buoyant rod weight during downstroke."
-                  : "Rod string maintains sufficient tension on downstroke."}
+              <p className="text-[11px] font-sans text-text-muted leading-relaxed">
+                First-principles thermal boundary model and deep neural surrogate agree within calibrated 90% confidence envelope.
               </p>
             </div>
-          </div>
+          </SectionCard>
+
+          {/* Rod Floating Risk Gauge */}
+          <SectionCard accent={rodFloatingRiskPct > 55 ? "warn" : "safe"} title="Rod Floating Hazard">
+            <div className="flex items-center justify-around gap-4">
+              <RadialGauge
+                value={rodFloatingRiskPct}
+                label="Risk"
+                size={90}
+                variant={rodFloatingRiskPct > 55 ? "warn" : "safe"}
+              />
+              <div className="space-y-1">
+                <div className="text-[10px] text-text-muted uppercase font-sans font-semibold">Buckling Severity</div>
+                <div className={`font-sans font-bold text-sm ${
+                  rodFloatingRiskPct > 70 ? "text-status-critical" :
+                  rodFloatingRiskPct > 45 ? "text-status-warn" : "text-status-safe"
+                }`}>
+                  {rodFloatingRiskPct > 70 ? "Critical Hazard" : rodFloatingRiskPct > 45 ? "Elevated Slack" : "Nominal Tension"}
+                </div>
+                <p className="text-[11px] text-text-muted max-w-[160px] leading-snug font-sans">
+                  {rodFloatingRiskPct > 45
+                    ? "Fluid drag counters >40% of buoyant rod weight during downstroke."
+                    : "Rod string maintains nominal tension on downstroke."}
+                </p>
+              </div>
+            </div>
+          </SectionCard>
         </div>
 
-        {/* Center/Right: Embedded 3D Preview Panel (§10.1 & §11.7) */}
-        <div className="lg:col-span-2 bg-surface-1 border border-line rounded-lg p-3 shadow-card flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-2 px-1">
-            <div className="flex items-center gap-2">
-              <Box className="w-4 h-4 text-accent-mechanical" />
-              <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-                3D Wellbore Spatial Visualizer (Live Stream)
-              </span>
-            </div>
-            <Link
-              href={`/well/${wellId}/3d`}
-              className="text-xs font-mono text-accent-mechanical hover:underline flex items-center gap-1"
-            >
-              <span>Open Dedicated 3D Experience</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+        {/* Center/Right: 3D Preview */}
+        <SectionCard
+          className="lg:col-span-2"
+          accent="mechanical"
+          title="3D Wellbore Spatial Visualizer (Live Stream)"
+          icon={<Box className="w-4 h-4 text-accent-mechanical" />}
+          action={
+            <Link href={`/well/${wellId}/3d`} className="text-xs font-sans text-accent-mechanical hover:underline flex items-center gap-1">
+              Full 3D View <ArrowRight className="w-3.5 h-3.5" />
             </Link>
-          </div>
-
-          <div className="h-72 w-full rounded overflow-hidden relative">
+          }
+        >
+          <div className="h-72 w-full overflow-hidden rounded relative border border-line">
             <WellboreScene
               wellState={wellState}
               interactive={true}
@@ -260,12 +249,11 @@ export default function WellTwinPage() {
               }}
             />
           </div>
-        </div>
+        </SectionCard>
       </div>
 
-      {/* Row 4: Component Dossier & Decision Engine Recommendation */}
+      {/* ── Row 4: Component Dossier + AI Recommendation ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Component Dossier */}
         {isDossierOpen && (
           <ComponentDossier
             nodeId={selectedSubsystem}
@@ -273,12 +261,10 @@ export default function WellTwinPage() {
             onClose={() => setIsDossierOpen(false)}
           />
         )}
-
-        {/* AI Decision Advisory Card */}
         <RecommendationCard
           recommendation={{
             id: `REC-${wellId}-01`,
-            wellId: wellId,
+            wellId,
             ts: new Date().toISOString(),
             actionType: "VFD_DAMPING",
             title: "Apply Asymmetric Downstroke Velocity Damping (-17%)",

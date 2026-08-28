@@ -3,58 +3,135 @@
 @tailwind utilities;
 
 @layer base {
+  /* ═══════════════════════════════════════════════════════
+     INDUSTRIAL CHARCOAL — Dark Mode (Default)
+     TEL PRAGATI SCADA Control Room Palette v4.0
+  ═══════════════════════════════════════════════════════ */
   :root {
-    /* Baghewala Digital Twin Design Tokens - Precision Instrumentation (§3.1) */
-    --surface-0: #F3F5F7;
-    --surface-1: #FFFFFF;
-    --surface-2: #EEF2F5;
-    --surface-3: #E4E9EE;
-    --line: #D1D8DF;
-    --line-strong: #AEB8C2;
+    /* Surfaces */
+    --surface-0: #151719;
+    --surface-1: #1C1F23;
+    --surface-2: #222629;
+    --surface-3: #292D31;
 
-    --text-primary: #20252B;
-    --text-secondary: #46515C;
-    --text-muted: #74808B;
-    --text-disabled: #AAB3BB;
+    /* Borders */
+    --line: #2E3338;
+    --line-strong: #3A4048;
 
-    --oil-red: #E31E24;
-    --oil-red-soft: #FDEBEC;
-    --oil-charcoal: #2B2A29;
+    /* Text */
+    --text-primary: #E4E8EC;
+    --text-secondary: #9AA2AB;
+    --text-muted: #5C6470;
+    --text-disabled: #3A4048;
 
-    --accent-thermal: #C65B32;
-    --thermal-hot: #D9472E;
-    --thermal-mid: #E58A3A;
-    --thermal-warm: #F0C27A;
+    /* Brand */
+    --oil-red: #E74C3C;
+    --oil-red-soft: #1A0A09;
+    --oil-charcoal: #151719;
 
-    --accent-mechanical: #197F8C;
-    --mechanical-soft: #E1F2F4;
-    --mechanical-dark: #145E69;
+    /* Accent 1 — Amber / Gold (primary readouts, active) */
+    --accent-amber: #F5A623;
+    --amber-dark: #C8821A;
+    --amber-soft: #2A1E08;
 
-    --accent-telemetry: #2868A8;
-    --telemetry-soft: #E8F1F9;
+    /* Accent 2 — Teal (mechanical / MQTT telemetry) */
+    --accent-mechanical: #00B4A0;
+    --mechanical-soft: #071A18;
+    --mechanical-dark: #008F7E;
 
-    --status-safe: #238B57;
-    --status-safe-soft: #E8F6EE;
-    --status-warn: #B77A08;
-    --status-warn-soft: #FFF5DC;
-    --status-critical: #C43D35;
-    --status-critical-soft: #FCEAE9;
-    --status-info: #2868A8;
-    --status-info-soft: #E8F1F9;
+    /* Accent 3 — Blue (analytics / reports) */
+    --accent-telemetry: #3D8EF0;
+    --telemetry-soft: #081225;
 
-    --provenance-measured: #2868A8;
-    --provenance-estimated: #197F8C;
-    --provenance-predicted: #B77A08;
-    --provenance-simulated: #7650A5;
+    /* Accent 4 — Red-Orange (thermal / steam / temperature) */
+    --accent-thermal: #E85D42;
+    --thermal-hot: #C84030;
+    --thermal-mid: #F07A5A;
+    --thermal-warm: #F5A885;
 
-    --depth-gradient-start: #DCEBF1;
-    --depth-gradient-mid: #8DB7C3;
-    --depth-gradient-warm: #D58A58;
-    --depth-gradient-end: #87432E;
+    /* Status */
+    --status-safe: #2ECC71;
+    --status-safe-soft: #061A0D;
+    --status-warn: #F39C12;
+    --status-warn-soft: #1A1004;
+    --status-critical: #E74C3C;
+    --status-critical-soft: #1A0806;
+    --status-info: #3D8EF0;
+    --status-info-soft: #081225;
 
+    /* Provenance */
+    --provenance-measured: #3D8EF0;
+    --provenance-estimated: #00B4A0;
+    --provenance-predicted: #F39C12;
+    --provenance-simulated: #9B59B6;
+
+    /* Depth gradient */
+    --depth-gradient-start: #0D1F3C;
+    --depth-gradient-mid: #1A3A5C;
+    --depth-gradient-warm: #3D2A10;
+    --depth-gradient-end: #3D1A0A;
+
+    /* Fonts */
     --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-space-grotesk: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-ibm-plex-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     LIGHT MODE — Engineering Dayshift
+     Activated by .light class on <html>
+  ═══════════════════════════════════════════════════════ */
+  .light {
+    --surface-0: #F4F5F7;
+    --surface-1: #FFFFFF;
+    --surface-2: #ECEEF1;
+    --surface-3: #E2E5E9;
+
+    --line: #D0D4DA;
+    --line-strong: #B0B8C2;
+
+    --text-primary: #1A1E24;
+    --text-secondary: #3D4754;
+    --text-muted: #6B7280;
+    --text-disabled: #C0C6CE;
+
+    --oil-red: #C0392B;
+    --oil-red-soft: #FDF0EE;
+    --oil-charcoal: #1A1E24;
+
+    --accent-amber: #D4890A;
+    --amber-dark: #A86A08;
+    --amber-soft: #FEF3DC;
+
+    --accent-mechanical: #0A8A7A;
+    --mechanical-soft: #E0F5F3;
+    --mechanical-dark: #077060;
+
+    --accent-telemetry: #2B6CB0;
+    --telemetry-soft: #EBF4FF;
+
+    --accent-thermal: #C44A2E;
+    --thermal-hot: #A0351E;
+    --thermal-mid: #D46048;
+    --thermal-warm: #E8956C;
+
+    --status-safe: #1E8449;
+    --status-safe-soft: #E8F8EE;
+    --status-warn: #B7770D;
+    --status-warn-soft: #FEF9E7;
+    --status-critical: #C0392B;
+    --status-critical-soft: #FDECEA;
+    --status-info: #2B6CB0;
+    --status-info-soft: #EBF4FF;
+
+    --provenance-measured: #2B6CB0;
+    --provenance-estimated: #0A8A7A;
+    --provenance-predicted: #B7770D;
+    --provenance-simulated: #6C3483;
+
+    --depth-gradient-start: #C8DCF0;
+    --depth-gradient-mid: #7AAAC8;
+    --depth-gradient-warm: #C87A48;
+    --depth-gradient-end: #7A3020;
   }
 
   body {
@@ -66,55 +143,66 @@
     overflow-x: hidden;
   }
 
-  /* Focus visible accessibility styling (§15.1) */
   :focus-visible {
-    outline: 2px solid var(--accent-mechanical);
+    outline: 2px solid var(--accent-amber);
     outline-offset: 2px;
   }
 }
 
-/* Precision Industrial Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ── Precision scrollbars ───────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--surface-0); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-::-webkit-scrollbar-track {
-  background: var(--surface-0);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--line);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--line-strong);
-}
-
-/* Reduced Motion Support (§15.1, §11.6) */
+/* ── Reduced motion ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* Animation utilities */
+/* ── Animations ─────────────────────────────────────── */
 @keyframes pulseSubtle {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  50% { opacity: 0.5; }
 }
-
 .animate-pulse-subtle {
-  animation: pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulseSubtle 2.5s ease-in-out infinite;
 }
 
-/* Depth rail visual styling */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: pageFadeIn 0.2s ease forwards;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Depth rail ─────────────────────────────────────── */
 .depth-rail-bg {
-  background: linear-gradient(180deg, var(--depth-gradient-start) 0%, var(--depth-gradient-mid) 35%, var(--depth-gradient-warm) 70%, var(--depth-gradient-end) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--depth-gradient-start) 0%,
+    var(--depth-gradient-mid) 35%,
+    var(--depth-gradient-warm) 70%,
+    var(--depth-gradient-end) 100%
+  );
 }

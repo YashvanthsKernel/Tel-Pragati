@@ -111,7 +111,7 @@ export function TimeSeriesChart({
     <div className="w-full select-none">
       {title && (
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-mono font-bold text-text-primary uppercase tracking-wide">
+          <span className="text-xs font-sans font-bold text-text-primary uppercase tracking-wide">
             {title}
           </span>
           {hoverPoint && (

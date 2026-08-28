@@ -33,9 +33,9 @@ export function RadarChart({ wells, height = 280 }: RadarChartProps) {
   };
 
   return (
-    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none">
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none space-y-2">
+      <div className="flex items-center justify-between gap-2 border-b border-line pb-2">
+        <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
           Multi-KPI Well Comparison Radar
         </span>
         <div className="flex items-center gap-3 text-xs font-mono">

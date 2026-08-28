@@ -21,20 +21,17 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
   const activeScenario = DEMO_SCENARIOS.find((s) => s.id === activeScenarioId) || DEMO_SCENARIOS[0];
 
   return (
-    <div className="p-3.5 rounded-lg bg-surface-1 border border-line shadow-card space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-2.5">
+    <div className="p-3 bg-surface-1 border border-line rounded-lg shadow-card space-y-2.5">
+      {/* Header & Speed Controls */}
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded bg-accent-thermal/10 text-accent-thermal border border-accent-thermal/30">
-            <Sliders className="w-3.5 h-3.5" />
-          </div>
-          <div>
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-              Time Machine · Scenario Player
-            </span>
-            <div className="text-[10px] font-mono text-text-muted">
-              Drives 2D charts and 3D Wellbore in synchronized lockstep
-            </div>
-          </div>
+          <Sliders className="w-4 h-4 text-accent-mechanical" />
+          <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
+            Scenario Replay & CSS Cycle Timeline
+          </span>
+          <span className="text-[11px] font-mono text-accent-mechanical font-semibold ml-1">
+            [{activeScenario.badge}]
+          </span>
         </div>
 
         {/* Speed Controls */}
@@ -46,7 +43,7 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
               onClick={() => setSpeed(s)}
               className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-colors ${
                 speed === s
-                  ? "bg-surface-2 text-accent-mechanical border border-line"
+                  ? "bg-surface-2 text-accent-mechanical font-bold"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
@@ -65,19 +62,19 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
               key={scn.id}
               type="button"
               onClick={() => setScenarioId(scn.id)}
-              className={`p-2 rounded text-left transition-all border ${
+              className={`px-2.5 py-1.5 rounded text-left transition-all border ${
                 isSelected
-                  ? "bg-surface-2 border-accent-thermal text-text-primary shadow-glowThermal"
-                  : "bg-surface-0 border-line text-text-muted hover:border-text-muted/40 hover:text-text-primary"
+                  ? "bg-accent-mechanical/10 border-accent-mechanical text-accent-mechanical"
+                  : "bg-surface-0 border-line text-text-muted hover:border-line-strong hover:text-text-primary"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono font-bold text-accent-thermal">
+                <span className="text-[9px] font-mono font-bold uppercase truncate">
                   {scn.badge}
                 </span>
-                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-accent-thermal" />}
+                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-accent-mechanical" />}
               </div>
-              <div className="text-xs font-semibold text-text-primary line-clamp-1 mt-0.5">
+              <div className="text-xs font-sans font-medium text-text-primary line-clamp-1 mt-0.5">
                 {scn.name}
               </div>
             </button>
@@ -95,14 +92,14 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
       )}
 
       {/* Transport Controls & Scrub Slider */}
-      <div className="flex items-center gap-3 pt-1">
+      <div className="flex items-center gap-2.5 pt-0.5">
         <button
           type="button"
           onClick={togglePlay}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-sans font-semibold transition-colors ${
             isPlaying
-              ? "bg-status-warn text-surface-0 font-bold"
-              : "bg-accent-mechanical text-surface-0 font-bold hover:bg-accent-mechanical/90"
+              ? "bg-status-warn text-surface-0"
+              : "bg-accent-mechanical text-surface-0 hover:bg-accent-mechanical/90"
           }`}
         >
           {isPlaying ? (
@@ -121,13 +118,13 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
         <button
           type="button"
           onClick={() => setDay(0)}
-          className="p-1.5 rounded bg-surface-2 border border-line text-text-muted hover:text-text-primary transition-colors"
+          className="p-1 rounded bg-surface-0 border border-line text-text-muted hover:text-text-primary transition-colors"
           title="Reset to Day 0"
         >
           <RotateCcw className="w-3.5 h-3.5" />
         </button>
 
-        <div className="flex-1 flex items-center gap-3">
+        <div className="flex-1 flex items-center gap-2.5">
           <input
             type="range"
             min="0"
@@ -135,9 +132,9 @@ export function ScenarioPlayer({ showTimeline = true }: { showTimeline?: boolean
             step="0.5"
             value={currentDay}
             onChange={(e) => setDay(parseFloat(e.target.value))}
-            className="w-full h-1.5 bg-surface-0 rounded-lg appearance-none cursor-pointer accent-accent-mechanical"
+            className="w-full h-1 bg-surface-0 rounded appearance-none cursor-pointer accent-accent-mechanical"
           />
-          <span className="font-mono text-xs text-text-primary font-bold min-w-[3.5rem] text-right">
+          <span className="font-mono text-xs text-text-primary font-bold min-w-[3.5rem] text-right tabular-nums">
             D{currentDay.toFixed(1)}
           </span>
         </div>

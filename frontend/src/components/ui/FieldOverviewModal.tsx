@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { Grid, MapPin, X } from "lucide-react";
@@ -30,7 +30,7 @@ export const FieldOverviewModal: React.FC = () => {
                 Baghewala Field Multi-Well Overview
               </h2>
               <p className="text-xs text-text-secondary font-mono">
-                Jodhpur Sandstone CSS + SRP Operation Matrix (12 Active Wells with Parameter Provenance)
+                Jodhpur Sandstone CSS + SRP Operation Matrix ({BAGHEWALA_FIELD_WELLS.length} Wells with Parameter Provenance)
               </p>
             </div>
           </div>

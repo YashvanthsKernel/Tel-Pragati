@@ -25,8 +25,8 @@ export function FleetHealthHeatmap({ wells }: FleetHealthHeatmapProps) {
 
   return (
     <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+      <div className="flex items-center justify-between border-b border-line pb-2">
+        <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
           Fleet Telemetry & Health Matrix (Heatmap)
         </span>
         <span className="text-xs font-mono text-text-muted">

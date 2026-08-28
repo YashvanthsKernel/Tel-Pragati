@@ -225,7 +225,7 @@ export default function SignUpPage() {
                       OISD-179 Standard
                     </span>
                   </div>
-                  <h1 className="text-2xl font-display font-bold text-text-primary tracking-tight mt-1">
+                  <h1 className="text-2xl font-sans font-bold text-text-primary tracking-tight mt-1">
                     TEL PRAGATI
                   </h1>
                   <p className="text-xs font-mono text-text-muted">
@@ -322,7 +322,7 @@ export default function SignUpPage() {
               {/* Form Header */}
               <div className="flex items-center justify-between border-b border-line pb-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-display font-bold text-text-primary tracking-tight">
+                  <h2 className="text-xl font-sans font-bold text-text-primary tracking-tight">
                     Register Digital Twin Workstation
                   </h2>
                   <p className="text-xs text-text-muted mt-0.5">

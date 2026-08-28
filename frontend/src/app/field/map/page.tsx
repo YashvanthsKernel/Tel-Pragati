@@ -68,7 +68,7 @@ export default function FleetMapPage() {
             <button
               type="button"
               onClick={() => setViewMode("geographic")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono font-bold transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-sans font-semibold transition-colors ${
                 viewMode === "geographic"
                   ? "bg-accent-mechanical text-surface-0"
                   : "text-text-muted hover:text-text-primary"
@@ -80,7 +80,7 @@ export default function FleetMapPage() {
             <button
               type="button"
               onClick={() => setViewMode("schematic")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono font-bold transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-sans font-semibold transition-colors ${
                 viewMode === "schematic"
                   ? "bg-accent-thermal text-surface-0"
                   : "text-text-muted hover:text-text-primary"
@@ -91,25 +91,25 @@ export default function FleetMapPage() {
             </button>
           </div>
 
-          <span className="text-xs font-mono text-text-muted hidden md:inline">
+          <span className="text-xs font-sans text-text-muted hidden md:inline">
             Baghewala Heavy Oil PML Lease (Rajasthan)
           </span>
         </div>
 
         {/* Status Filters */}
-        <div className="flex items-center gap-1 bg-surface-1 p-0.5 rounded border border-line text-xs font-mono">
+        <div className="flex items-center gap-1 bg-surface-1 p-1 rounded-lg border border-line text-xs font-sans">
           {(["ALL", "producing", "css_active", "alarm", "shut_in"] as const).map((status) => (
             <button
               key={status}
               type="button"
               onClick={() => setStatusFilter(status)}
-              className={`px-2 py-1 rounded uppercase font-bold text-[10px] transition-colors ${
+              className={`px-2.5 py-0.5 rounded uppercase font-semibold text-[10px] transition-colors ${
                 statusFilter === status
-                  ? "bg-surface-2 text-accent-mechanical border border-line"
-                  : "text-text-muted hover:text-text-primary"
+                  ? "bg-accent-mechanical text-surface-0 font-bold"
+                  : "text-text-muted hover:text-text-primary hover:bg-surface-2"
               }`}
             >
-              {status}
+              {status === "ALL" ? "All" : status.replace("_", " ")}
             </button>
           ))}
         </div>
@@ -168,65 +168,74 @@ export default function FleetMapPage() {
               /* SCHEMATIC SCADA HMI PLANT MIMIC (§9.2) */
               <div
                 style={{ transform: `scale(${zoomLevel})`, transformOrigin: "center center" }}
-                className="w-full h-full relative transition-transform duration-200 p-8 flex items-center justify-center"
+                className="w-full h-full relative transition-transform duration-200 p-6 flex items-center justify-center"
               >
-                <svg viewBox="0 0 800 500" className="w-full h-full overflow-visible">
+                <svg viewBox="0 0 880 480" className="w-full h-full overflow-visible">
                   {/* Gathering line orthogonal paths */}
-                  <g stroke="var(--line)" strokeWidth="2.5" fill="none">
+                  <g stroke="var(--line)" strokeWidth="2" fill="none">
                     {/* North gathering line */}
-                    <path d="M 120,100 L 400,100 L 400,250" />
+                    <path d="M 45,105 L 390,105 L 420,230" />
                     {/* Central gathering line */}
-                    <path d="M 120,250 L 400,250" />
+                    <path d="M 45,210 L 420,230" />
+                    {/* Mid-South gathering line */}
+                    <path d="M 45,315 L 390,315 L 420,270" />
                     {/* South gathering line */}
-                    <path d="M 120,400 L 400,400 L 400,250" />
+                    <path d="M 45,420 L 390,420 L 420,270" />
                     {/* Trunk transport line to Bowser bay */}
-                    <path d="M 400,250 L 620,250" stroke="var(--accent-thermal)" strokeWidth="3" />
+                    <path d="M 510,250 L 650,250" stroke="var(--accent-thermal)" strokeWidth="3" />
                     {/* Bowser transport line towards Mehsana */}
-                    <path d="M 620,250 L 760,250" stroke="var(--accent-mechanical)" strokeWidth="2" strokeDasharray="5 3" />
+                    <path d="M 740,250 L 840,250" stroke="var(--accent-mechanical)" strokeWidth="2" strokeDasharray="5 3" />
                   </g>
 
                   {/* Central Collection & Heating Facility */}
-                  <g transform="translate(360, 210)" className="cursor-pointer">
-                    <rect width="80" height="80" rx="8" fill="var(--surface-1)" stroke="var(--accent-thermal)" strokeWidth="2" />
-                    <text x="40" y="38" fill="var(--accent-thermal)" fontSize="9" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
+                  <g transform="translate(420, 205)" className="cursor-pointer">
+                    <rect width="90" height="90" rx="8" fill="var(--surface-1)" stroke="var(--accent-thermal)" strokeWidth="2" />
+                    <text x="45" y="36" fill="var(--accent-thermal)" fontSize="9" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
                       CENTRAL
                     </text>
-                    <text x="40" y="52" fill="var(--text-primary)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
+                    <text x="45" y="50" fill="var(--text-primary)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
                       Collection & Heating
                     </text>
-                    <text x="40" y="65" fill="var(--text-muted)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
+                    <text x="45" y="64" fill="var(--text-muted)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
                       Facility
+                    </text>
+                    <text x="45" y="78" fill="var(--accent-thermal)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
+                      23-Well Header
                     </text>
                   </g>
 
                   {/* Bowser Loading Bay */}
-                  <g transform="translate(580, 210)">
-                    <rect width="80" height="80" rx="8" fill="var(--surface-1)" stroke="var(--accent-mechanical)" strokeWidth="2" />
-                    <text x="40" y="38" fill="var(--accent-mechanical)" fontSize="9" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
+                  <g transform="translate(650, 205)">
+                    <rect width="90" height="90" rx="8" fill="var(--surface-1)" stroke="var(--accent-mechanical)" strokeWidth="2" />
+                    <text x="45" y="36" fill="var(--accent-mechanical)" fontSize="9" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
                       BOWSER
                     </text>
-                    <text x="40" y="52" fill="var(--text-primary)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
+                    <text x="45" y="50" fill="var(--text-primary)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
                       Loading Bay
                     </text>
-                    <text x="40" y="65" fill="var(--text-muted)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
+                    <text x="45" y="64" fill="var(--text-muted)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" textAnchor="middle">
                       Dispatch Station
+                    </text>
+                    <text x="45" y="78" fill="var(--accent-mechanical)" fontSize="7" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold" textAnchor="middle">
+                      Heavy Crude Tanker
                     </text>
                   </g>
 
                   {/* Arrow to Mehsana */}
-                  <text x="740" y="240" fill="var(--accent-mechanical)" fontSize="10" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold">
+                  <text x="845" y="244" fill="var(--accent-mechanical)" fontSize="10" fontFamily="var(--font-ibm-plex-mono)" fontWeight="bold">
                     → Mehsana
                   </text>
-                  <text x="740" y="255" fill="var(--text-muted)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)">
+                  <text x="845" y="259" fill="var(--text-muted)" fontSize="8" fontFamily="var(--font-ibm-plex-mono)">
                     Refinery (Road)
                   </text>
 
-                  {/* Well Pad Groups (North, Central, South) */}
+                  {/* 23 Well Markers in 4 rows */}
                   {filteredWells.map((w, idx) => {
-                    const col = idx % 4;
-                    const row = Math.floor(idx / 4);
-                    const padX = 60 + col * 75;
-                    const padY = 70 + row * 150;
+                    const cols = 6;
+                    const col = idx % cols;
+                    const row = Math.floor(idx / cols);
+                    const padX = 45 + col * 58;
+                    const padY = 52 + row * 105;
                     const isSelected = selectedWell?.wellId === w.wellId;
 
                     return (
@@ -237,10 +246,10 @@ export default function FleetMapPage() {
                         className="cursor-pointer group"
                       >
                         <rect
-                          x="-25"
-                          y="-20"
-                          width="50"
-                          height="40"
+                          x="-23"
+                          y="-18"
+                          width="46"
+                          height="36"
                           rx="4"
                           fill={isSelected ? "var(--surface-2)" : "var(--surface-1)"}
                           stroke={isSelected ? "var(--accent-mechanical)" : "var(--line)"}
@@ -248,7 +257,7 @@ export default function FleetMapPage() {
                         />
                         <circle
                           cx="0"
-                          cy="-6"
+                          cy="-5"
                           r="4"
                           fill={w.status === "alarm" ? "var(--status-critical)" : w.status === "css_active" ? "var(--accent-thermal)" : "var(--status-safe)"}
                         />
@@ -267,7 +276,7 @@ export default function FleetMapPage() {
         {/* Selected Well Detail Slide-In Drawer (1 Col) */}
         <div className="bg-surface-1 border border-line rounded-lg p-4 shadow-card flex flex-col justify-between space-y-4">
           <div className="flex items-center justify-between border-b border-line pb-2">
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+            <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
               Selected Well Intelligence
             </span>
             {selectedWell && (

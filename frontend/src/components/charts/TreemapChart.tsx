@@ -17,8 +17,8 @@ export function TreemapChart({ wells, height = 240 }: TreemapChartProps) {
 
   return (
     <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+      <div className="flex items-center justify-between border-b border-line pb-2">
+        <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
           Field Production Allocation (Treemap)
         </span>
         <span className="text-xs font-mono font-bold text-accent-mechanical">

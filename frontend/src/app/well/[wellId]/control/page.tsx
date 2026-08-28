@@ -19,6 +19,7 @@ import { AuditEvent, InterlockStatus } from "../../../../data/types";
 import { InterlockRow } from "../../../../components/cards/InterlockRow";
 import { RecommendationCard } from "../../../../components/cards/RecommendationCard";
 import { RoleGate } from "../../../../components/shell/RoleGate";
+import { PageHeader } from "../../../../components/ui/PageHeader";
 
 export default function ControlPage() {
   const { wellId, wellState, isLoading } = useWellContext();
@@ -60,7 +61,7 @@ export default function ControlPage() {
   if (isLoading || !wellState) {
     return (
       <div className="p-6 flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="w-10 h-10 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
         <span className="text-xs font-mono text-text-muted mt-3">
           Loading SCADA Control & Safety Matrix for {wellId}...
         </span>
@@ -70,35 +71,17 @@ export default function ControlPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-accent-mechanical" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              {wellId} SCADA Supervisory Control & Safety Interlocks
-            </h1>
-          </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Deterministic Hardware Safety Interlock Matrix · VFD Setpoint Modulation & Audit Trail
-          </p>
-        </div>
+      {/* ── Page Header ── */}
+      <PageHeader
+        wellId={wellId}
+        icon={<ShieldAlert className="w-5 h-5 text-accent-mechanical" />}
+        title="SCADA Supervisory Control & Safety Interlocks"
+        subtitle="Deterministic Hardware Safety Interlock Matrix · VFD Setpoint Modulation & Audit Trail"
+        status={hasTrippedInterlock ? "critical" : "safe"}
+        badge={hasTrippedInterlock ? "Interlock Trip Active" : "Interlocks Armed & Healthy"}
+      />
 
-        <div className="flex items-center gap-2">
-          <div
-            className={`px-3 py-1 rounded text-xs font-mono font-bold border flex items-center gap-1.5 ${
-              hasTrippedInterlock
-                ? "bg-status-critical/10 text-status-critical border-status-critical/30"
-                : "bg-status-safe/10 text-status-safe border-status-safe/30"
-            }`}
-          >
-            <Shield className="w-3.5 h-3.5" />
-            <span>{hasTrippedInterlock ? "INTERLOCK TRIP ACTIVE" : "ALL INTERLOCKS ARMED & HEALTHY"}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Row 1: VFD Modulation Advisory & Manual Setpoint */}
+      {/* ── VFD Modulation Advisory & Manual Setpoint ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <RecommendationCard
@@ -121,16 +104,16 @@ export default function ControlPage() {
         {/* Manual VFD Supervisory Modulation Panel */}
         <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-4 flex flex-col justify-between">
           <div className="flex items-center justify-between border-b border-line pb-2">
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+            <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
               VFD Drive Frequency Setpoint
             </span>
-            <span className="text-[10px] font-mono text-accent-mechanical">45 kW Drive</span>
+            <span className="text-[10px] font-mono text-accent-mechanical font-semibold">45 kW Drive</span>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
-              <span className="text-xs font-mono text-text-muted">Command Frequency:</span>
-              <span className="font-mono text-2xl font-bold text-accent-mechanical">
+              <span className="text-xs font-sans text-text-secondary">Command Frequency:</span>
+              <span className="font-mono text-2xl font-bold text-accent-mechanical tabular-nums">
                 {vfdFrequencyHz.toFixed(1)} <span className="text-xs text-text-muted font-normal">Hz</span>
               </span>
             </div>
@@ -142,17 +125,17 @@ export default function ControlPage() {
               step="0.5"
               value={vfdFrequencyHz}
               onChange={(e) => setVfdFrequencyHz(parseFloat(e.target.value))}
-              className="w-full h-1.5 bg-surface-0 rounded appearance-none accent-accent-mechanical cursor-pointer"
+              className="w-full h-1 bg-surface-0 rounded appearance-none accent-accent-mechanical cursor-pointer"
             />
 
-            <div className="grid grid-cols-2 gap-2 text-[11px] font-mono p-2 rounded bg-surface-0 border border-line">
+            <div className="grid grid-cols-2 gap-2 text-xs font-mono p-2 rounded bg-surface-0 border border-line">
               <div>
-                <span className="text-text-muted">Pumping SPM:</span>
-                <div className="font-bold text-text-primary mt-0.5">{(vfdFrequencyHz / 8.5).toFixed(1)} SPM</div>
+                <span className="text-[10px] text-text-muted font-sans uppercase">Pumping SPM:</span>
+                <div className="font-bold text-text-primary mt-0.5 tabular-nums">{(vfdFrequencyHz / 8.5).toFixed(1)} SPM</div>
               </div>
               <div>
-                <span className="text-text-muted">Motor Current:</span>
-                <div className="font-bold text-text-primary mt-0.5">{wellState.observed.motorCurrentA} A</div>
+                <span className="text-[10px] text-text-muted font-sans uppercase">Motor Current:</span>
+                <div className="font-bold text-text-primary mt-0.5 tabular-nums">{wellState.observed.motorCurrentA} A</div>
               </div>
             </div>
           </div>
@@ -160,7 +143,7 @@ export default function ControlPage() {
           <RoleGate
             roles={["operator", "engineer", "admin"]}
             fallback={
-              <div className="text-[11px] font-mono text-text-muted italic text-center p-1">
+              <div className="text-[11px] font-sans text-text-muted italic text-center p-1">
                 Dispatching setpoints requires Operator or Engineer credentials.
               </div>
             }
@@ -169,7 +152,7 @@ export default function ControlPage() {
               type="button"
               onClick={handleDispatchVfd}
               disabled={isDispatching}
-              className="w-full py-2.5 px-4 rounded bg-accent-mechanical text-surface-0 font-bold text-xs flex items-center justify-center gap-2 hover:bg-accent-mechanical/90 transition-colors shadow-glowMechanical"
+              className="w-full py-2 px-4 rounded bg-accent-mechanical text-surface-0 font-sans font-semibold text-xs flex items-center justify-center gap-2 hover:bg-accent-mechanical/90 transition-colors"
             >
               <Zap className="w-3.5 h-3.5" />
               <span>{isDispatching ? "Transmitting Setpoint to SCADA..." : "Dispatch Setpoint to Wellsite VFD"}</span>
@@ -178,16 +161,16 @@ export default function ControlPage() {
         </div>
       </div>
 
-      {/* Row 2: 7-Item Safety Interlock Matrix (§10.6) */}
-      <div className="space-y-3">
+      {/* ── Deterministic 7-Point Safety Interlock Matrix ── */}
+      <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Lock className="w-4 h-4 text-accent-thermal" />
-            <h2 className="font-display text-sm font-bold text-text-primary uppercase tracking-wide">
+            <h2 className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
               Deterministic 7-Point Safety Interlock Matrix
             </h2>
           </div>
-          <span className="text-xs font-mono text-text-muted">
+          <span className="text-xs font-sans text-text-muted">
             Directly hardwired to emergency shutdown (ESD) loop
           </span>
         </div>
@@ -203,12 +186,12 @@ export default function ControlPage() {
         </div>
       </div>
 
-      {/* Row 3: Live Real-Time Audit Trail Panel (§10.6) */}
+      {/* ── Wellsite SCADA & Supervisory Audit Trail ── */}
       <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3">
         <div className="flex items-center justify-between border-b border-line pb-2">
           <div className="flex items-center gap-2">
             <History className="w-4 h-4 text-accent-mechanical" />
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+            <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
               Wellsite SCADA & Supervisory Audit Trail (Last 10 Events)
             </span>
           </div>
@@ -218,14 +201,14 @@ export default function ControlPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-xs font-mono border-collapse">
+          <table className="w-full text-xs font-sans border-collapse">
             <thead>
-              <tr className="border-b border-line text-text-muted">
-                <th className="py-2 px-3 text-left">Timestamp</th>
+              <tr className="border-b border-line text-text-muted font-medium">
+                <th className="py-2 px-3 text-left font-mono">Timestamp</th>
                 <th className="py-2 px-3 text-left">Operator / User</th>
                 <th className="py-2 px-3 text-left">Action</th>
                 <th className="py-2 px-3 text-left">Details</th>
-                <th className="py-2 px-3 text-center">Status</th>
+                <th className="py-2 px-3 text-center font-mono">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line/40">
@@ -238,18 +221,18 @@ export default function ControlPage() {
               ) : (
                 auditEvents.map((a) => (
                   <tr key={a.id} className="hover:bg-surface-2 transition-colors">
-                    <td className="py-2 px-3 text-text-muted whitespace-nowrap">{a.timestamp}</td>
-                    <td className="py-2 px-3 font-semibold text-text-primary whitespace-nowrap">
-                      {a.user} <span className="text-[10px] text-text-muted font-normal">({a.role})</span>
+                    <td className="py-2 px-3 text-text-muted font-mono whitespace-nowrap">{a.timestamp}</td>
+                    <td className="py-2 px-3 font-medium text-text-primary whitespace-nowrap">
+                      {a.user} <span className="text-[10px] text-text-muted font-mono">({a.role})</span>
                     </td>
                     <td className="py-2 px-3 text-accent-thermal font-medium">{a.action}</td>
-                    <td className="py-2 px-3 text-text-muted max-w-xs truncate">{a.details}</td>
-                    <td className="py-2 px-3 text-center">
+                    <td className="py-2 px-3 text-text-secondary max-w-xs truncate">{a.details}</td>
+                    <td className="py-2 px-3 text-center font-mono">
                       <span
                         className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-bold ${
                           a.status === "SUCCESS" || a.status === "DISPATCHED"
-                            ? "bg-status-safe/20 text-status-safe"
-                            : "bg-status-critical/20 text-status-critical"
+                            ? "bg-status-safe/15 text-status-safe"
+                            : "bg-status-critical/15 text-status-critical"
                         }`}
                       >
                         {a.status}

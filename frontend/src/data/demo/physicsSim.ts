@@ -4,6 +4,7 @@
  * Strictly adhering to Baghewala_Digital_Twin_Frontend_Build_Spec.md §5.3 & Architecture §11
  */
 
+import WELLS_REGISTRY from "../../config/wells.json";
 import {
   DynamometerCard,
   DynagraphTracePoint,
@@ -249,13 +250,18 @@ export function generateWellState(
   spm = 5.2,
   downstrokeDampingPct = 17
 ): WellState {
+  const well = WELLS_REGISTRY.find((w) => w.wellId === wellId);
+  const apiGravity = well?.apiGravity ?? 17.2;
+  const depthM = well?.depthM ?? 1040;
+  const cssCycle = well?.cssCycle ?? 4;
+
   const params: CalibratedPhysicsParams = { ...DEFAULT_PHYSICS_PARAMS, ...customParams };
   const phase = calculateCSSPhase(day);
   const bht = calculateBottomholeTemp(day, params);
   const mlBht = calculateMLSurrogateBHT(day, bht);
   const agreement = Math.max(70, Math.min(99, Math.round(100 - (Math.abs(bht - mlBht) / Math.max(1, bht)) * 100)));
 
-  const viscosity = calculateViscosityCp(bht, 17.2, params);
+  const viscosity = calculateViscosityCp(bht, apiGravity, params);
   const drag = calculateRodDragLb(viscosity, spm, downstrokeDampingPct);
   const rodFloatingRisk = calculateRodFloatingRiskPct(drag, params);
   const fillage = Math.max(68, Math.min(94, Math.round(92 - (day > 25 ? (day - 25) * 1.1 : 0))));
@@ -269,11 +275,11 @@ export function generateWellState(
 
   return {
     wellId,
-    wellName: wellId,
-    cssCycle: 4,
+    wellName: well?.name || wellId,
+    cssCycle,
     day,
     phase,
-    depthM: 1040,
+    depthM,
     field: "BAGHEWALA",
     timestamp: new Date().toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" }) + " IST",
     observed: {

@@ -15,6 +15,7 @@ import { FleetSummary, WellSummary } from "../../../data/types";
 import { FleetHealthHeatmap } from "../../../components/charts/FleetHealthHeatmap";
 import { CycleCalendar } from "../../../components/charts/CycleCalendar";
 import { TimeSeriesChart } from "../../../components/charts/TimeSeriesChart";
+import { PageHeader } from "../../../components/ui/PageHeader";
 
 export default function ReportsPage() {
   const provider = useDataProvider();
@@ -78,66 +79,58 @@ export default function ReportsPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <FileBarChart className="w-5 h-5 text-accent-thermal" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              Field Analytics, Historical Trends & Compliance Reports
-            </h1>
-          </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Jodhpur Sandstone Production Chemistry · CSS Steam Efficiency · Multi-Well Telemetry Exports
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
+      {/* ── Page Header ── */}
+      <PageHeader
+        icon={<FileBarChart className="w-5 h-5 text-accent-thermal" />}
+        title="Field Analytics, Historical Trends & Compliance Reports"
+        subtitle="Jodhpur Sandstone Production Chemistry · CSS Steam Efficiency · Multi-Well Telemetry Exports"
+        actions={
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-accent-mechanical text-surface-0 font-bold text-xs hover:bg-accent-mechanical/90 transition-colors shadow-glowMechanical"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-accent-mechanical text-surface-0 font-sans font-semibold text-xs hover:bg-accent-mechanical/90 transition-colors"
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download className="w-4 h-4" />
             <span>Export Fleet Telemetry CSV</span>
           </button>
-        </div>
-      </div>
+        }
+      />
 
       {exportMessage && (
-        <div className="p-3 rounded bg-surface-1 border border-status-safe text-xs font-mono text-status-safe flex items-center gap-2 animate-fade-in">
+        <div className="p-3 rounded-lg bg-status-safe/10 border border-status-safe/30 text-xs font-sans text-status-safe flex items-center gap-2">
           <CheckCircle className="w-4 h-4" />
           <span>{exportMessage}</span>
         </div>
       )}
 
-      {/* Row 1: Production & SOR Historical Trends */}
+      {/* Row 1: Historical Cumulative Production & SOR Efficiency */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <TimeSeriesChart
           data={cumulativeFieldProdData}
-          title="Field Aggregate Crude Recovery Trend (Trailing 30 Days)"
-          xLabel="Trailing Days"
-          yLabel="BOPD"
-          color="#4FB0C6"
+          title="Field Cumulative Heavy Oil Recovery (Trailing 30 Days)"
+          xLabel="Calendar History"
+          yLabel="Gross Field Production (BOPD)"
+          color="var(--status-safe)"
           unit="BOPD"
-          height={230}
+          height={240}
         />
+
         <TimeSeriesChart
           data={sorTrendData}
-          title="Cumulative Steam-Oil Ratio (SOR) Efficiency Trend"
-          xLabel="Trailing Days"
+          title="Steam-to-Oil Ratio (SOR) Efficiency Trend (bbl steam / bbl oil)"
+          xLabel="Calendar History"
           yLabel="SOR (bbl/bbl)"
-          color="#E0793C"
+          color="var(--accent-thermal)"
           unit="bbl/bbl"
-          height={230}
+          height={240}
         />
       </div>
 
-      {/* Row 2: Annual CSS Cycle Calendar Heatmap (§12.2) */}
-      <CycleCalendar wellId="Baghewala Fleet Aggregate" year={2026} />
-
-      {/* Row 3: Fleet Health Matrix Heatmap (§12.2) */}
+      {/* Row 2: Fleet 23-Well Health Heatmap Matrix */}
       <FleetHealthHeatmap wells={wells} />
+
+      {/* Row 3: Cyclic Steam Stimulation Schedule Calendar */}
+      <CycleCalendar wells={wells} />
     </div>
   );
 }

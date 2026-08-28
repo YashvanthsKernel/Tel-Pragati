@@ -8,7 +8,7 @@ interface ParetoScatterChartProps {
   height?: number;
 }
 
-export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterChartProps) {
+export function ParetoScatterChart({ strategies, height = 270 }: ParetoScatterChartProps) {
   const [hoveredStrategy, setHoveredStrategy] = useState<OptimizerStrategy | null>(null);
 
   if (!strategies || strategies.length === 0) return null;
@@ -29,13 +29,13 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
   const prodRange = maxProd - minProd;
 
   return (
-    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none">
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-          Pareto Optimization Frontier (Cost vs. Recovery)
+    <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none space-y-2">
+      <div className="flex items-center justify-between gap-2 border-b border-line pb-2">
+        <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
+          Pareto Multi-Objective Optimization Frontier
         </span>
-        <span className="text-[11px] font-mono text-text-muted">
-          Bubble Area = Mechanical Failure Risk %
+        <span className="text-[11px] font-sans text-text-muted">
+          Bubble Radius = Mechanical Risk %
         </span>
       </div>
 
@@ -97,7 +97,7 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
             );
           })}
 
-          {/* Pareto Frontier Line */}
+          {/* Pareto Frontier Curve */}
           {strategies.length > 1 && (
             <polyline
               points={strategies
@@ -108,17 +108,17 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
                 })
                 .join(" ")}
               fill="none"
-              stroke="var(--line)"
+              stroke="var(--accent-mechanical)"
               strokeDasharray="4 3"
-              strokeWidth="1.5"
+              strokeWidth="2"
             />
           )}
 
-          {/* Bubbles for each strategy */}
+          {/* Strategy candidate bubbles */}
           {strategies.map((s) => {
             const x = padding.left + ((s.costInrDay - minCost) / costRange) * chartWidth;
             const y = padding.top + chartHeight - ((s.productionBopd - minProd) / prodRange) * chartHeight;
-            const radius = Math.max(8, Math.min(26, s.rodRiskPct * 0.35 + 6));
+            const radius = Math.max(8, Math.min(22, s.rodRiskPct * 0.3 + 6));
             const isRec = s.recommended;
 
             return (
@@ -127,9 +127,9 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
                   cx={x}
                   cy={y}
                   r={radius}
-                  fill={isRec ? "var(--accent-thermal)" : "var(--accent-mechanical)"}
-                  fillOpacity="0.35"
-                  stroke={isRec ? "var(--accent-thermal)" : "var(--accent-mechanical)"}
+                  fill={isRec ? "var(--status-safe)" : "var(--accent-mechanical)"}
+                  fillOpacity="0.3"
+                  stroke={isRec ? "var(--status-safe)" : "var(--accent-mechanical)"}
                   strokeWidth={isRec ? "2.5" : "1.5"}
                   onMouseEnter={() => setHoveredStrategy(s)}
                   onMouseLeave={() => setHoveredStrategy(null)}
@@ -138,7 +138,7 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
                 <text
                   x={x}
                   y={y - radius - 4}
-                  fill={isRec ? "var(--accent-thermal)" : "var(--text-primary)"}
+                  fill={isRec ? "var(--status-safe)" : "var(--text-primary)"}
                   fontSize="10"
                   fontFamily="var(--font-ibm-plex-mono)"
                   fontWeight="bold"
@@ -176,8 +176,8 @@ export function ParetoScatterChart({ strategies, height = 260 }: ParetoScatterCh
       </div>
 
       {hoveredStrategy && (
-        <div className="mt-2 p-2 rounded bg-surface-0 border border-line text-xs font-mono flex items-center justify-between">
-          <span className="font-bold text-accent-thermal">{hoveredStrategy.name}: {hoveredStrategy.label}</span>
+        <div className="mt-1 p-2 rounded bg-surface-0 border border-line text-xs font-mono flex items-center justify-between">
+          <span className="font-bold text-accent-mechanical">{hoveredStrategy.name}: {hoveredStrategy.label}</span>
           <span className="text-text-muted">
             ₹{hoveredStrategy.costInrDay.toLocaleString()}/d · {hoveredStrategy.productionBopd} BOPD · Risk {hoveredStrategy.rodRiskPct}%
           </span>

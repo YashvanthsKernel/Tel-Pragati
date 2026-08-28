@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TrendingUp, TrendingDown, Minus, AlertCircle, Loader2 } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, AlertCircle } from "lucide-react";
 import { Sparkline } from "../charts/Sparkline";
 
 interface StatCardProps {
@@ -10,12 +10,22 @@ interface StatCardProps {
   unit?: string;
   trendPct?: number;
   sparklineData?: number[];
-  variant?: "thermal" | "mechanical" | "safe" | "warn" | "critical" | "neutral";
+  variant?: "amber" | "thermal" | "mechanical" | "safe" | "warn" | "critical" | "neutral";
   subtext?: string;
   isLoading?: boolean;
   error?: string | null;
   className?: string;
 }
+
+const variantStyles = {
+  amber:      { valueColor: "text-accent-amber",      sparkColor: "var(--accent-amber)",      border: "border-line hover:border-accent-amber/40" },
+  thermal:    { valueColor: "text-accent-thermal",    sparkColor: "var(--accent-thermal)",    border: "border-line hover:border-accent-thermal/40" },
+  mechanical: { valueColor: "text-accent-mechanical", sparkColor: "var(--accent-mechanical)", border: "border-line hover:border-accent-mechanical/40" },
+  safe:       { valueColor: "text-status-safe",       sparkColor: "var(--status-safe)",       border: "border-line hover:border-status-safe/40" },
+  warn:       { valueColor: "text-status-warn",       sparkColor: "var(--status-warn)",       border: "border-status-warn/40 bg-status-warn/5" },
+  critical:   { valueColor: "text-status-critical",   sparkColor: "var(--status-critical)",   border: "border-status-critical/40 bg-status-critical/5" },
+  neutral:    { valueColor: "text-text-primary",      sparkColor: "var(--text-muted)",         border: "border-line hover:border-line-strong" },
+};
 
 export function StatCard({
   label,
@@ -29,116 +39,80 @@ export function StatCard({
   error = null,
   className = "",
 }: StatCardProps) {
-  let accentColor = "text-text-primary";
-  let borderColor = "border-line";
+  const v = variantStyles[variant];
 
-  if (variant === "thermal") {
-    accentColor = "text-accent-thermal";
-    borderColor = "border-accent-thermal/30";
-  } else if (variant === "mechanical") {
-    accentColor = "text-accent-mechanical";
-    borderColor = "border-accent-mechanical/30";
-  } else if (variant === "safe") {
-    accentColor = "text-status-safe";
-    borderColor = "border-status-safe/30";
-  } else if (variant === "warn") {
-    accentColor = "text-status-warn";
-    borderColor = "border-status-warn/30";
-  } else if (variant === "critical") {
-    accentColor = "text-status-critical";
-    borderColor = "border-status-critical/30";
-  }
-
+  /* ── Loading skeleton ── */
   if (isLoading) {
     return (
-      <div className={`p-4 rounded-lg bg-surface-1 border border-line flex flex-col justify-between h-28 ${className}`}>
-        <div className="flex justify-between items-center">
-          <div className="h-3 w-20 bg-surface-2 rounded animate-pulse" />
-          <Loader2 className="w-3.5 h-3.5 animate-spin text-text-muted" />
+      <div className={`bg-surface-1 border border-line rounded-lg p-3.5 shadow-card flex flex-col justify-between ${className}`}>
+        <div className="space-y-2">
+          <div className="skeleton h-3 w-20 rounded" />
+          <div className="skeleton h-8 w-24 rounded" />
         </div>
-        <div className="h-6 w-28 bg-surface-2 rounded animate-pulse" />
-        <div className="h-2 w-16 bg-surface-2 rounded animate-pulse" />
+        <div className="skeleton h-2 w-16 rounded mt-2" />
       </div>
     );
   }
 
+  /* ── Error state ── */
   if (error) {
     return (
-      <div className={`p-4 rounded-lg bg-surface-1 border border-status-critical/30 flex flex-col justify-between h-28 ${className}`}>
-        <span className="text-xs font-mono text-text-muted">{label}</span>
-        <div className="flex items-center gap-1.5 text-xs text-status-critical">
+      <div className={`bg-surface-1 border border-status-critical/40 rounded-lg p-3.5 shadow-card flex flex-col justify-between ${className}`}>
+        <span className="text-[11px] font-sans font-semibold text-text-secondary uppercase tracking-wider">{label}</span>
+        <div className="flex items-center gap-1.5 text-xs text-status-critical my-2 font-sans">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
-          <span className="line-clamp-1">{error}</span>
+          <span className="line-clamp-2">{error}</span>
         </div>
-        <span className="text-[10px] text-text-muted">Telemetry error</span>
       </div>
     );
   }
 
+  const trendClass =
+    trendPct !== undefined
+      ? trendPct > 0 ? "text-status-safe"
+      : trendPct < 0 ? "text-status-warn"
+      : "text-text-muted"
+      : "";
+
   return (
-    <div
-      className={`p-4 rounded-lg bg-surface-1 border ${borderColor} shadow-card hover:border-text-muted/40 transition-colors flex flex-col justify-between ${className}`}
-    >
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-mono text-text-muted font-medium line-clamp-1 uppercase tracking-wide">
+    <div className={`bg-surface-1 border rounded-lg p-3.5 shadow-card transition-all flex flex-col justify-between ${v.border} ${className}`}>
+      {/* Label row */}
+      <div className="flex items-center justify-between gap-2 mb-1.5">
+        <span className="text-xs font-sans font-medium text-text-secondary uppercase tracking-wide">
           {label}
         </span>
         {trendPct !== undefined && (
-          <div
-            className={`flex items-center gap-0.5 text-[11px] font-mono font-semibold ${
-              trendPct > 0
-                ? "text-status-safe"
-                : trendPct < 0
-                ? "text-status-warn"
-                : "text-text-muted"
-            }`}
-          >
-            {trendPct > 0 ? (
-              <TrendingUp className="w-3 h-3" />
-            ) : trendPct < 0 ? (
-              <TrendingDown className="w-3 h-3" />
-            ) : (
-              <Minus className="w-3 h-3" />
-            )}
+          <div className={`flex items-center gap-0.5 text-xs font-mono font-semibold flex-shrink-0 ${trendClass}`}>
+            {trendPct > 0 ? <TrendingUp className="w-3.5 h-3.5" /> : trendPct < 0 ? <TrendingDown className="w-3.5 h-3.5" /> : <Minus className="w-3.5 h-3.5" />}
             <span>{trendPct > 0 ? `+${trendPct}%` : `${trendPct}%`}</span>
           </div>
         )}
       </div>
 
-      <div className="flex items-baseline justify-between gap-2 my-1">
-        <div className="flex items-baseline gap-1.5">
-          <span className={`text-2xl font-mono font-bold tracking-tight ${accentColor}`}>
+      {/* Value row */}
+      <div className="flex items-baseline justify-between gap-2">
+        <div className="flex items-baseline gap-1.5 min-w-0">
+          <span className={`text-2xl sm:text-3xl font-mono font-bold tracking-tight tabular-nums ${v.valueColor}`}>
             {value}
           </span>
-          {unit && <span className="text-xs font-mono text-text-muted font-normal">{unit}</span>}
+          {unit && (
+            <span className="text-xs font-mono text-text-muted font-normal flex-shrink-0">
+              {unit}
+            </span>
+          )}
         </div>
-
         {sparklineData && sparklineData.length > 0 && (
           <div className="w-20 h-7 flex-shrink-0">
-            <Sparkline
-              data={sparklineData}
-              color={
-                variant === "thermal"
-                  ? "#C65B32"
-                  : variant === "mechanical"
-                  ? "#197F8C"
-                  : variant === "safe"
-                  ? "#238B57"
-                  : variant === "warn"
-                  ? "#B77A08"
-                  : variant === "critical"
-                  ? "#C43D35"
-                  : "#197F8C"
-              }
-            />
+            <Sparkline data={sparklineData} color={v.sparkColor} height={28} />
           </div>
         )}
       </div>
 
+      {/* Subtext */}
       {subtext && (
-        <span className="text-[11px] text-text-muted font-mono line-clamp-1">
-          {subtext}
-        </span>
+        <div className="pt-2 mt-2 border-t border-line">
+          <span className="text-[11px] text-text-muted font-sans line-clamp-1">{subtext}</span>
+        </div>
       )}
     </div>
   );

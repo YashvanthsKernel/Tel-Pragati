@@ -15,6 +15,7 @@ import { useDataProvider } from "../../../data/DataProviderContext";
 import { WellSummary } from "../../../data/types";
 import { RadarChart } from "../../../components/charts/RadarChart";
 import { RadialGauge } from "../../../components/common/RadialGauge";
+import { PageHeader } from "../../../components/ui/PageHeader";
 
 export default function CompareWellsPage() {
   const provider = useDataProvider();
@@ -46,41 +47,34 @@ export default function CompareWellsPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <GitCompare className="w-5 h-5 text-accent-mechanical" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              Multi-Well Digital Twin Comparative Analysis
-            </h1>
+      {/* ── Page Header ── */}
+      <PageHeader
+        icon={<GitCompare className="w-5 h-5 text-accent-mechanical" />}
+        title="Multi-Well Digital Twin Comparative Analysis"
+        subtitle="Cross-Well Performance Radar · Relative Thermal, Mechanical, and Recovery Profiling"
+        actions={
+          <div className="flex flex-wrap items-center gap-1 bg-surface-1 p-1 rounded-lg border border-line text-xs font-sans max-w-2xl">
+            <span className="text-text-muted px-2 font-sans">Selected ({selectedIds.length}/3):</span>
+            {allWells.map((w) => {
+              const isSelected = selectedIds.includes(w.wellId);
+              return (
+                <button
+                  key={w.wellId}
+                  type="button"
+                  onClick={() => toggleSelectWell(w.wellId)}
+                  className={`px-2 py-0.5 rounded font-mono font-bold text-[10px] transition-colors ${
+                    isSelected
+                      ? "bg-accent-mechanical text-surface-0 font-bold"
+                      : "text-text-muted hover:text-text-primary hover:bg-surface-2"
+                  }`}
+                >
+                  {w.name}
+                </button>
+              );
+            })}
           </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Cross-Well Performance Radar · Relative Thermal, Mechanical, and Recovery Profiling
-          </p>
-        </div>
-
-        <div className="flex items-center gap-1 bg-surface-1 p-1 rounded-lg border border-line text-xs font-mono">
-          <span className="text-text-muted px-2">Selected ({selectedIds.length}/3):</span>
-          {allWells.map((w) => {
-            const isSelected = selectedIds.includes(w.wellId);
-            return (
-              <button
-                key={w.wellId}
-                type="button"
-                onClick={() => toggleSelectWell(w.wellId)}
-                className={`px-2 py-0.5 rounded font-bold text-[10px] transition-colors ${
-                  isSelected
-                    ? "bg-accent-mechanical text-surface-0 font-bold"
-                    : "text-text-muted hover:text-text-primary hover:bg-surface-2"
-                }`}
-              >
-                {w.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+        }
+      />
 
       {/* Row 1: Radar Chart + Comparative Summary Table */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -98,16 +92,16 @@ export default function CompareWellsPage() {
               <div>
                 <div className="flex items-center justify-between border-b border-line pb-2 mb-2">
                   <div>
-                    <h3 className="font-display text-base font-bold text-text-primary">{well.name}</h3>
+                    <h3 className="font-sans text-base font-bold text-text-primary">{well.name}</h3>
                     <span className="text-[10px] font-mono text-text-muted">{well.padId}</span>
                   </div>
                   <span
-                    className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-bold ${
+                    className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-mono font-bold ${
                       well.status === "producing"
-                        ? "bg-status-safe/10 text-status-safe"
+                        ? "bg-status-safe/10 text-status-safe border border-status-safe/30"
                         : well.status === "css_active"
-                        ? "bg-accent-thermal/10 text-accent-thermal"
-                        : "bg-status-critical/10 text-status-critical"
+                        ? "bg-accent-thermal/10 text-accent-thermal border border-accent-thermal/30"
+                        : "bg-status-critical/10 text-status-critical border border-status-critical/30"
                     }`}
                   >
                     {well.status}
@@ -116,25 +110,25 @@ export default function CompareWellsPage() {
 
                 <div className="space-y-2 text-xs font-mono">
                   <div className="flex justify-between">
-                    <span className="text-text-muted">Gross Production:</span>
-                    <span className="font-bold text-text-primary">{well.flowBopd} BOPD</span>
+                    <span className="text-text-muted font-sans">Gross Production:</span>
+                    <span className="font-bold text-text-primary tabular-nums">{well.flowBopd} BOPD</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-muted">Bottomhole Temp:</span>
-                    <span className="font-bold text-accent-thermal">{well.bhtCelsius || 74.2}°C</span>
+                    <span className="text-text-muted font-sans">Bottomhole Temp:</span>
+                    <span className="font-bold text-accent-thermal tabular-nums">{well.bhtCelsius || 74.2}°C</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-muted">Viscosity:</span>
-                    <span className="font-bold text-accent-mechanical">{(well.viscosityCp || 5820).toLocaleString()} cP</span>
+                    <span className="text-text-muted font-sans">Viscosity:</span>
+                    <span className="font-bold text-accent-mechanical tabular-nums">{(well.viscosityCp || 5820).toLocaleString()} cP</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-muted">Rod Floating Risk:</span>
-                    <span className={`font-bold ${(well.rodFloatingRiskPct || 0) > 50 ? "text-status-warn" : "text-status-safe"}`}>
+                    <span className="text-text-muted font-sans">Rod Floating Risk:</span>
+                    <span className={`font-bold tabular-nums ${(well.rodFloatingRiskPct || 0) > 50 ? "text-status-warn" : "text-status-safe"}`}>
                       {well.rodFloatingRiskPct || 18}%
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-text-muted">CSS Cycle:</span>
+                    <span className="text-text-muted font-sans">CSS Cycle:</span>
                     <span className="text-text-primary">Cycle #{well.cssCycle || 4}</span>
                   </div>
                 </div>

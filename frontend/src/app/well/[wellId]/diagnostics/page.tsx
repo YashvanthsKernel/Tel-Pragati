@@ -10,11 +10,14 @@ import {
   Sparkles,
   Layers,
   Activity,
+  Waves,
+  Cpu,
 } from "lucide-react";
 import { useWellContext } from "../../../../components/well/WellContext";
 import { generateDynamometerCard } from "../../../../data/demo/physicsSim";
 import { DynamometerChart } from "../../../../components/charts/DynamometerChart";
 import { EstimatedBadge } from "../../../../components/common/EstimatedBadge";
+import { PageHeader } from "../../../../components/ui/PageHeader";
 
 export default function DiagnosticsPage() {
   const { wellId, wellState, isLoading } = useWellContext();
@@ -23,7 +26,7 @@ export default function DiagnosticsPage() {
   if (isLoading || !wellState) {
     return (
       <div className="p-6 flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="w-10 h-10 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-accent-mechanical border-t-transparent rounded-full animate-spin" />
         <span className="text-xs font-mono text-text-muted mt-3">
           Loading Dynagraph Transducer Wave Data for {wellId}...
         </span>
@@ -49,14 +52,14 @@ export default function DiagnosticsPage() {
     {
       id: "normal",
       label: "Nominal Full Card",
-      badge: "Normal Operation",
+      badge: "Normal",
       desc: "Full pump fillage (92%), smooth valve transitions, nominal rod string tension.",
       severity: "safe",
     },
     {
       id: "rod_floating",
       label: "Severe Rod Floating & Sag",
-      badge: "Viscous Drag Fault",
+      badge: "Viscous Fault",
       desc: "Viscous crude (5,800+ cP) retards downward plunger travel; compression slack induces buckling risk.",
       severity: "warn",
     },
@@ -70,7 +73,7 @@ export default function DiagnosticsPage() {
     {
       id: "gas_interference",
       label: "Gas Interference",
-      badge: "Gas Lock / Cushion",
+      badge: "Gas Cushion",
       desc: "Associated solution gas compression rounds card corners and reduces volumetric pumping efficiency.",
       severity: "warn",
     },
@@ -78,23 +81,15 @@ export default function DiagnosticsPage() {
 
   return (
     <div className="p-4 sm:p-6 space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-accent-mechanical" />
-            <h1 className="text-xl sm:text-2xl font-display font-bold text-text-primary tracking-tight">
-              {wellId} Sucker Rod Lift Diagnostics & Dynamometer Analysis
-            </h1>
-          </div>
-          <p className="text-xs font-mono text-text-muted mt-0.5">
-            Gibbs 1D Wave Equation Inversion · Automated Dynagraph Pattern Classifier
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
+      {/* ── Page Header ── */}
+      <PageHeader
+        wellId={wellId}
+        icon={<Stethoscope className="w-5 h-5 text-accent-mechanical" />}
+        title="Sucker Rod Lift Diagnostics & Dynamometer Analysis"
+        subtitle="Gibbs 1D Wave Equation Inversion · Automated Dynagraph Pattern Classifier"
+        actions={
           <EstimatedBadge
-            label="AI Classifier Provenance"
+            label="AI Classifier"
             data={{
               value: 94,
               confidence: 0.94,
@@ -102,21 +97,21 @@ export default function DiagnosticsPage() {
               description: "Pattern classification trained on verified Baghewala dynagraph library with synthetic wave validation.",
             }}
           />
-        </div>
-      </div>
+        }
+      />
 
-      {/* Row 1: Failure Replay Guided Diagnostic Selector */}
+      {/* ── Diagnostic Presets Selector ── */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+          <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
             Guided Condition Replay & Diagnostic Presets
           </span>
-          <span className="text-xs font-mono text-text-muted">
-            Select a diagnostic condition to simulate wave profile
+          <span className="text-xs font-sans text-text-muted">
+            Select a diagnostic condition to simulate waveform response
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
           {failureScenarios.map((scn) => {
             const isSelected = activeFailureMode === scn.id;
             return (
@@ -126,26 +121,26 @@ export default function DiagnosticsPage() {
                 onClick={() => setActiveFailureMode(scn.id)}
                 className={`p-3 rounded-lg text-left transition-all border flex flex-col justify-between ${
                   isSelected
-                    ? "bg-surface-2 border-accent-mechanical shadow-glowMechanical"
-                    : "bg-surface-1 border-line hover:border-text-muted/40"
+                    ? "bg-accent-mechanical/10 border-accent-mechanical"
+                    : "bg-surface-1 border-line hover:border-line-strong"
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-xs text-text-primary">{scn.label}</span>
+                    <span className="font-sans font-semibold text-xs text-text-primary">{scn.label}</span>
                     <span
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded font-bold ${
+                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded font-bold ${
                         scn.severity === "critical"
-                          ? "bg-status-critical/20 text-status-critical"
+                          ? "bg-status-critical/15 text-status-critical"
                           : scn.severity === "warn"
-                          ? "bg-status-warn/20 text-status-warn"
-                          : "bg-status-safe/20 text-status-safe"
+                          ? "bg-status-warn/15 text-status-warn"
+                          : "bg-status-safe/15 text-status-safe"
                       }`}
                     >
                       {scn.badge}
                     </span>
                   </div>
-                  <p className="text-[11px] text-text-muted leading-relaxed line-clamp-2">
+                  <p className="text-[11px] font-sans text-text-secondary leading-relaxed line-clamp-2">
                     {scn.desc}
                   </p>
                 </div>
@@ -155,47 +150,49 @@ export default function DiagnosticsPage() {
         </div>
       </div>
 
-      {/* Row 2: Master Dynamometer Card Overlay */}
+      {/* ── Master Dynamometer Card Overlay ── */}
       <DynamometerChart card={dynagraph} height={300} />
 
-      {/* Row 3: Diagnostic Dossier & Recommended Mitigation */}
+      {/* ── Downhole Wave Analysis & Classifier Guidance ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Dossier */}
         <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3">
-          <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+          <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
             Downhole Pump Wave Reconstruction Analysis
           </span>
           <div className="p-3 rounded bg-surface-0 border border-line text-xs font-mono space-y-2">
             <div className="flex justify-between">
               <span className="text-text-muted">Surface Card Source:</span>
-              <span className="font-bold text-accent-mechanical">Hall-Effect Polished Rod Load Cell</span>
+              <span className="font-bold text-accent-mechanical">Hall-Effect Load Cell (1 Hz)</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-muted">Reconstruction Method:</span>
               <span className="font-bold text-accent-thermal">Everitt-Jennings 1D Wave Solver</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-muted">Damping Factor (Alpha):</span>
-              <span className="text-text-primary">0.082 sec^-1 (Viscous Fluid Damping)</span>
+              <span className="text-text-muted">Damping Factor (α):</span>
+              <span className="text-text-primary">0.082 sec⁻¹ (Viscous Fluid Damping)</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-muted">Peak Surface Load (PPRL):</span>
-              <span className="font-bold text-text-primary">{dynagraph.peakSurfaceLoadLb.toLocaleString()} lb</span>
+              <span className="font-bold text-text-primary tabular-nums">{dynagraph.peakSurfaceLoadLb.toLocaleString()} lb</span>
             </div>
             <div className="flex justify-between">
               <span className="text-text-muted">Min Surface Load (MPRL):</span>
-              <span className={`font-bold ${activeFailureMode === "rod_floating" ? "text-status-warn" : "text-text-primary"}`}>
+              <span className={`font-bold tabular-nums ${activeFailureMode === "rod_floating" ? "text-status-warn" : "text-text-primary"}`}>
                 {dynagraph.minSurfaceLoadLb.toLocaleString()} lb
               </span>
             </div>
           </div>
         </div>
 
+        {/* Remediation */}
         <div className="p-4 rounded-lg bg-surface-1 border border-line shadow-card space-y-3 flex flex-col justify-between">
           <div>
-            <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
-              Automated Classifier & Trust Signals
+            <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
+              Automated Classifier & Engineering Interpretation
             </span>
-            <p className="text-xs text-text-muted leading-relaxed mt-1">
+            <p className="text-xs font-sans text-text-secondary leading-relaxed mt-1.5">
               {activeFailureMode === "rod_floating"
                 ? "The classifier detects severe downstroke compression sag. Downstroke velocity exceeds viscous settlement rate in 5,820 cP crude."
                 : activeFailureMode === "fluid_pound"
@@ -204,9 +201,9 @@ export default function DiagnosticsPage() {
             </p>
           </div>
 
-          <div className="p-3 rounded bg-surface-0 border border-line text-xs font-mono">
-            <div className="text-[10px] text-text-muted uppercase font-bold mb-1">Recommended Remediation</div>
-            <div className="font-semibold text-accent-thermal">
+          <div className="p-3 rounded bg-surface-0 border border-line text-xs font-sans">
+            <div className="text-[10px] font-sans text-text-muted uppercase font-bold mb-1">Recommended Engineering Remediation</div>
+            <div className="font-semibold text-accent-thermal leading-relaxed">
               {activeFailureMode === "rod_floating"
                 ? "Apply VFD Asymmetric Downstroke Deceleration (-17%) to restore rod string downstroke tension."
                 : activeFailureMode === "fluid_pound"

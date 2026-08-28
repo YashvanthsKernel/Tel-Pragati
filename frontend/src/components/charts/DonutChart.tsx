@@ -32,8 +32,8 @@ export function DonutChart({ wells, size = 180 }: DonutChartProps) {
 
   return (
     <div className="w-full bg-surface-1 border border-line rounded-lg p-3.5 shadow-card select-none flex flex-col justify-between">
-      <div className="flex items-center justify-between mb-2">
-        <span className="font-display text-xs font-bold text-text-primary uppercase tracking-wide">
+      <div className="flex items-center justify-between mb-2 border-b border-line pb-2">
+        <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wide">
           Fleet Operating Status
         </span>
         <span className="text-xs font-mono font-bold text-text-primary">{wells.length} Wells</span>
