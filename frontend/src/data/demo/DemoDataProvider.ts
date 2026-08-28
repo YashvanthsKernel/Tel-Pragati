@@ -206,8 +206,18 @@ export class DemoDataProvider implements DigitalTwinDataProvider {
     ];
   }
 
+  private dayListeners: Set<(d: number) => void> = new Set();
+
+  public onDayChange(cb: (d: number) => void): Unsubscribe {
+    this.dayListeners.add(cb);
+    return () => {
+      this.dayListeners.delete(cb);
+    };
+  }
+
   public setDay(day: number) {
-    this.currentDay = Math.max(0, Math.min(45, day));
+    this.currentDay = Math.max(0, Math.min(45, Math.round(day * 10) / 10));
+    this.dayListeners.forEach((cb) => cb(this.currentDay));
     this.notifyAll();
   }
 
@@ -217,6 +227,7 @@ export class DemoDataProvider implements DigitalTwinDataProvider {
     this.currentDay = scn.day;
     this.currentSpm = scn.spm;
     this.currentDamping = scn.downstrokeDampingPct;
+    this.dayListeners.forEach((cb) => cb(this.currentDay));
     this.notifyAll();
   }
 

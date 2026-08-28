@@ -65,3 +65,10 @@ export const useTimeMachineStore = create<TimeMachineState>((set, get) => ({
     set({ speed });
   },
 }));
+
+// Synchronize state with real-time day progression
+if (typeof window !== "undefined") {
+  demoDataProvider.onDayChange((d) => {
+    useTimeMachineStore.setState({ currentDay: d });
+  });
+}
