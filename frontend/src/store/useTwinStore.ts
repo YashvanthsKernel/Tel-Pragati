@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Oil India Limited - Master Digital Twin Store
  * Native React 19 / SSR-Safe Synchronized State Engine
  */
@@ -62,6 +62,8 @@ interface TwinStoreState {
   setDemoScenario: (scenario: DemoScenarioId) => void;
   acknowledgeAlert: (alertId: string) => void;
   approveRecommendation: () => void;
+  /** Push a live WellTelemetryState received from MQTT → WebSocket into the store. */
+  setLiveTwinState: (liveState: Partial<WellTelemetryState>) => void;
 }
 
 const INITIAL_DAY = 25;
@@ -114,6 +116,7 @@ let state: TwinStoreState = {
   setDemoScenario: () => {},
   acknowledgeAlert: () => {},
   approveRecommendation: () => {},
+  setLiveTwinState: () => {},
 };
 
 const listeners = new Set<() => void>();
@@ -283,6 +286,18 @@ state.acknowledgeAlert = (alertId: string) => {
 
 state.approveRecommendation = () => {
   updateState({ isActionApproved: true });
+};
+
+state.setLiveTwinState = (liveState: Partial<WellTelemetryState>) => {
+  // Merge incoming real-time MQTT data into twinState.
+  // "LIVE_SCADA" is the valid telemetryMode value from WellTelemetryState type.
+  updateState({
+    twinState: {
+      ...state.twinState,
+      ...liveState,
+      telemetryMode: "LIVE_SCADA",
+    },
+  });
 };
 
 export function useTwinStore<T = TwinStoreState>(selector?: (s: TwinStoreState) => T): T {

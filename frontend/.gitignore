@@ -45,3 +45,4 @@ Thumbs.db
 # Obsidian vault workspace caches
 **/.obsidian/workspace*
 **/.obsidian/cache/
+.vercel

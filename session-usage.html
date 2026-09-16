@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Token Usage</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #0f1117;
+    color: #e0e0e6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .card {
+    background: #1a1b23;
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 640px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #f0f0f5;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 2rem;
+  }
+  .chart-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .bar-label {
+    width: 160px;
+    min-width: 160px;
+    font-size: 0.82rem;
+    text-align: right;
+    color: #b0b0b8;
+  }
+  .bar-track {
+    flex: 1;
+    height: 28px;
+    background: #25262f;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    transition: width 1s ease;
+  }
+  .bar-fill.small-text {
+    padding-left: 0;
+    justify-content: flex-end;
+    padding-right: 4px;
+  }
+  .bar-pct {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: #888;
+  }
+  .c1 { background: linear-gradient(90deg, #6366f1, #818cf8); }
+  .c2 { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+  .c3 { background: linear-gradient(90deg, #10b981, #34d399); }
+  .c4 { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid #2a2b35;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #999;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .notes {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #999;
+  }
+  .notes li {
+    margin-bottom: 0.4rem;
+    list-style: none;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .notes li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  .total-badge {
+    display: inline-block;
+    background: #25262f;
+    padding: 0.35rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #b0b0b8;
+    margin-bottom: 1.5rem;
+  }
+  .total-badge strong { color: #e0e0e6; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Where Your Tokens Went</h1>
+  <p class="subtitle">This session · September 12, 2026</p>
+
+  <div class="total-badge">
+    Effective tokens used: <strong>~35,000</strong> of 15M budget
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>Instructions</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Claude's replies</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Connectors</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>User messages</div>
+  </div>
+
+  <div class="chart-area">
+    <div class="bar-row">
+      <div class="bar-label">Instructions<br><span style="font-size:0.72rem;color:#666">(system prompt, tools)</span></div>
+      <div class="bar-track">
+        <div class="bar-fill c1" style="width:62%">~21,700</div>
+        <span class="bar-pct">62%</span>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Claude's replies<br><span style="font-size:0.72rem;color:#666">(text + tool calls)</span></div>
+      <div class="bar-track">
+        <div class="bar-fill c2" style="width:24%">~8,400</div>
+        <span class="bar-pct">24%</span>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Connectors<br><span style="font-size:0.72rem;color:#666">(workspace, session info)</span></div>
+      <div class="bar-track">
+        <div class="bar-fill c3" style="width:8%"></div>
+        <span class="bar-pct">8%</span>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">User messages<br><span style="font-size:0.72rem;color:#666">(your prompts)</span></div>
+      <div class="bar-track">
+        <div class="bar-fill c4" style="width:6%"></div>
+        <span class="bar-pct">6%</span>
+      </div>
+    </div>
+  </div>
+
+  <ul class="notes">
+    <li><strong style="color:#e0e0e6">Instructions are the biggest cost</strong> — the system prompt (behavior rules, tool definitions, skill text, project config, memory) is re-sent every turn. First send costs 2× to cache; after that it's cheap at 0.1× per turn.</li>
+    <li><strong style="color:#e0e0e6">Claude's output is second</strong> — every word I write costs about 5× what an input word costs. Several failed tool attempts plus explanations added up.</li>
+    <li><strong style="color:#e0e0e6">Connectors barely registered</strong> — bash calls returned errors quickly, session-info and tool-search calls were small.</li>
+    <li><strong style="color:#e0e0e6">No web research, subagents, or Chrome tools</strong> were used this session, so those categories are zero.</li>
+    <li><strong style="color:#e0e0e6">Overall this session is very light</strong> — about 35K effective tokens out of a 15M budget (0.2% used).</li>
+  </ul>
+</div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import { useDataProvider } from "../../data/DataProviderContext";
 import { WellState } from "../../data/types";
 import { useSelectedWellStore } from "../../state/useSelectedWellStore";
 import { useTimeMachineStore } from "../../state/useTimeMachineStore";
+import { useLiveTelemetry } from "../../hooks/useLiveTelemetry";
 
 interface WellContextValue {
   wellId: string;
@@ -30,6 +31,16 @@ export function WellContextProvider({
   const [wellState, setWellState] = useState<WellState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  // ── Real-time MQTT data ──────────────────────────────────────────────────
+  // When data mode is "live", opens a WebSocket to /ws/wells/{wellId}/telemetry
+  // and calls setWellState with every incoming message — same callback used
+  // by subscribeWellState below, so the context always holds the freshest data.
+  useLiveTelemetry(wellId, (liveState) => {
+    setWellState(liveState);
+    setIsLoading(false);
+  });
+  // ────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     setSelectedWellId(wellId);

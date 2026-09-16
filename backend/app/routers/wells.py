@@ -115,7 +115,9 @@ class WellSummary(CamelModel):
 
 class FleetKpis(CamelModel):
     total_bopd: float
-    avg_sor_trailing30d: float
+    # Explicit alias: to_camel would produce "avgSorTrailing30D" (capital D)
+    # but the frontend TypeScript type expects lowercase "avgSorTrailing30d".
+    avg_sor_trailing30d: float = Field(0.0, alias="avgSorTrailing30d", serialization_alias="avgSorTrailing30d")
     active_alerts: int
     wells_in_alarm: int
 

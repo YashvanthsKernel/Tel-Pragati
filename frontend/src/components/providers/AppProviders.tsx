@@ -1,8 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DataProviderWrapper } from "../../data/DataProviderContext";
+import { useDataModeStore } from "../../state/useDataModeStore";
+
+function DataModeHydrator() {
+  const initFromStorage = useDataModeStore((s) => s.initFromStorage);
+  useEffect(() => {
+    // Runs only on the client, after SSR hydration — restores saved mode
+    initFromStorage();
+  }, [initFromStorage]);
+  return null;
+}
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -19,6 +29,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DataModeHydrator />
       <DataProviderWrapper>{children}</DataProviderWrapper>
     </QueryClientProvider>
   );
