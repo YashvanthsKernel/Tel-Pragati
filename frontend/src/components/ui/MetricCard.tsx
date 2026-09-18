@@ -24,7 +24,20 @@ interface MetricCardProps {
   onClick?: () => void;
   className?: string;
   highlightCritical?: boolean;
+  /** Severity wash for a metric that has crossed an alarm threshold. */
+  status?: "critical" | "warn" | "safe" | "info" | "none";
+  /** Breathing rim while the underlying alert is unacknowledged. */
+  pulse?: boolean;
 }
+
+/* Shared severity washes — defined once in globals.css. */
+const statusPanel: Record<string, string> = {
+  critical: "panel-critical",
+  warn:     "panel-warn",
+  safe:     "panel-safe",
+  info:     "panel-info",
+  none:     "",
+};
 
 export const MetricCard: React.FC<MetricCardProps> = ({
   label,
@@ -38,6 +51,8 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   onClick,
   className = "",
   highlightCritical = false,
+  status = "none",
+  pulse = false,
 }) => {
   const openProvenance = useTwinStore((state) => state.openProvenance);
 
@@ -49,14 +64,24 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     }
   };
 
+  /* An explicit status wins; highlightCritical stays supported for existing callers. */
+  const resolvedStatus = status !== "none" ? status : highlightCritical ? "critical" : "none";
+
+  const pulseClass =
+    pulse && resolvedStatus === "critical"
+      ? "panel-pulse-critical"
+      : pulse && resolvedStatus === "warn"
+      ? "panel-pulse-warn"
+      : "";
+
   return (
     <div
       onClick={handleCardClick}
-      className={`relative bg-surface rounded-md border p-3 transition-all duration-150 cursor-pointer select-none ${
-        highlightCritical
-          ? "border-red-400 bg-red-50/20 shadow-sm"
-          : "border-app-border hover:border-slate-400 hover:shadow-card"
-      } ${className}`}
+      className={`relative bg-surface rounded-lg border p-3 transition-all duration-200 cursor-pointer select-none ${
+        resolvedStatus === "none"
+          ? "border-app-border hover:border-line-strong hover:shadow-card"
+          : `${statusPanel[resolvedStatus]} shadow-card`
+      } ${pulseClass} ${className}`}
     >
       {/* Top row: Label & Telemetry Source Badge */}
       <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -79,7 +104,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       </div>
 
       {/* Bottom row: Trend & Confidence */}
-      <div className="flex items-center justify-between gap-2 mt-2 pt-1.5 border-t border-slate-100">
+      <div className="flex items-center justify-between gap-2 mt-2 pt-1.5 border-t border-line">
         {trend ? (
           <TrendIndicator
             delta={trend.delta}
@@ -88,7 +113,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             isGood={trend.isGood}
           />
         ) : (
-          <span className="text-[10px] font-mono text-slate-400">STEADY</span>
+          <span className="text-[10px] font-mono text-text-muted">STEADY</span>
         )}
 
         {confidence !== undefined && <ConfidenceBadge value={confidence} size="sm" />}

@@ -4,14 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Bell, User, ChevronDown, ExternalLink, CheckCircle2,
-  Sun, Moon,
+  Sun, Moon, Search,
 } from "lucide-react";
 import { WellSelector } from "../common/WellSelector";
 import { DataModeToggle } from "../common/DataModeToggle";
 import { useAuthStore } from "../../state/useAuthStore";
 import { useThemeStore } from "../../state/useThemeStore";
 import { AutonomyTier, Role } from "../../data/types";
-import { useDataProvider } from "../../data/DataProviderContext";
+import { useAlertFeed } from "../providers/AlertFeedProvider";
 
 function UserAvatar({ name }: { name: string }) {
   const initials = name
@@ -21,7 +21,7 @@ function UserAvatar({ name }: { name: string }) {
     .join("")
     .toUpperCase();
   return (
-    <div className="w-7 h-7 bg-amber/20 border border-amber/40 text-amber flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0">
+    <div className="w-8 h-8 rounded-full bg-brand/15 border border-brand/40 text-brand flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0">
       {initials || <User className="w-3.5 h-3.5" />}
     </div>
   );
@@ -29,22 +29,17 @@ function UserAvatar({ name }: { name: string }) {
 
 export function TopBar() {
   const router = useRouter();
-  const provider = useDataProvider();
   const { user, role, autonomyTier, setRole, setUser, setAutonomyTier, logout } = useAuthStore();
   const { mode: themeMode, toggleTheme } = useThemeStore();
 
   const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false);
   const [isAlertsOpen, setIsAlertsOpen] = useState(false);
-  const [activeAlerts, setActiveAlerts] = useState<any[]>([]);
+
+  // Shared feed — same source the ticker rail and the centre-screen popup use.
+  const { unacknowledged: activeAlerts, criticalCount } = useAlertFeed();
 
   const roleMenuRef = useRef<HTMLDivElement>(null);
   const alertsMenuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    provider.getAlerts().then((alerts) => {
-      setActiveAlerts(alerts.filter((a) => !a.isAcknowledged));
-    });
-  }, [provider]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -73,38 +68,25 @@ export function TopBar() {
   ];
 
   return (
-    <header className="h-14 bg-surface-1 border-b border-line px-4 flex items-center justify-between z-30 sticky top-0">
+    <header className="h-16 bg-surface-1 border-b border-line px-4 sm:px-6 flex items-center justify-between gap-4 z-30 sticky top-0">
 
-      {/* ── LEFT: Brand + Well Selector ── */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => router.push("/field")}
-          className="flex items-center gap-2.5 group focus:outline-none"
-        >
-          <div className="w-8 h-8 bg-surface-2 border border-line flex items-center justify-center p-1 group-hover:border-amber/50 transition-colors overflow-hidden">
-            <img src="/logo_transparent.png" alt="TEL PRAGATI" className="w-full h-full object-contain" />
-          </div>
-          <div className="hidden sm:block">
-            <div className="flex items-center gap-2">
-              <span className="font-sans font-bold text-sm tracking-tight text-text-primary leading-none uppercase">
-                TEL PRAGATI
-              </span>
-              <span className="text-[9px] font-mono px-1.5 py-0.5 bg-surface-2 text-accent-mechanical border border-line rounded">
-                v2.4
-              </span>
-            </div>
-            <div className="text-[10px] text-text-muted font-sans leading-none mt-1">
-              Baghewala · Oil India Limited
-            </div>
-          </div>
-        </button>
-
-        <div className="h-5 w-px bg-line hidden sm:block" />
+      {/* ── LEFT: Well Selector ── */}
+      <div className="flex items-center gap-3 flex-shrink-0">
         <WellSelector />
       </div>
 
+      {/* ── CENTER: Search ── */}
+      <div className="hidden md:flex flex-1 max-w-md relative">
+        <Search className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Search wells, alerts, and insights..."
+          className="w-full bg-surface-2 border border-line rounded-full pl-10 pr-4 py-2 text-xs font-sans text-text-primary placeholder:text-text-muted focus:outline-none focus:border-brand/50 transition-colors"
+        />
+      </div>
+
       {/* ── RIGHT: Controls ── */}
-      <div className="flex items-center gap-1 sm:gap-2">
+      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
         <DataModeToggle />
 
         {/* Autonomy tier */}
@@ -116,7 +98,7 @@ export function TopBar() {
                 : autonomyTier === "supervised" ? "automated" : "advisory";
               setAutonomyTier(next);
             }}
-            className={`px-2 py-1 text-[10px] font-mono uppercase tracking-widest font-bold border flex items-center gap-1.5 cursor-pointer transition-colors ${getAutonomyStyle(autonomyTier)}`}
+            className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest font-bold border flex items-center gap-1.5 cursor-pointer transition-colors ${getAutonomyStyle(autonomyTier)}`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-current" />
             {autonomyTier}
@@ -127,7 +109,7 @@ export function TopBar() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-2 hover:bg-surface-2 text-text-muted hover:text-text-primary transition-colors"
+          className="p-2 rounded-full hover:bg-surface-2 text-text-muted hover:text-text-primary transition-colors"
           aria-label="Toggle theme"
         >
           {themeMode === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -138,18 +120,22 @@ export function TopBar() {
           <button
             type="button"
             onClick={() => setIsAlertsOpen(!isAlertsOpen)}
-            className="p-2 hover:bg-surface-2 text-text-muted hover:text-text-primary relative transition-colors"
+            className="p-2 rounded-full hover:bg-surface-2 text-text-muted hover:text-text-primary relative transition-colors"
           >
             <Bell className="w-4 h-4" />
             {activeAlerts.length > 0 && (
-              <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-status-critical text-[9px] font-mono text-white flex items-center justify-center font-bold">
+              <span
+                className={`absolute top-1 right-1 w-3.5 h-3.5 rounded-full text-[9px] font-mono text-white flex items-center justify-center font-bold ${
+                  criticalCount > 0 ? "bg-status-critical animate-pulse-subtle" : "bg-status-warn"
+                }`}
+              >
                 {activeAlerts.length}
               </span>
             )}
           </button>
 
           {isAlertsOpen && (
-            <div className="absolute right-0 top-full mt-1 w-80 sm:w-96 bg-surface-1 border border-line shadow-popup z-50 rounded-lg overflow-hidden">
+            <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-surface-1 border border-line shadow-popup z-50 rounded-xl overflow-hidden">
               <div className="p-3 border-b border-line flex items-center justify-between bg-surface-2">
                 <span className="font-sans text-xs font-bold text-text-primary uppercase tracking-wider">
                   Active Alerts ({activeAlerts.length})
@@ -196,22 +182,22 @@ export function TopBar() {
           <button
             type="button"
             onClick={() => setIsRoleMenuOpen(!isRoleMenuOpen)}
-            className="flex items-center gap-2 px-2 py-1.5 rounded bg-surface-2 hover:bg-surface-3 border border-line transition-colors text-xs"
+            className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-line transition-colors text-xs"
           >
             <UserAvatar name={user} />
             <div className="hidden md:block text-left max-w-[120px]">
               <div className="font-medium text-text-primary text-[11px] line-clamp-1 font-sans">{user.split(" (")[0]}</div>
-              <div className="text-[9px] font-mono text-accent-mechanical uppercase font-semibold">{role}</div>
+              <div className="text-[9px] font-mono text-brand uppercase font-semibold">{role}</div>
             </div>
-            <ChevronDown className="w-3 h-3 text-text-muted hidden sm:block" />
+            <ChevronDown className="w-3 h-3 text-text-muted hidden sm:block mr-1" />
           </button>
 
           {isRoleMenuOpen && (
-            <div className="absolute right-0 top-full mt-1 w-60 bg-surface-1 border border-line shadow-popup z-50 rounded-lg overflow-hidden">
+            <div className="absolute right-0 top-full mt-2 w-60 bg-surface-1 border border-line shadow-popup z-50 rounded-xl overflow-hidden">
               <div className="p-3 border-b border-line bg-surface-2">
                 <div className="text-xs font-bold text-text-primary font-sans">{user.split(" (")[0]}</div>
                 <div className="text-[11px] text-text-muted mt-0.5 font-sans">
-                  Role: <span className="text-accent-mechanical uppercase font-mono font-bold">{role}</span>
+                  Role: <span className="text-brand uppercase font-mono font-bold">{role}</span>
                 </div>
               </div>
               <div className="p-1">
@@ -222,9 +208,9 @@ export function TopBar() {
                   <button
                     key={p.role}
                     onClick={() => { setRole(p.role); setUser(p.name); setIsRoleMenuOpen(false); }}
-                    className={`w-full text-left px-2 py-2 text-xs rounded transition-colors flex items-center justify-between ${
+                    className={`w-full text-left px-2 py-2 text-xs rounded-lg transition-colors flex items-center justify-between ${
                       role === p.role
-                        ? "bg-accent-mechanical/10 text-accent-mechanical font-semibold"
+                        ? "bg-brand/10 text-brand font-semibold"
                         : "text-text-secondary hover:bg-surface-2 hover:text-text-primary"
                     }`}
                   >

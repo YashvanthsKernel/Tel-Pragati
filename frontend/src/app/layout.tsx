@@ -1,22 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { AppProviders } from "../components/providers/AppProviders";
 import { AppShell } from "../components/shell/AppShell";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-ibm-plex-mono",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
+const inter = { variable: "" };
+const ibmPlexMono = { variable: "" };
 
 export const metadata: Metadata = {
   title: "TEL PRAGATI | Baghewala Digital Twin | Oil India Limited",

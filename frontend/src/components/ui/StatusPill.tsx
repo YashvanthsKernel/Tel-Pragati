@@ -86,7 +86,7 @@ export const StatusPill: React.FC<StatusPillProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded border ${getStyles()} ${sizeClasses} ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border ${getStyles()} ${sizeClasses} ${className}`}
     >
       <span className="w-1.5 h-1.5 rounded-full bg-current opacity-70 animate-pulse" />
       {displayLabel}

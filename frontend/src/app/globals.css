@@ -8,26 +8,32 @@
      TEL PRAGATI SCADA Control Room Palette v4.0
   ═══════════════════════════════════════════════════════ */
   :root {
-    /* Surfaces */
-    --surface-0: #151719;
-    --surface-1: #1C1F23;
-    --surface-2: #222629;
-    --surface-3: #292D31;
+    /* Surfaces — deep navy/black control-room base */
+    --surface-0: #0A0B10;
+    --surface-1: #13151C;
+    --surface-2: #1A1D26;
+    --surface-3: #232733;
 
     /* Borders */
-    --line: #2E3338;
-    --line-strong: #3A4048;
+    --line: #24272F;
+    --line-strong: #333846;
 
     /* Text */
-    --text-primary: #E4E8EC;
-    --text-secondary: #9AA2AB;
-    --text-muted: #5C6470;
-    --text-disabled: #3A4048;
+    --text-primary: #EDEFF4;
+    --text-secondary: #9AA2B1;
+    --text-muted: #5E6572;
+    --text-disabled: #383D48;
 
-    /* Brand */
+    /* Brand — Indigo/Violet (primary accent, active states, CTAs) */
+    --brand: #8B7CF6;
+    --brand-dark: #6D5BD4;
+    --brand-soft: #1C1A33;
+    --brand-glow: rgba(139, 124, 246, 0.25);
+
+    /* Legacy brand */
     --oil-red: #E74C3C;
     --oil-red-soft: #1A0A09;
-    --oil-charcoal: #151719;
+    --oil-charcoal: #0A0B10;
 
     /* Accent 1 — Amber / Gold (primary readouts, active) */
     --accent-amber: #F5A623;
@@ -94,6 +100,11 @@
     --text-muted: #6B7280;
     --text-disabled: #C0C6CE;
 
+    --brand: #6D5BD4;
+    --brand-dark: #5645B5;
+    --brand-soft: #ECE9FC;
+    --brand-glow: rgba(109, 91, 212, 0.18);
+
     --oil-red: #C0392B;
     --oil-red-soft: #FDF0EE;
     --oil-charcoal: #1A1E24;
@@ -152,7 +163,7 @@
 /* ── Precision scrollbars ───────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--surface-0); }
-::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 0; }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ── Reduced motion ─────────────────────────────────── */
@@ -205,4 +216,232 @@
     var(--depth-gradient-warm) 70%,
     var(--depth-gradient-end) 100%
   );
+}
+
+/* ═══════════════════════════════════════════════════════
+   FIELD BACKDROP — Rajasthan / Baghewala elevation map
+   Fixed, blurred, sits behind every page. Purely visual:
+   no DOM node, no layout impact, pointer-events none.
+═══════════════════════════════════════════════════════ */
+html {
+  background-color: #06070B;
+}
+html.light {
+  background-color: #EDEFF3;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/field-map-backdrop.webp");
+  background-repeat: no-repeat;
+  background-position: 50% 46%;
+  background-size: min(132vh, 100vw) auto;
+  filter: blur(3px) saturate(1.15);
+  opacity: 0.52;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Vignette so the map fades into the control-room chrome */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 100% at 50% 45%, rgba(6, 7, 11, 0) 0%, rgba(6, 7, 11, 0.18) 62%, rgba(6, 7, 11, 0.55) 100%),
+    linear-gradient(180deg, rgba(6, 7, 11, 0.30) 0%, rgba(6, 7, 11, 0.02) 34%, rgba(6, 7, 11, 0.44) 100%);
+}
+
+.light body::before {
+  opacity: 0.34;
+  filter: blur(3px) saturate(1.1) brightness(1.04);
+}
+.light body::after {
+  background:
+    radial-gradient(120% 90% at 50% 45%, rgba(237, 239, 243, 0) 0%, rgba(237, 239, 243, 0.55) 62%, rgba(237, 239, 243, 0.9) 100%),
+    linear-gradient(180deg, rgba(237, 239, 243, 0.6) 0%, rgba(237, 239, 243, 0.2) 30%, rgba(237, 239, 243, 0.75) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLASS SURFACES — every panel becomes translucent so the
+   field backdrop reads through. Utility-level overrides:
+   no component markup has to change.
+═══════════════════════════════════════════════════════ */
+:root {
+  --glass-1: rgba(19, 21, 28, 0.68);
+  --glass-2: rgba(26, 29, 38, 0.62);
+  --glass-3: rgba(35, 39, 51, 0.60);
+  --glass-blur: 14px;
+
+  /* Severity tints used by the alert-aware panel states */
+  --tint-critical: rgba(231, 76, 60, 0.13);
+  --tint-warn: rgba(243, 156, 18, 0.12);
+  --tint-safe: rgba(46, 204, 113, 0.10);
+  --tint-info: rgba(61, 142, 240, 0.11);
+}
+
+.light {
+  --glass-1: rgba(255, 255, 255, 0.72);
+  --glass-2: rgba(236, 238, 241, 0.68);
+  --glass-3: rgba(226, 229, 233, 0.66);
+
+  --tint-critical: rgba(192, 57, 43, 0.10);
+  --tint-warn: rgba(183, 119, 13, 0.10);
+  --tint-safe: rgba(30, 132, 73, 0.09);
+  --tint-info: rgba(43, 108, 176, 0.09);
+}
+
+/* The page shell itself goes fully transparent so the map shows through. */
+html .bg-surface-0 {
+  background-color: transparent;
+}
+
+html .bg-surface-1,
+html .bg-surface {
+  background-color: var(--glass-1);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.25);
+}
+
+html .bg-surface-2,
+html .bg-surface-alt {
+  background-color: var(--glass-2);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+}
+
+html .bg-surface-3 {
+  background-color: var(--glass-3);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+}
+
+/* Charts, maps and canvases need an opaque bed — opt out with .no-glass */
+html .no-glass,
+html .no-glass.bg-surface-1,
+html .no-glass.bg-surface-2 {
+  background-color: var(--surface-1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ALERT-AWARE PANELS
+   Any rounded glass box picks up a severity wash while the
+   field is in an alerted state. Applied app-wide from the
+   data-alert-level attribute the AlertFeedProvider sets.
+═══════════════════════════════════════════════════════ */
+.panel-critical,
+html[data-alert-level="critical"] [class*="bg-surface-1"][class*="rounded-xl"],
+html[data-alert-level="critical"] [class*="bg-surface-1"][class*="rounded-lg"] {
+  background-color: color-mix(in srgb, var(--tint-critical), var(--glass-1));
+  border-color: rgba(231, 76, 60, 0.34);
+  box-shadow: 0 10px 30px -14px rgba(231, 76, 60, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.panel-warn,
+html[data-alert-level="warning"] [class*="bg-surface-1"][class*="rounded-xl"],
+html[data-alert-level="warning"] [class*="bg-surface-1"][class*="rounded-lg"] {
+  background-color: color-mix(in srgb, var(--tint-warn), var(--glass-1));
+  border-color: rgba(243, 156, 18, 0.30);
+  box-shadow: 0 10px 30px -14px rgba(243, 156, 18, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.panel-safe {
+  background-color: color-mix(in srgb, var(--tint-safe), var(--glass-1));
+  border-color: rgba(46, 204, 113, 0.30);
+  box-shadow: 0 10px 30px -14px rgba(46, 204, 113, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.panel-info {
+  background-color: color-mix(in srgb, var(--tint-info), var(--glass-1));
+  border-color: rgba(61, 142, 240, 0.30);
+  box-shadow: 0 10px 30px -14px rgba(61, 142, 240, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* A panel that is itself the source of an alert gets a breathing rim */
+.panel-pulse-critical {
+  animation: panelPulseCritical 2.4s ease-in-out infinite;
+}
+.panel-pulse-warn {
+  animation: panelPulseWarn 2.8s ease-in-out infinite;
+}
+
+@keyframes panelPulseCritical {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.00), 0 10px 30px -14px rgba(231, 76, 60, 0.40); }
+  50%      { box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.16), 0 10px 34px -12px rgba(231, 76, 60, 0.55); }
+}
+@keyframes panelPulseWarn {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.00), 0 10px 30px -14px rgba(243, 156, 18, 0.35); }
+  50%      { box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.14), 0 10px 34px -12px rgba(243, 156, 18, 0.48); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ALERT TICKER — thin, always-scrolling marquee rail
+═══════════════════════════════════════════════════════ */
+@keyframes tickerScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.ticker-viewport {
+  overflow: hidden;
+  position: relative;
+  /* Feather both ends so items enter and leave softly */
+  mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 56px, #000 calc(100% - 56px), transparent 100%);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: tickerScroll var(--ticker-duration, 60s) linear infinite;
+}
+
+.ticker-viewport:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .ticker-viewport { mask-image: none; -webkit-mask-image: none; overflow-x: auto; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CENTRE-SCREEN ALERT POPUP
+═══════════════════════════════════════════════════════ */
+@keyframes alertPopIn {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.965); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.008); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes alertOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.alert-pop-in {
+  animation: alertPopIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.alert-overlay-in {
+  animation: alertOverlayIn 0.2s ease forwards;
+}
+
+.alert-sheen-critical {
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, rgba(231, 76, 60, 0.22) 0%, transparent 62%);
+}
+.alert-sheen-warning {
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, rgba(243, 156, 18, 0.20) 0%, transparent 62%);
+}
+.alert-sheen-info {
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, rgba(61, 142, 240, 0.18) 0%, transparent 62%);
 }
