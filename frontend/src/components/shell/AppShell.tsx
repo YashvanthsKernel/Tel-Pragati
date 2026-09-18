@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { TopBar } from "./TopBar";
 import { Sidebar } from "./Sidebar";
 import { StatusBar } from "./StatusBar";
+import { AlertTicker } from "./AlertTicker";
+import { AlertPopup } from "../ui/AlertPopup";
 import { useAuthStore } from "../../state/useAuthStore";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -35,6 +37,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
       <TopBar />
+      {/* Always-scrolling alert rail — thin, sits directly under the header */}
+      <AlertTicker />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         {/* pb-8 clears the fixed StatusBar */}
@@ -45,6 +49,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </main>
       </div>
       <StatusBar />
+      {/* Centre-screen interrupt for newly raised alerts */}
+      <AlertPopup />
     </div>
   );
 }

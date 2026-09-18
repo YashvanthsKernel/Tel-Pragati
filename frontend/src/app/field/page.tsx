@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Activity, Flame, MapPin, Search, ExternalLink, ShieldAlert, ArrowRight,
+  Gauge, Droplets, BellRing, AlertTriangle,
 } from "lucide-react";
 import { useDataProvider } from "../../data/DataProviderContext";
 import { AlertItem, FleetSummary, WellSummary } from "../../data/types";
@@ -94,7 +95,7 @@ export default function FleetOverviewPage() {
             </Link>
             <Link
               href="/field/reports"
-              className="px-3 py-1.5 bg-accent-mechanical text-surface-0 text-xs font-sans font-semibold rounded-lg hover:bg-accent-mechanical/90 transition-colors"
+              className="px-3 py-1.5 bg-brand text-white text-xs font-sans font-semibold rounded-lg hover:bg-brand-dark transition-colors shadow-glowBrand"
             >
               Analytics & Reports
             </Link>
@@ -110,7 +111,7 @@ export default function FleetOverviewPage() {
           unit="BOPD"
           trendPct={3.4}
           variant="mechanical"
-          sparklineData={[5400, 5600, 5800, 5750, 5900, 5980]}
+          icon={<Gauge className="w-4 h-4" />}
           subtext={`${wells.filter((w) => w.status === "producing").length} Active Producing Wells (${wells.length} Total)`}
           isLoading={isLoading}
         />
@@ -120,7 +121,7 @@ export default function FleetOverviewPage() {
           unit="bbl/bbl"
           trendPct={-1.8}
           variant="thermal"
-          sparklineData={[7.4, 7.2, 7.0, 6.9, 6.8]}
+          icon={<Droplets className="w-4 h-4" />}
           subtext="Cumulative Steam Efficiency"
           isLoading={isLoading}
         />
@@ -130,7 +131,7 @@ export default function FleetOverviewPage() {
           unit="Events"
           trendPct={0}
           variant={kpis.activeAlerts > 0 ? "warn" : "safe"}
-          sparklineData={[1, 2, 4, 3, 3]}
+          icon={<BellRing className="w-4 h-4" />}
           subtext="Requires Supervisor Review"
           isLoading={isLoading}
         />
@@ -140,7 +141,7 @@ export default function FleetOverviewPage() {
           unit="Wells"
           trendPct={0}
           variant={kpis.wellsInAlarm > 0 ? "critical" : "safe"}
-          sparklineData={[0, 0, 1, 1, 1]}
+          icon={<AlertTriangle className="w-4 h-4" />}
           subtext="BGW-04 Rod Floating Threshold"
           isLoading={isLoading}
         />
@@ -282,9 +283,9 @@ export default function FleetOverviewPage() {
                   key={status}
                   type="button"
                   onClick={() => setStatusFilter(status)}
-                  className={`px-2.5 py-0.5 rounded uppercase font-semibold text-[10px] transition-all ${
+                  className={`px-2.5 py-0.5 rounded-full uppercase font-semibold text-[10px] transition-all ${
                     statusFilter === status
-                      ? "bg-accent-mechanical text-surface-0 font-bold"
+                      ? "bg-brand text-white font-bold"
                       : "text-text-muted hover:text-text-primary hover:bg-surface-2"
                   }`}
                 >

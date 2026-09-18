@@ -39,7 +39,7 @@ export function PageHeader({
       <div className="space-y-1">
         <div className="flex items-center gap-2.5 flex-wrap">
           {wellId && (
-            <span className="px-2 py-0.5 rounded bg-surface-2 border border-line text-xs font-mono font-bold text-accent-mechanical">
+            <span className="px-2 py-0.5 rounded-full bg-surface-2 border border-line text-xs font-mono font-bold text-brand">
               {wellId}
             </span>
           )}
@@ -51,7 +51,7 @@ export function PageHeader({
             </h1>
           </div>
           {badge && (
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-2 text-accent-thermal border border-accent-thermal/30 font-medium">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-brand/10 text-brand border border-brand/30 font-medium">
               {badge}
             </span>
           )}

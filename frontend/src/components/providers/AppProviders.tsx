@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DataProviderWrapper } from "../../data/DataProviderContext";
+import { AlertFeedProvider } from "./AlertFeedProvider";
 import { useDataModeStore } from "../../state/useDataModeStore";
 
 function DataModeHydrator() {
@@ -30,7 +31,9 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <DataModeHydrator />
-      <DataProviderWrapper>{children}</DataProviderWrapper>
+      <DataProviderWrapper>
+        <AlertFeedProvider>{children}</AlertFeedProvider>
+      </DataProviderWrapper>
     </QueryClientProvider>
   );
 }

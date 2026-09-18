@@ -25,6 +25,11 @@ const config: Config = {
           strong: "var(--line-strong)",
         },
         "app-border": "var(--line)",
+        brand: {
+          DEFAULT: "var(--brand)",
+          dark:    "var(--brand-dark)",
+          soft:    "var(--brand-soft)",
+        },
         text: {
           primary:   "var(--text-primary)",
           secondary: "var(--text-secondary)",
@@ -94,25 +99,26 @@ const config: Config = {
         mono:    ["var(--font-ibm-plex-mono)", "'IBM Plex Mono'", "monospace"],
       },
       borderRadius: {
-        /* Industrial defaults — sharp corners */
+        /* Modern control-room defaults — soft rounded cards */
         none: "0px",
-        sm:   "2px",
-        DEFAULT: "4px",
-        md:   "4px",
-        lg:   "6px",
-        xl:   "8px",
-        "2xl":"10px",
+        sm:   "6px",
+        DEFAULT: "10px",
+        md:   "12px",
+        lg:   "14px",
+        xl:   "18px",
+        "2xl":"22px",
         full: "9999px",
       },
       boxShadow: {
         panel:    "0 1px 2px 0 rgba(0,0,0,0.30)",
-        card:     "0 1px 3px 0 rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.03)",
-        popup:    "0 8px 24px -4px rgba(0,0,0,0.60)",
+        card:     "0 2px 10px 0 rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03)",
+        popup:    "0 12px 32px -4px rgba(0,0,0,0.55)",
         /* Status glows — subtle, not neon */
         glowAmber:    "0 0 8px rgba(245,166,35,0.20)",
         glowMechanical:"0 0 8px rgba(0,180,160,0.20)",
         glowCritical: "0 0 8px rgba(231,76,60,0.22)",
         glowThermal:  "0 0 8px rgba(232,93,66,0.20)",
+        glowBrand:    "0 0 16px rgba(139,124,246,0.25)",
       },
       maxWidth: {
         controlRoom: "1920px",
